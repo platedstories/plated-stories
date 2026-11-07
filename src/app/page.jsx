@@ -1,6 +1,5 @@
 "use client";
 import "./home.css";
-import Button from "@/components/Button/Button";
 import Showreel from "@/components/Showreel/Showreel";
 import FeaturedWork from "@/components/FeaturedWork/FeaturedWork";
 import TeamCards from "@/components/TeamCards/TeamCards";
@@ -11,52 +10,18 @@ import CTACard from "@/components/CTACard/CTACard";
 import { optimizeImageUrl } from "@/lib/media-delivery";
 import Footer from "@/components/Footer/Footer";
 import Copy from "@/components/Copy/Copy";
-import HeroVisual from "@/components/HeroVisual/HeroVisual";
-import Preloader, { isInitialLoad } from "@/components/Preloader/Preloader";
+import Hero from "@/components/Hero/Hero";
+import Clients from "@/components/Clients/Clients";
+import Preloader from "@/components/Preloader/Preloader";
 import React from "react";
 
 const Page = () => {
   return (
     <>
       <Preloader />
-      <section className="hero">
-        <div className="hero-side hero-side-left">
-          <Copy animateOnScroll={false} delay={isInitialLoad ? 5.6 : 0.55}>
-            <h1 className="hero-side-title">
-              We craft stories
-              <br /> that people
-              <br /> can taste
-            </h1>
-          </Copy>
-        </div>
+      <Hero />
 
-        <div className="hero-side hero-side-right">
-          <Copy animateOnScroll={false} delay={isInitialLoad ? 5.6 : 0.55}>
-            <p className="hero-side-copy">
-              We create high-quality visual content for restaurants, cafes,
-              lifestyle brands and entrepreneurs that goes beyond aesthetics.
-              Through strategic storytelling, creativity and premium production,
-              we help brands build meaningful connections and stand out in a
-              crowded digital world.
-            </p>
-          </Copy>
-        </div>
-
-        <HeroVisual />
-
-        <div className="hero-button">
-          <Button delay={isInitialLoad ? 5.7 : 0.6} href="/about">
-            Visit the Studio
-          </Button>
-        </div>
-
-        <div className="hero-copyright">
-          <Copy animateOnScroll={false} delay={isInitialLoad ? 5.7 : 0.6}>
-            <p className="sm">&copy; Plated Stories</p>
-            <p className="sm">( Creative Content Agency )</p>
-          </Copy>
-        </div>
-      </section>
+      <Clients />
 
       <Showreel />
 

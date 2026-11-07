@@ -1,282 +1,530 @@
-.work-page {
+/* /work — the index of work.
+
+   One screen, no scroll on desktop: a slim top bar, then three "contents"
+   cards side by side. Each card is a ruled, numbered list of its projects
+   and, under it, a live stage that takes whatever height the list leaves.
+
+     .wi-card    the contents card (cursor-following glow on its border)
+     .wi-row     a project row (ink sweep, letter roll, arrow turn)
+     .wi-stage   the image stage (clip-path wipe between shots, progress bars) */
+
+.work-index {
+  --wi-ink: var(--base-400);
+  --wi-paper: var(--base-100);
+  --wi-accent: var(--base-500);
+  --wi-pad: clamp(1rem, 1.6vw, 1.6rem);
+  --wi-ease: cubic-bezier(0.77, 0, 0.18, 1);
+  --wi-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
   width: 100%;
-  background-color: var(--base-100);
-}
-
-.work-category {
-  width: 100%;
-  scroll-margin-top: 8rem;
-}
-
-/* Clears the fixed nav so the first category title is never sat on. */
-.work-category:first-child {
-  padding-top: 10rem;
-}
-
-/* Keeps a following title off the tail of the stack above it. */
-.work-category + .work-category {
-  padding-top: 6rem;
-}
-
-.work-category-header {
+  min-height: 100svh;
   display: flex;
-  align-items: baseline;
-  gap: 1.5rem;
-  /* Lines the title up with the project names inside the folders below. */
-  padding: 0 2rem;
+  flex-direction: column;
+  gap: clamp(0.75rem, 1.6vh, 1.25rem);
+  /* Top padding clears the fixed nav (2rem padding + the 3.33rem logo). */
+  padding: 7.5rem 2rem 2rem;
+  background-color: var(--wi-paper);
+  color: var(--wi-ink);
+  font-family: "PP Neue Montreal";
 }
 
-.work-category-header h2 {
-  font-size: 4rem;
-  letter-spacing: -0.15rem;
+.work-index .wi-mono {
+  font-family: "Geist Mono";
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: 0.12rem;
 }
 
-.work-category-header p.sm {
+.work-index .wi-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
   white-space: nowrap;
 }
 
-.folders {
-  width: 100%;
-  background-color: var(--base-100);
+/* ------------------------------------------------------------- top bar */
+
+.wi-topbar {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   overflow: hidden;
-  /* Headroom for the preview images, which fan up out of the first row. At the
-     widest rotation a corner reaches ~9.5rem above the folder it belongs to. */
-  padding-top: 12rem;
 }
 
-.folders .row {
+.wi-topbar .wi-hint {
+  opacity: 0.5;
+}
+
+/* --------------------------------------------------------------- cards */
+
+.wi-grid {
+  flex: 1 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.2vw, 1.25rem);
+}
+
+.wi-card {
+  --mx: 50%;
+  --my: 50%;
+
   position: relative;
-  width: 100%;
-  display: flex;
-}
-
-/* The stacked-folder look: every row rides 5.5rem up over the one before it,
-   leaving the index tab and name of each row on show. Rows paint in DOM order,
-   so the lower row always covers the tail of the one above. */
-.folders .row + .row {
-  margin-top: -5.5rem;
-}
-
-.folders a {
-  display: inline-block;
-  text-decoration: none;
-  color: inherit;
-  width: 100%;
-}
-
-.folders .folder {
-  position: relative;
-  flex: 1;
-  height: 210px;
   display: flex;
   flex-direction: column;
-  cursor: pointer;
+  padding: var(--wi-pad);
+  border: 1px solid var(--wi-ink);
+  border-radius: 0.75rem;
+  background-color: var(--wi-paper);
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    opacity 500ms var(--wi-ease-out),
+    filter 500ms var(--wi-ease-out);
+  scroll-margin-top: 7rem;
 }
 
-/* Alternating rows get an off-centre split, so the stack never reads as a grid. */
-.folders .row:nth-child(even) a:nth-child(1) {
-  flex: 2;
-}
-
-.folders .row:nth-child(even) a:nth-child(2) {
-  flex: 3;
-}
-
-.folders .folder-preview {
+/* A soft accent glow that tracks the pointer across the card. */
+.wi-card::before {
+  content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 25rem;
-  height: 100%;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    28rem circle at var(--mx) var(--my),
+    color-mix(in srgb, var(--wi-accent) 12%, transparent),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 400ms ease;
   pointer-events: none;
 }
 
-.folders .folder-preview-img {
-  position: absolute;
-  top: 50%;
-  width: 12rem;
-  height: 12rem;
-  border-radius: 0.5rem;
-  overflow: hidden;
+.wi-card:hover::before {
+  opacity: 1;
 }
 
-.folders .folder-preview-img img {
+/* Hovering one card quiets the other two. */
+.wi-grid:has(.wi-card:hover) .wi-card:not(:hover) {
+  opacity: 0.4;
+  filter: grayscale(1);
+}
+
+.wi-card-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: clamp(0.75rem, 1.6vh, 1.1rem);
+}
+
+/* Sized off the viewport so "Real Estate & Architecture" and its count still
+   share one line in a third-width card on a 1366px laptop. */
+.work-index .wi-card-head p.wi-mono {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75em;
+  white-space: nowrap;
+  font-size: clamp(0.66rem, 0.76vw, 0.8rem);
+  letter-spacing: 0.08em;
+}
+
+.wi-card-no {
+  color: var(--wi-accent);
+}
+
+/* Every rule is its own element so the entrance can draw it left to right. */
+.wi-rule {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Drawn as a border, not a 1px-tall box: rows land on fractional pixels
+     (their height scales with the viewport), and a box's height is
+     antialiased across one or two device pixels depending on where it falls,
+     so neighbouring rules rendered at different weights under display
+     scaling. Border widths are snapped to whole device pixels instead. */
+  height: 0;
+  border-top: 1px solid var(--wi-ink);
+  transform-origin: left center;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------------- rows */
+
+.wi-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: none;
+}
+
+.wi-list li {
+  position: relative;
+}
+
+/* The row bleeds out to the card edges, so the ink sweep fills the card's
+   full width while the text stays aligned with the rules. */
+.wi-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 calc(var(--wi-pad) * -1);
+  padding: clamp(0.4rem, 1.3vh, 0.95rem) var(--wi-pad);
+  color: var(--wi-ink);
+  text-decoration: none;
+  outline: none;
+  isolation: isolate;
+  transition: color 450ms var(--wi-ease);
+}
+
+/* The sweep. Origin flips with the hover state: it rises in from the bottom
+   and leaves through the top, so it always moves the same way. */
+.wi-row::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--wi-ink);
+  transform: scaleY(0);
+  transform-origin: center top;
+  transition: transform 450ms var(--wi-ease);
+}
+
+.wi-row:hover,
+.wi-row:focus-visible,
+.wi-row.is-active {
+  color: var(--wi-paper);
+}
+
+.wi-row:hover::before,
+.wi-row:focus-visible::before,
+.wi-row.is-active::before {
+  transform: scaleY(1);
+  transform-origin: center bottom;
+}
+
+.wi-row-no {
+  transition:
+    color 450ms var(--wi-ease),
+    transform 450ms var(--wi-ease);
+}
+
+.wi-row:hover .wi-row-no,
+.wi-row:focus-visible .wi-row-no,
+.wi-row.is-active .wi-row-no {
+  color: var(--wi-accent);
+  transform: translateX(0.35rem);
+}
+
+.wi-row-name {
+  min-width: 0;
+  font-size: clamp(0.95rem, min(1.3vw, 2.4vh), 1.4rem);
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Rows not under the pointer recede, so the hovered one leads. */
+.wi-list:has(.wi-row:hover) .wi-row:not(:hover) {
+  color: color-mix(in srgb, var(--wi-ink) 40%, transparent);
+}
+
+/* The letter roll. */
+.wi-roll {
+  display: inline-flex;
+  overflow: hidden;
+  vertical-align: top;
+  line-height: 1.15;
+}
+
+.wi-roll > span[aria-hidden] {
+  display: inline-block;
+  text-shadow: 0 1.15em currentColor;
+  transition: transform 600ms var(--wi-ease);
+  transition-delay: calc(var(--i) * 14ms);
+}
+
+.wi-row:hover .wi-roll > span[aria-hidden],
+.wi-row:focus-visible .wi-roll > span[aria-hidden] {
+  transform: translateY(-1.15em);
+}
+
+/* The arrow points up-right at rest and swings round to point straight on. */
+.wi-row-arrow {
+  font-size: 1.15rem;
+  transform: rotate(-45deg);
+  transition: transform 500ms var(--wi-ease);
+}
+
+.wi-row:hover .wi-row-arrow,
+.wi-row:focus-visible .wi-row-arrow,
+.wi-row.is-active .wi-row-arrow {
+  transform: rotate(0deg) translateX(-0.2rem);
+}
+
+/* --------------------------------------------------------------- stage */
+
+.wi-stage {
+  position: relative;
+  flex: 1 1 0;
+  min-height: clamp(6rem, 16vh, 10rem);
+  margin-top: var(--wi-pad);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background-color: color-mix(in srgb, var(--wi-ink) 8%, var(--wi-paper));
+  color: var(--wi-paper);
+  text-decoration: none;
+  container-type: size;
+}
+
+.wi-stage-layers,
+.wi-stage-layer {
+  position: absolute;
+  inset: 0;
+}
+
+/* Each new shot wipes up over the last while its image settles from a slight
+   zoom: the "curtain" reveal. */
+.wi-stage-layer {
+  animation: wi-wipe 1000ms var(--wi-ease) both;
+}
+
+.wi-stage-layer img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+  animation: wi-settle 1600ms var(--wi-ease-out) both;
+  transition:
+    transform 1200ms var(--wi-ease-out),
+    filter 600ms ease;
 }
 
-.folders .folder-preview-img:nth-child(1) {
-  left: 20%;
-  transform-origin: top left;
+.wi-stage-layer.is-instant,
+.wi-stage-layer.is-instant img {
+  animation: none;
 }
 
-.folders .folder-preview-img:nth-child(2) {
-  left: 50%;
-  transform-origin: center;
+@keyframes wi-wipe {
+  from {
+    clip-path: inset(100% 0% 0% 0%);
+  }
+  to {
+    clip-path: inset(0% 0% 0% 0%);
+  }
 }
 
-.folders .folder-preview-img:nth-child(3) {
-  left: 80%;
-  transform-origin: top right;
+@keyframes wi-settle {
+  from {
+    transform: scale(1.25);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 
-.folders .folder-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  will-change: transform;
-}
-
-.folders .folder-index {
-  position: relative;
-  width: 40%;
-  padding: 1rem;
-  border-top-left-radius: 0.75rem;
-}
-
-.folders .folder-index::after {
+/* Legibility for the caption over any photo. */
+.wi-stage::after {
   content: "";
   position: absolute;
-  top: 0;
-  left: 99%;
-  height: 101%;
-  aspect-ratio: 1;
-  clip-path: polygon(0 0, 25% 0, 100% 100%, 0% 100%);
+  inset: 0;
+  z-index: 5;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--wi-ink) 70%, transparent),
+    transparent 45%
+  );
+  pointer-events: none;
 }
 
-.folders .folder-index p {
-  text-transform: uppercase;
-  font-family: "Geist Mono";
-  font-size: 0.8rem;
-  font-weight: 500;
-  transition: color 250ms ease;
-  line-height: 1;
-}
-
-.folders .folder-name {
-  width: 100%;
-  height: 100%;
+.wi-stage-progress {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  right: 0.75rem;
+  z-index: 6;
   display: flex;
-  align-items: flex-start;
-  padding: 0 0.25rem;
-  padding-left: 2rem;
-  border-top-right-radius: 0.75rem;
+  gap: 0.3rem;
 }
 
-.folders .folder-name h1 {
-  font-size: 3rem;
-  transition: color 250ms ease;
-  line-height: 1;
-  letter-spacing: -0.05rem;
+.wi-stage-progress span {
+  flex: 1;
+  height: 2px;
+  border-radius: 2px;
+  overflow: hidden;
+  background-color: color-mix(in srgb, var(--wi-paper) 35%, transparent);
 }
 
-.folders .folder-index,
-.folders .folder-index::after,
-.folders .folder-name {
-  transition: background-color 250ms ease;
+.wi-stage-progress i {
+  display: block;
+  height: 100%;
+  background-color: var(--wi-paper);
+  transform: scaleX(0);
+  transform-origin: left center;
 }
 
-.folders .folder.variant-1 .folder-index,
-.folders .folder.variant-1 .folder-index::after,
-.folders .folder.variant-1 .folder-name {
-  background-color: var(--base-100);
+.wi-stage-progress .is-done i {
+  transform: scaleX(1);
 }
 
-.folders .folder.variant-2 .folder-index,
-.folders .folder.variant-2 .folder-index::after,
-.folders .folder.variant-2 .folder-name {
-  background-color: var(--base-400);
-  color: var(--base-100);
+.wi-stage-progress .is-current i {
+  animation: wi-progress linear both;
 }
 
-.folders .folder.variant-3 .folder-index,
-.folders .folder.variant-3 .folder-index::after,
-.folders .folder.variant-3 .folder-name {
-  background-color: var(--base-500);
+@keyframes wi-progress {
+  to {
+    transform: scaleX(1);
+  }
 }
 
-.folders .folder.disabled .folder-index,
-.folders .folder.disabled .folder-index::after,
-.folders .folder.disabled .folder-name {
-  background-color: var(--base-100);
+.wi-stage-caption {
+  position: absolute;
+  left: 0.9rem;
+  right: 0.9rem;
+  bottom: 0.85rem;
+  z-index: 6;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-.folders .folder.disabled p,
-.folders .folder.disabled h1 {
-  color: var(--base-400);
+.wi-stage-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
 }
+
+.wi-stage-title .wi-mono {
+  font-size: 0.7rem;
+  opacity: 0.75;
+}
+
+.wi-stage-name {
+  font-family: "DM Sans";
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: clamp(1.25rem, 2vw, 2.25rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  animation: wi-name-in 700ms var(--wi-ease-out) both;
+}
+
+@keyframes wi-name-in {
+  from {
+    transform: translateY(60%);
+    opacity: 0;
+  }
+}
+
+.wi-stage-count {
+  font-size: 0.7rem;
+  white-space: nowrap;
+}
+
+/* "Open case" pill: drops in from the top-right corner on stage hover. */
+.wi-stage-cta {
+  position: absolute;
+  top: 1.5rem;
+  right: 0.75rem;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: 999px;
+  background-color: var(--wi-accent);
+  color: var(--wi-ink);
+  font-size: 0.7rem;
+  opacity: 0;
+  transform: translateY(-0.5rem) scale(0.9);
+  transition:
+    opacity 300ms ease,
+    transform 450ms var(--wi-ease-out);
+}
+
+.wi-stage:hover .wi-stage-cta,
+.wi-stage:focus-visible .wi-stage-cta {
+  opacity: 1;
+  transform: none;
+}
+
+.wi-stage:hover .wi-stage-layer:last-child img {
+  transform: scale(1.06);
+}
+
+/* A shallow stage keeps the picture but drops the furniture. */
+@container (max-height: 9rem) {
+  .wi-stage-progress,
+  .wi-stage-cta,
+  .wi-stage-title .wi-mono {
+    display: none;
+  }
+}
+
+/* ----------------------------------------------------------- responsive */
 
 @media (max-width: 1000px) {
-  .work-page {
+  .work-index {
+    padding: 6.5rem 1.25rem 1.25rem;
   }
 
-  .work-category:first-child {
-    padding-top: 8rem;
-  }
-
-  .work-category-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-    padding: 0 1.25rem;
-  }
-
-  .work-category-header h2 {
-    font-size: 2.25rem;
-    letter-spacing: -0.075rem;
-  }
-
-  .folders h1 {
-    font-size: 2rem;
-    width: 100%;
-    text-align: center;
-  }
-
-  .folders {
-    padding-top: 1.25rem;
-  }
-
-  .folders .row {
-    flex-direction: column;
-    padding: 0 1.25rem 1.25rem 1.25rem;
-    gap: 1.25rem;
-  }
-
-  /* Rows sit end to end on mobile rather than stacking. */
-  .folders .row + .row {
-    margin-top: 0;
-  }
-
-  .folders .folder {
-    margin-bottom: 0;
-    height: 200px;
-    border-radius: 1rem !important;
-    overflow: hidden;
-  }
-
-  .folders .folder-preview {
+  .wi-topbar .wi-hint {
     display: none;
   }
 
-  .folders .folder-name {
-    padding: 0rem 2rem 2rem;
-    border-top-right-radius: 0 !important;
+  .wi-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .folders .folder-name h1 {
-    font-size: 2rem;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  .wi-card {
+    --wi-pad: 1.1rem;
   }
 
-  .folders .folder-index {
-    padding: 1.25rem;
-    width: 100%;
-    border-top-left-radius: 0 !important;
+  .work-index .wi-card-head p.wi-mono {
+    font-size: 0.72rem;
+  }
+
+  .wi-stage {
+    flex: none;
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+
+  .wi-row-name {
+    font-size: 1.15rem;
+  }
+
+  /* No pointer to follow, nothing to quiet. */
+  .wi-card::before {
+    display: none;
+  }
+
+  .wi-grid:has(.wi-card:hover) .wi-card:not(:hover) {
+    opacity: 1;
+    filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-index *,
+  .work-index *::before,
+  .work-index *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
   }
 }

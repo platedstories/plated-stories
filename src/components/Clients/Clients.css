@@ -1,0 +1,256 @@
+/* ==========================================================================
+   Clients strip — tucked beneath the hero (z-index), revealed by parallax.
+   The horizontal padding equals the hero's frame inset + content padding, so
+   the title lines up with the hero's first column and the years with its
+   second "+" marker.
+   ========================================================================== */
+
+.home-clients {
+  --hc-pad: 3rem;
+  --hc-gap: 2rem;
+  --hc-head: 10.5rem;
+  --hc-tile: #f3f1ee;
+  --hc-tile-hover: #ebe7e1;
+
+  position: relative;
+  z-index: 1;
+  /* Starts with the header hidden under the hero; the scroll lag pays it back. */
+  margin-top: calc(-1 * var(--hc-head));
+  padding-bottom: calc(var(--hc-head) + 5rem);
+  background-color: var(--base-100);
+}
+
+.home-clients-inner {
+  will-change: transform;
+}
+
+/* --- Header ---------------------------------------------------------------- */
+
+.home-clients-head {
+  height: var(--hc-head);
+  padding: 0 var(--hc-pad);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.home-clients-head-inner {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: var(--hc-gap);
+  align-items: center;
+}
+
+.home-clients-title,
+.home-clients-years {
+  font-family: "PP Neue Montreal", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--base-400);
+}
+
+.home-clients-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Filled disc with a cut-out plus. */
+.home-clients-icon {
+  position: relative;
+  flex: none;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background-color: var(--base-400);
+}
+
+.home-clients-icon::before,
+.home-clients-icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: var(--base-100);
+  border-radius: 1px;
+  transform: translate(-50%, -50%);
+}
+
+.home-clients-icon::before {
+  width: 0.7rem;
+  height: 2px;
+}
+
+.home-clients-icon::after {
+  width: 2px;
+  height: 0.7rem;
+}
+
+/* --- Tiles ----------------------------------------------------------------- */
+
+.home-clients-grid {
+  list-style: none;
+  padding: 0 var(--hc-pad);
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.3rem;
+  transform-origin: 50% 0%;
+  will-change: transform;
+}
+
+.home-clients-tile a {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background-color: var(--hc-tile);
+  color: var(--base-400);
+  text-decoration: none;
+  transition: background-color 0.35s ease;
+}
+
+.home-clients-tile a:hover,
+.home-clients-tile a:focus-visible {
+  background-color: var(--hc-tile-hover);
+}
+
+.home-clients-logo {
+  display: block;
+  max-width: 82%;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: clamp(1rem, 1.35vw, 1.75rem);
+  line-height: 1.1;
+  will-change: transform, filter, opacity;
+}
+
+/* --- Image logos ----------------------------------------------------------- */
+
+.home-clients-logo--image {
+  width: 62%;
+  max-width: 13rem;
+}
+
+.home-clients-logo-frame {
+  display: block;
+  width: 100%;
+}
+
+.home-clients-logo-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 4rem;
+  object-fit: contain;
+  /* Monochrome at rest so every tile reads as one set; the client's own
+     colours come through on hover. */
+  filter: grayscale(1) brightness(0.3);
+  transition: filter 0.45s ease;
+}
+
+.home-clients-logo-frame.is-cropped img {
+  height: 100%;
+  max-height: none;
+  object-fit: cover;
+}
+
+.home-clients-tile a:hover .home-clients-logo-frame img,
+.home-clients-tile a:focus-visible .home-clients-logo-frame img {
+  filter: none;
+}
+
+/* Wordmark styles, assigned per client in clientBranding.js. */
+.home-clients-logo--heavy {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+}
+
+.home-clients-logo--serif {
+  font-family: Didot, "Bodoni 72", "Playfair Display", Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.15rem, 1.6vw, 2rem);
+  letter-spacing: -0.02em;
+}
+
+.home-clients-logo--rounded {
+  font-family: "PP Pangram Sans", sans-serif;
+  font-weight: 800;
+  text-transform: lowercase;
+  letter-spacing: -0.04em;
+}
+
+.home-clients-logo--wide {
+  font-family: "PP Neue Montreal", sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: clamp(0.8rem, 0.95vw, 1.15rem);
+}
+
+.home-clients-logo--mono {
+  font-family: "Geist Mono", monospace;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: clamp(0.85rem, 1.05vw, 1.3rem);
+}
+
+/* --- Tablet & phone -------------------------------------------------------- */
+
+@media (max-width: 1000px) {
+  .home-clients {
+    --hc-pad: 1.65rem;
+    --hc-head: 6.5rem;
+    padding-bottom: calc(var(--hc-head) + 3rem);
+  }
+
+  .home-clients-head-inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-clients-title,
+  .home-clients-years {
+    font-size: 1rem;
+  }
+
+  .home-clients-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .home-clients-logo {
+    font-size: 0.95rem;
+  }
+
+  .home-clients-logo--serif {
+    font-size: 1.05rem;
+  }
+
+  .home-clients-logo--wide,
+  .home-clients-logo--mono {
+    font-size: 0.72rem;
+  }
+
+  /* The desktop tracking would truncate the longer names in a phone tile. */
+  .home-clients-logo--wide {
+    letter-spacing: 0.12em;
+  }
+
+  .home-clients-logo--mono {
+    letter-spacing: 0.02em;
+  }
+}
+
+@media (max-width: 600px) {
+  .home-clients-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
