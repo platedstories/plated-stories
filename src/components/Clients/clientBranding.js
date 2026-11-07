@@ -32,7 +32,11 @@ export const clientBranding = {
   baftic: { variant: "mono" },
   kyomi: { variant: "rounded" },
   midash: { variant: "heavy" },
-  "my-watch-merchant": { variant: "mono" },
+  "my-watch-merchant": {
+    variant: "mono",
+    logo: "/company/My Watch Merchant Logo.png",
+    logoArea: { canvas: [2166, 726], box: [27, 0, 2099, 726] },
+  },
   "ukiyo-interiors": {
     variant: "serif",
     logo: "/company/Gold Ukiyo Interior Logo.png",
