@@ -4,9 +4,14 @@ import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import CustomEase from "gsap/CustomEase";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
-import Copy from "@/components/Copy/Copy";
-import { isInitialLoad } from "@/components/Preloader/Preloader";
+import {
+  isInitialLoad,
+  PRELOADER_REVEAL_EVENT,
+  PRELOADER_REVEALED_KEY,
+} from "@/components/Preloader/Preloader";
+import { READY_EVENT, READY_STATE_KEY, normalizePath } from "@/lib/page-ready";
 import { useViewTransition } from "@/hooks/useViewTransition";
 import { workCategories } from "@/app/work/workCategories.js";
 import { teamMembers } from "@/components/TeamCards/teamMembers.js";
@@ -16,7 +21,7 @@ import {
   videoPosterUrl,
 } from "@/lib/media-delivery";
 
-gsap.registerPlugin(useGSAP, CustomEase, ScrollTrigger);
+gsap.registerPlugin(useGSAP, CustomEase, ScrollTrigger, SplitText);
 CustomEase.create("hop", "0.9, 0, 0.1, 1");
 
 // Full-bleed backdrop reel. Muted + playsInline so it autoplays on iOS too.
@@ -30,16 +35,13 @@ const CONTACT = {
 };
 
 const WORDMARK = "Plated";
+const SUBMARK = "Stories";
 
 export default function Hero() {
   const heroRef = useRef(null);
   const backdropRef = useRef(null);
   const videoRef = useRef(null);
   const { navigateWithTransition } = useViewTransition();
-
-  // Timings hang off the preloader: on a cold load the overlay starts wiping
-  // up at ~4.6s, on a client-side navigation the page is already visible.
-  const base = isInitialLoad ? 4.9 : 0.35;
 
   // ---- Backdrop playback --------------------------------------------------
 
@@ -70,7 +72,27 @@ export default function Hero() {
 
   useGSAP(
     () => {
-      const tl = gsap.timeline({ delay: base });
+      const hero = heroRef.current;
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+      let cancelled = false;
+      let statementSplit = null;
+      let startCall = null;
+      const detach = [];
+
+      const chars = gsap.utils.toArray(".home-hero-char", hero);
+      const subChars = gsap.utils.toArray(".home-hero-sub-char", hero);
+      const statement = hero.querySelector(".home-hero-statement p");
+
+      const tl = gsap.timeline({ paused: true });
+
+      // ---- Wordmark ---------------------------------------------------------
+      //
+      // "Plated": each letter rises out of the mask while the word gathers in
+      // from a slight spread, untilting and pulling into focus as it lands.
+      // "Stories" then flips up letter by letter, hinged on its baseline.
+      const mid = (chars.length - 1) / 2;
 
       tl.fromTo(
         backdropRef.current,
@@ -79,22 +101,45 @@ export default function Hero() {
         0
       )
         .fromTo(
-          ".home-hero-char",
-          { yPercent: 110 },
-          { yPercent: 0, duration: 1.2, stagger: 0.05, ease: "hop" },
-          0.15
+          chars,
+          {
+            yPercent: 118,
+            xPercent: (i) => (i - mid) * 16,
+            rotate: 9,
+            filter: "blur(14px)",
+          },
+          {
+            yPercent: 0,
+            xPercent: 0,
+            rotate: 0,
+            filter: "blur(0px)",
+            duration: 1.6,
+            stagger: 0.07,
+            ease: "expo.out",
+            // Drop the filter once settled, so the type isn't left on a
+            // filtered layer.
+            onComplete: () => gsap.set(chars, { clearProps: "filter" }),
+          },
+          0.12
         )
         .fromTo(
           ".home-hero-reg",
           { scale: 0, rotate: -120 },
           { scale: 1, rotate: 0, duration: 1, ease: "back.out(1.6)" },
-          0.75
+          0.85
         )
         .fromTo(
-          ".home-hero-sub-inner",
-          { yPercent: 110 },
-          { yPercent: 0, duration: 1, ease: "power4.out" },
-          0.7
+          subChars,
+          { yPercent: 100, rotateX: -95, autoAlpha: 0 },
+          {
+            yPercent: 0,
+            rotateX: 0,
+            autoAlpha: 1,
+            duration: 1.2,
+            stagger: 0.045,
+            ease: "expo.out",
+          },
+          0.6
         )
         .fromTo(
           ".home-hero-mark",
@@ -134,6 +179,103 @@ export default function Hero() {
           1.2
         );
 
+      // ---- Statement --------------------------------------------------------
+      //
+      // Split into words inside line masks once the fonts are in (the line
+      // breaks depend on them). Each word rises out of a soft blur; the split
+      // is undone when the intro ends so the paragraph reflows on resize.
+      const buildStatement = () => {
+        // Hidden on small screens (display: none) — nothing to measure.
+        if (!statement || statement.getClientRects().length === 0) return;
+
+        statementSplit = SplitText.create(statement, {
+          type: "lines,words",
+          mask: "lines",
+          linesClass: "home-hero-statement-line",
+          wordsClass: "home-hero-statement-word",
+        });
+
+        tl.fromTo(
+          statementSplit.words,
+          { yPercent: 110, rotate: 4, filter: "blur(6px)" },
+          {
+            yPercent: 0,
+            rotate: 0,
+            filter: "blur(0px)",
+            duration: 1.3,
+            stagger: 0.022,
+            ease: "expo.out",
+            onComplete: () => {
+              statementSplit?.revert();
+              statementSplit = null;
+            },
+          },
+          // The wipe uncovers the bottom of the hero first, so the statement
+          // leads and the wordmark follows.
+          0
+        );
+      };
+
+      // ---- When to start ----------------------------------------------------
+      //
+      // Cold load: when the preloader starts wiping up. Client-side
+      // navigation: when this route reports ready, which is what lifts the
+      // page-transition overlay. Either way a fallback keeps the hero from
+      // staying hidden if the signal never comes.
+      const waitForCue = () =>
+        new Promise((resolve) => {
+          const done = () => resolve();
+          let fallback;
+
+          if (isInitialLoad) {
+            if (window[PRELOADER_REVEALED_KEY]) return done();
+            window.addEventListener(PRELOADER_REVEAL_EVENT, done, { once: true });
+            fallback = setTimeout(done, 12000);
+            detach.push(() => {
+              window.removeEventListener(PRELOADER_REVEAL_EVENT, done);
+              clearTimeout(fallback);
+            });
+            return;
+          }
+
+          if (window[READY_STATE_KEY]?.pathname === "/") return done();
+          const onReady = (e) => {
+            if (normalizePath(e.detail?.pathname) === "/") done();
+          };
+          window.addEventListener(READY_EVENT, onReady);
+          fallback = setTimeout(done, 6000);
+          detach.push(() => {
+            window.removeEventListener(READY_EVENT, onReady);
+            clearTimeout(fallback);
+          });
+        });
+
+      const fontsReady = document.fonts
+        ? document.fonts.ready.catch(() => {})
+        : Promise.resolve();
+
+      fontsReady.then(() => {
+        if (cancelled) return;
+        if (!reduceMotion) buildStatement();
+        if (statement) statement.style.visibility = "visible";
+
+        if (reduceMotion) {
+          tl.progress(1);
+          return;
+        }
+
+        waitForCue().then(() => {
+          if (cancelled) return;
+          // Let the wipe (or overlay) clear the bottom edge before the first
+          // words move.
+          startCall = gsap.delayedCall(isInitialLoad ? 0.2 : 0.35, () =>
+            tl.play()
+          );
+        });
+      });
+
+      // ---- Scroll -----------------------------------------------------------
+
       // The backdrop drifts slower than the page as the hero scrolls away.
       // It is oversized (see .home-hero-backdrop-track) so the drift never
       // opens a gap at the top edge.
@@ -141,12 +283,36 @@ export default function Hero() {
         yPercent: 8,
         ease: "none",
         scrollTrigger: {
-          trigger: heroRef.current,
+          trigger: hero,
           start: "top top",
           end: "bottom top",
           scrub: true,
         },
       });
+
+      // Letters slip back up into their mask at staggered speeds on the way
+      // out — the intro in reverse. Pixel `y`, so it composes with the
+      // intro's `yPercent` instead of fighting it.
+      if (!reduceMotion) {
+        gsap.to(chars, {
+          y: (i, el) => -el.offsetHeight * (0.1 + i * 0.06),
+          ease: "none",
+          scrollTrigger: {
+            trigger: hero,
+            start: "top top",
+            end: "bottom top",
+            scrub: 0.4,
+            invalidateOnRefresh: true,
+          },
+        });
+      }
+
+      return () => {
+        cancelled = true;
+        startCall?.kill();
+        detach.forEach((fn) => fn());
+        statementSplit?.revert();
+      };
     },
     { scope: heroRef }
   );
@@ -215,7 +381,13 @@ export default function Hero() {
               <span className="home-hero-reg">&reg;</span>
             </span>
             <span className="home-hero-sub" aria-hidden="true">
-              <span className="home-hero-sub-inner">Stories</span>
+              <span className="home-hero-sub-inner">
+                {SUBMARK.split("").map((char, i) => (
+                  <span className="home-hero-sub-char" key={i}>
+                    {char}
+                  </span>
+                ))}
+              </span>
             </span>
           </h1>
 
@@ -253,17 +425,15 @@ export default function Hero() {
           </div>
 
           <div className="home-hero-statement">
-            <Copy animateOnScroll={false} delay={base + 0.95}>
-              <p>
-                <span className="home-hero-indent" aria-hidden="true" />
-                We craft stories that people can taste.{" "}
-                <span className="home-hero-muted">
-                  Visual content for restaurants, caf&eacute;s and lifestyle
-                  brands &mdash; strategy, production and storytelling, end to
-                  end.
-                </span>
-              </p>
-            </Copy>
+            <p>
+              <span className="home-hero-indent" aria-hidden="true" />
+              We craft stories that people can taste.{" "}
+              <span className="home-hero-muted">
+                Visual content for restaurants, caf&eacute;s and lifestyle
+                brands &mdash; strategy, production and storytelling, end to
+                end.
+              </span>
+            </p>
           </div>
 
           <p className="home-hero-copyright">&copy; {year} Plated Stories</p>

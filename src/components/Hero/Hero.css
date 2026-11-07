@@ -156,6 +156,8 @@
 
 .home-hero-char {
   display: inline-block;
+  /* Tilts from its foot, so each letter swings up out of the mask. */
+  transform-origin: 0% 100%;
   will-change: transform;
 }
 
@@ -183,7 +185,15 @@
 
 .home-hero-sub-inner {
   display: block;
-  will-change: transform;
+  /* Depth for the letters' flip-up. */
+  perspective: 600px;
+}
+
+.home-hero-sub-char {
+  display: inline-block;
+  transform-origin: 50% 100%;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
 }
 
 /* --- Services ------------------------------------------------------------ */
@@ -322,6 +332,9 @@
 }
 
 .home-hero-statement p {
+  /* Shown by Hero.jsx once it has been split into words, so it never
+     flashes in whole before the intro. */
+  visibility: hidden;
   font-family: "PP Neue Montreal", sans-serif;
   font-size: clamp(1.15rem, 1.45vw, 1.9rem);
   font-weight: 500;
@@ -330,8 +343,18 @@
   color: var(--hh-ink);
 }
 
-/* An inline spacer rather than text-indent: Copy's SplitText measures lines
-   with the indent applied and then strips it, which re-wraps the paragraph. */
+/* Room for descenders inside each word-reveal line mask. */
+.home-hero-statement-line {
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+
+.home-hero-statement-word {
+  will-change: transform;
+}
+
+/* An inline spacer rather than text-indent: SplitText measures lines with
+   the indent applied and then strips it, which re-wraps the paragraph. */
 .home-hero-indent {
   display: inline-block;
   width: 3.5em;

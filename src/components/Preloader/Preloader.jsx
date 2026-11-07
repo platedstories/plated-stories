@@ -12,6 +12,14 @@ CustomEase.create("hop", "0.9, 0, 0.1, 1");
 
 export let isInitialLoad = true;
 
+// Fired the moment the overlay starts wiping up (phase E below), so the page
+// beneath can time its intro to the reveal rather than to a fixed guess: the
+// preloader's own timeline only starts once fonts are ready, so its wipe
+// lands at a different time on every load. The flag covers a listener that
+// attaches after the event has already gone out.
+export const PRELOADER_REVEAL_EVENT = "preloader:reveal";
+export const PRELOADER_REVEALED_KEY = "__platedStoriesPreloaderRevealed";
+
 // Pool the slot-machine shuffle draws from — the studio's own gallery.
 const allImageSources = [
   "https://res.cloudinary.com/vaxfpcja/image/upload/v1788374078/1_1.png",
@@ -217,6 +225,8 @@ const Preloader = () => {
             ease: "hop",
             onStart: () => {
               gsap.set(scope, { pointerEvents: "none" });
+              window[PRELOADER_REVEALED_KEY] = true;
+              window.dispatchEvent(new CustomEvent(PRELOADER_REVEAL_EVENT));
             },
             onComplete: () => {
               setTimeout(() => {
