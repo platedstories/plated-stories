@@ -4,11 +4,8 @@ import ClientLayout from "@/client-layout";
 export const metadata = {
   title: "Plated Stories",
   description: "by Blue Moon Creatives",
-  icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
-  },
+  // Icons come from the file conventions in this folder: favicon.ico,
+  // icon.png and apple-icon.png.
 };
 
 export default function RootLayout({ children }) {

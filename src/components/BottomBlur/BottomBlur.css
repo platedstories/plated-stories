@@ -1,0 +1,56 @@
+.bottom-blur {
+  --bottom-blur-height: clamp(56px, 9vh, 96px);
+
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(var(--bottom-blur-height) + env(safe-area-inset-bottom, 0px));
+  /* Above page content, below the nav (10), lightbox (100) and the
+     page-transition overlay (9999). */
+  z-index: 9;
+  pointer-events: none;
+  /* Own layer, so scrolling never repaints the page around it. */
+  transform: translateZ(0);
+}
+
+/* Layer i blurs at 0.5px * 2^i (0.5, 1, 2, 4, 8, 16px) and covers band i of
+   the strip: fading in from the band above, fully on across its own band and
+   the next, fading out after that. Neighbouring bands overlap, so the blur
+   ramps smoothly from none at the top edge to strongest at the bottom. */
+.bottom-blur > span {
+  --step: calc(100% / 6);
+
+  position: absolute;
+  inset: 0;
+  -webkit-backdrop-filter: blur(var(--blur));
+  backdrop-filter: blur(var(--blur));
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent calc(var(--step) * (var(--i) - 1)),
+    #000 calc(var(--step) * var(--i)),
+    #000 calc(var(--step) * (var(--i) + 1)),
+    transparent calc(var(--step) * (var(--i) + 2))
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent calc(var(--step) * (var(--i) - 1)),
+    #000 calc(var(--step) * var(--i)),
+    #000 calc(var(--step) * (var(--i) + 1)),
+    transparent calc(var(--step) * (var(--i) + 2))
+  );
+}
+
+/* The last layer stays on right down to the bottom edge. */
+.bottom-blur > span:last-child {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent calc(var(--step) * (var(--i) - 1)),
+    #000 calc(var(--step) * var(--i))
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent calc(var(--step) * (var(--i) - 1)),
+    #000 calc(var(--step) * var(--i))
+  );
+}

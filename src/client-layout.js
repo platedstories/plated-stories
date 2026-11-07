@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { ReactLenis } from "lenis/react";
 import Menu from "@/components/Menu/Menu";
 import ScrollSync from "@/components/ScrollSync/ScrollSync";
+import BottomBlur from "@/components/BottomBlur/BottomBlur";
 import {
   READY_EVENT,
   PROGRESS_EVENT,
@@ -265,6 +266,8 @@ export default function ClientLayout({ children }) {
       <div className="page" ref={pageRef}>
         {children}
       </div>
+
+      <BottomBlur />
     </ReactLenis>
   );
 }

@@ -63,7 +63,7 @@ const Showreel = () => {
       setIsMuted(!isMuted);
 
       if (!audioRef.current.muted && audioRef.current.paused) {
-        audioRef.current.play();
+        audioRef.current.play().catch(() => {});
       }
     }
   };
@@ -122,8 +122,10 @@ const Showreel = () => {
       mm.add("(min-width: 1000px)", () => {
         const scrollTriggerInstances = [];
 
-        if (audioRef.current) {
-          audioRef.current.play().catch((error) => {});
+        // The track starts muted, so playing it here would only download
+        // 2.3MB nobody hears. toggleMute starts it on the first unmute.
+        if (audioRef.current && !audioRef.current.muted) {
+          audioRef.current.play().catch(() => {});
         }
 
         const scrollTrigger = ScrollTrigger.create({
@@ -221,6 +223,7 @@ const Showreel = () => {
       <audio
         ref={audioRef}
         src="/showreel/showreel_music.mp3"
+        preload="none"
         loop
         muted={isMuted}
       />

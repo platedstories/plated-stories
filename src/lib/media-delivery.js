@@ -27,9 +27,29 @@ export const optimizeImageUrl = (src, width = 1600) => {
   );
 };
 
-export const optimizeVideoUrl = (src, width = 1280) =>
-  addCloudinaryTransform(
+const IMAGEKIT_HOST = "ik.imagekit.io";
+
+// ImageKit transforms ride on the `tr` query parameter.
+const addImageKitTransform = (src, transform) => {
+  if (typeof src !== "string" || !src.includes(IMAGEKIT_HOST)) return src;
+  return `${src}${src.includes("?") ? "&" : "?"}tr=${transform}`;
+};
+
+export const optimizeVideoUrl = (src, width = 1280) => {
+  if (typeof src === "string" && src.includes(IMAGEKIT_HOST)) {
+    return addImageKitTransform(src, `w-${width},q-50`);
+  }
+
+  return addCloudinaryTransform(
     src,
     CLOUDINARY_VIDEO_MARKER,
     `f_auto,q_auto:eco,vc_auto,c_limit,w_${width}`
   );
+};
+
+// A still from an ImageKit video, to paint while the video buffers.
+export const videoPosterUrl = (src, width = 1280) => {
+  if (typeof src !== "string" || !src.includes(IMAGEKIT_HOST)) return undefined;
+  const [base] = src.split("?");
+  return addImageKitTransform(`${base}/ik-thumbnail.jpg`, `w-${width},q-70`);
+};

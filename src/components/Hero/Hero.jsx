@@ -10,7 +10,11 @@ import { isInitialLoad } from "@/components/Preloader/Preloader";
 import { useViewTransition } from "@/hooks/useViewTransition";
 import { workCategories } from "@/app/work/workCategories.js";
 import { teamMembers } from "@/components/TeamCards/teamMembers.js";
-import { optimizeImageUrl } from "@/lib/media-delivery";
+import {
+  optimizeImageUrl,
+  optimizeVideoUrl,
+  videoPosterUrl,
+} from "@/lib/media-delivery";
 
 gsap.registerPlugin(useGSAP, CustomEase, ScrollTrigger);
 CustomEase.create("hop", "0.9, 0, 0.1, 1");
@@ -18,6 +22,7 @@ CustomEase.create("hop", "0.9, 0, 0.1, 1");
 // Full-bleed backdrop reel. Muted + playsInline so it autoplays on iOS too.
 const BACKDROP_VIDEO =
   "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4";
+const HERO_POSTER = videoPosterUrl(BACKDROP_VIDEO, 1280);
 
 const CONTACT = {
   role: "Co-founder",
@@ -171,16 +176,26 @@ export default function Hero() {
         {/* Backdrop */}
         <div className="home-hero-backdrop" ref={backdropRef} aria-hidden="true">
           <div className="home-hero-backdrop-track">
+            {/* Sized per screen: the 1920px original is 8.7MB, the 1280px
+                rendition ~4.5MB and the 720px one ~2.1MB. The first
+                <source> whose media query matches wins. */}
             <video
               ref={videoRef}
               className="home-hero-video"
-              src={BACKDROP_VIDEO}
+              poster={HERO_POSTER}
               autoPlay
               muted
               loop
               playsInline
               preload="auto"
-            />
+            >
+              <source
+                src={optimizeVideoUrl(BACKDROP_VIDEO, 720)}
+                type="video/mp4"
+                media="(max-width: 767px)"
+              />
+              <source src={optimizeVideoUrl(BACKDROP_VIDEO, 1280)} type="video/mp4" />
+            </video>
           </div>
           <div className="home-hero-shade" />
           <div className="home-hero-grain" />

@@ -16,13 +16,13 @@ export const clientBranding = {
   "baked-by-ninis": {
     variant: "serif",
     logo: "/company/Baked by Nini’s Logo.png",
-    logoArea: { canvas: [1254, 1254], box: [105, 418, 1042, 452] },
+    logoArea: { canvas: [627, 627], box: [52, 209, 522, 226] },
   },
   "cafe-srinivasa": { variant: "heavy" },
   "cafe-toh": {
     variant: "rounded",
     logo: "/company/Elegant Cafe-Toh Script Logo.png",
-    logoArea: { canvas: [1254, 1254], box: [120, 412, 1027, 428] },
+    logoArea: { canvas: [627, 627], box: [60, 206, 514, 214] },
   },
   "dine-and-discover": { variant: "wide" },
   "hive-cafe": { variant: "heavy" },
@@ -35,11 +35,11 @@ export const clientBranding = {
   "my-watch-merchant": {
     variant: "mono",
     logo: "/company/My Watch Merchant Logo.png",
-    logoArea: { canvas: [2166, 726], box: [27, 0, 2099, 726] },
+    logoArea: { canvas: [1083, 363], box: [13, 0, 1050, 363] },
   },
   "ukiyo-interiors": {
     variant: "serif",
     logo: "/company/Gold Ukiyo Interior Logo.png",
-    logoArea: { canvas: [1535, 1024], box: [249, 156, 1064, 677] },
+    logoArea: { canvas: [768, 512], box: [125, 78, 532, 339] },
   },
 };
