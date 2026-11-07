@@ -6,9 +6,10 @@
   right: 0;
   bottom: 0;
   height: calc(var(--bottom-blur-height) + env(safe-area-inset-bottom, 0px));
-  /* Above page content, below the nav (10), lightbox (100) and the
-     page-transition overlay (9999). */
-  z-index: 9;
+  /* Above page content (highest elsewhere is 6, in work.css), below the
+     home hero (9), the nav (10), lightbox (100) and the page-transition
+     overlay (9999). */
+  z-index: 8;
   pointer-events: none;
   /* Own layer, so scrolling never repaints the page around it. */
   transform: translateZ(0);

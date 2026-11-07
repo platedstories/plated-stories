@@ -15,8 +15,10 @@
   --hh-wordmark: min(16.5vw, 38svh);
 
   position: relative;
-  /* Above the clients strip, which is tucked up underneath this section. */
-  z-index: 2;
+  /* Above the clients strip, which is tucked up underneath this section, and
+     above the fixed bottom blur (8) so the blur never softens the hero; still
+     below the nav (10). */
+  z-index: 9;
   width: 100%;
   height: 100svh;
   padding: 0.5rem;
