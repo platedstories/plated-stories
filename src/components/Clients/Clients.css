@@ -132,21 +132,27 @@
 
 /* --- Image logos ----------------------------------------------------------- */
 
+/* Wide logos are capped by the tile's width, tall or stacked ones by
+   --logo-h, so a wordmark and an icon-over-name lockup carry similar weight. */
 .home-clients-logo--image {
-  width: 62%;
-  max-width: 13rem;
+  --logo-h: 6.5rem;
+  width: min(62%, calc(var(--logo-h) * var(--logo-ar, 2.4)));
+  max-width: none;
+  overflow: visible;
 }
 
 .home-clients-logo-frame {
+  position: relative;
   display: block;
   width: 100%;
+  overflow: hidden;
 }
 
 .home-clients-logo-frame img {
   display: block;
   width: 100%;
   height: auto;
-  max-height: 4rem;
+  max-height: var(--logo-h);
   object-fit: contain;
   /* Monochrome at rest so every tile reads as one set; the client's own
      colours come through on hover. */
@@ -154,10 +160,11 @@
   transition: filter 0.45s ease;
 }
 
+/* Inline width/left/top (from logoArea) place the artwork in the frame. */
 .home-clients-logo-frame.is-cropped img {
-  height: 100%;
+  position: absolute;
+  max-width: none;
   max-height: none;
-  object-fit: cover;
 }
 
 .home-clients-tile a:hover .home-clients-logo-frame img,
@@ -228,6 +235,10 @@
 
   .home-clients-logo {
     font-size: 0.95rem;
+  }
+
+  .home-clients-logo--image {
+    --logo-h: 4rem;
   }
 
   .home-clients-logo--serif {

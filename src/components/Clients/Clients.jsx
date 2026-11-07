@@ -32,6 +32,50 @@ const clientsForPage = (page) =>
     (_, slot) => CLIENTS[(page * SLOTS + slot) % CLIENTS.length]
   );
 
+// Shows a logo file cropped to its artwork (see `logoArea` in
+// clientBranding.js): the frame takes the artwork's aspect ratio and the full
+// image is scaled and offset inside it, so only the artwork shows.
+function ImageLogo({ client }) {
+  const area = client.logoArea;
+  const src = optimizeImageUrl(client.logo, 640);
+
+  if (!area) {
+    return (
+      <span className="home-clients-logo home-clients-logo--image">
+        <span className="home-clients-logo-frame">
+          <img src={src} alt="" decoding="async" />
+        </span>
+      </span>
+    );
+  }
+
+  const [canvasW] = area.canvas;
+  const [x, y, w, h] = area.box;
+
+  return (
+    <span
+      className="home-clients-logo home-clients-logo--image"
+      style={{ "--logo-ar": w / h }}
+    >
+      <span
+        className="home-clients-logo-frame is-cropped"
+        style={{ aspectRatio: `${w} / ${h}` }}
+      >
+        <img
+          src={src}
+          alt=""
+          decoding="async"
+          style={{
+            width: `${(canvasW / w) * 100}%`,
+            left: `${(-x / w) * 100}%`,
+            top: `${(-y / h) * 100}%`,
+          }}
+        />
+      </span>
+    </span>
+  );
+}
+
 export default function Clients() {
   const sectionRef = useRef(null);
   const innerRef = useRef(null);
@@ -182,32 +226,15 @@ export default function Clients() {
                   navigateWithTransition(client.href);
                 }}
               >
-                <span
-                  className={`home-clients-logo home-clients-logo--${
-                    client.logo ? "image" : client.variant
-                  }`}
-                >
-                  {client.logo ? (
-                    <span
-                      className={`home-clients-logo-frame${
-                        client.logoFrame ? " is-cropped" : ""
-                      }`}
-                      style={
-                        client.logoFrame
-                          ? { aspectRatio: client.logoFrame }
-                          : undefined
-                      }
-                    >
-                      <img
-                        src={optimizeImageUrl(client.logo, 640)}
-                        alt=""
-                        decoding="async"
-                      />
-                    </span>
-                  ) : (
-                    client.name
-                  )}
-                </span>
+                {client.logo ? (
+                  <ImageLogo client={client} />
+                ) : (
+                  <span
+                    className={`home-clients-logo home-clients-logo--${client.variant}`}
+                  >
+                    {client.name}
+                  </span>
+                )}
               </a>
             </li>
           ))}
