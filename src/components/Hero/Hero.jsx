@@ -20,6 +20,7 @@ import {
   optimizeVideoUrl,
   videoPosterUrl,
 } from "@/lib/media-delivery";
+import { waitForFonts } from "@/lib/fonts";
 
 gsap.registerPlugin(useGSAP, CustomEase, ScrollTrigger, SplitText);
 CustomEase.create("hop", "0.9, 0, 0.1, 1");
@@ -250,11 +251,7 @@ export default function Hero() {
           });
         });
 
-      const fontsReady = document.fonts
-        ? document.fonts.ready.catch(() => {})
-        : Promise.resolve();
-
-      fontsReady.then(() => {
+      waitForFonts(statement).then(() => {
         if (cancelled) return;
         if (!reduceMotion) buildStatement();
         if (statement) statement.style.visibility = "visible";

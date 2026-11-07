@@ -3,6 +3,7 @@ import "./AboutIntro.css";
 import React, { useRef } from "react";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
+import { waitForFonts } from "@/lib/fonts";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Copy from "@/components/Copy/Copy";
@@ -48,23 +49,6 @@ const ROWS = [
 ];
 
 const pad = (n) => String(n).padStart(2, "0");
-
-// `document.fonts.ready` only waits for faces the browser is already fetching.
-// A web font is fetched lazily, the first time something renders with it, so
-// `ready` can resolve before the statement's own face has even been requested;
-// SplitText then measures fallback metrics and warns. Asking for every face
-// the element and its children use (family + weight + style) makes `ready`
-// actually cover them.
-const loadFontsFor = (root) => {
-  const faces = new Set();
-  [root, ...root.querySelectorAll("*")].forEach((el) => {
-    const s = getComputedStyle(el);
-    faces.add(`${s.fontStyle} ${s.fontWeight} 16px ${s.fontFamily}`);
-  });
-  return Promise.all(
-    [...faces].map((face) => document.fonts.load(face).catch(() => {}))
-  );
-};
 
 export default function AboutIntro() {
   const sectionRef = useRef(null);
@@ -117,10 +101,7 @@ export default function AboutIntro() {
 
           // --- Statement: lines rise, then words ink in as you scroll. -----
           const buildStatement = async () => {
-            try {
-              if (statementRef.current) await loadFontsFor(statementRef.current);
-              await document.fonts.ready;
-            } catch {}
+            await waitForFonts(statementRef.current);
             if (cancelled || !statementRef.current) return;
 
             split = SplitText.create(statementRef.current, {
