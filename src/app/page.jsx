@@ -12,6 +12,7 @@ import Footer from "@/components/Footer/Footer";
 import Copy from "@/components/Copy/Copy";
 import Hero from "@/components/Hero/Hero";
 import Clients from "@/components/Clients/Clients";
+import AboutIntro from "@/components/AboutIntro/AboutIntro";
 import Preloader from "@/components/Preloader/Preloader";
 import React from "react";
 
@@ -22,6 +23,8 @@ const Page = () => {
       <Hero />
 
       <Clients />
+
+      <AboutIntro />
 
       <Showreel />
 
