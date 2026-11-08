@@ -220,6 +220,11 @@ export default function Clients() {
               <a
                 href={client.href}
                 aria-label={`View the ${client.name} project`}
+                style={
+                  client.hoverTile
+                    ? { "--hc-tile-brand": client.hoverTile }
+                    : undefined
+                }
                 onMouseEnter={() => router.prefetch(client.href)}
                 onClick={(e) => {
                   e.preventDefault();

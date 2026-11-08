@@ -12,6 +12,9 @@
 // Measure with sharp: `sharp(file).trim()` reports the size and (negated)
 // offsets; add a few px of breathing room. Leave it out for logos already
 // trimmed to their edges.
+//
+// `hoverTile` (optional) is the tile colour on hover, when the logo shows in
+// its own colours. White or ivory artwork needs a dark one to stay visible.
 export const clientBranding = {
   "baked-by-ninis": {
     variant: "serif",
@@ -22,6 +25,7 @@ export const clientBranding = {
     variant: "heavy",
     logo: "/company/Cafe Srinivasa.png",
     logoArea: { canvas: [1254, 1254], box: [393, 157, 467, 945] },
+    hoverTile: "#1a1614",
   },
   "cafe-toh": {
     variant: "rounded",
@@ -36,10 +40,15 @@ export const clientBranding = {
     variant: "wide",
     logo: "/company/Ivory Maison Faux Wordmark.png",
     logoArea: { canvas: [1774, 887], box: [243, 128, 1287, 633] },
+    hoverTile: "#1a1614",
   },
   baftic: { variant: "mono" },
   kyomi: { variant: "rounded" },
-  midash: { variant: "heavy" },
+  midash: {
+    variant: "heavy",
+    logo: "/company/MIDASH_logo_transparent_cropped.png",
+    logoArea: { canvas: [972, 304], box: [18, 18, 936, 267] },
+  },
   "my-watch-merchant": {
     variant: "mono",
     logo: "/company/My Watch Merchant Logo.png",

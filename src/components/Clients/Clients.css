@@ -113,9 +113,11 @@
   transition: background-color 0.35s ease;
 }
 
+/* `hoverTile` in clientBranding.js swaps in a ground the logo's own colours
+   read on, e.g. a dark one for white or ivory artwork. */
 .home-clients-tile a:hover,
 .home-clients-tile a:focus-visible {
-  background-color: var(--hc-tile-hover);
+  background-color: var(--hc-tile-brand, var(--hc-tile-hover));
 }
 
 .home-clients-logo {
