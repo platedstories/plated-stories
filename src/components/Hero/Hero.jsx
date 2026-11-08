@@ -29,26 +29,40 @@ CustomEase.create("hop", "0.9, 0, 0.1, 1");
 // REEL_SLOT seconds, cross-dissolving over REEL_FADE seconds. Muted +
 // playsInline so they autoplay on iOS too.
 const REEL = [
-  "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4",
-  "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4",
-  "https://ik.imagekit.io/platedstories/6.%20Conveyor%20Belt%20(1).mp4",
+  {
+    url: "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4",
+    resize: false,
+  },
+  {
+    url: "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4",
+    resize: true,
+  },
+  {
+    url: "https://ik.imagekit.io/platedstories/6.%20Conveyor%20Belt%20(1).mp4",
+    resize: true,
+  },
 ];
 const REEL_SLOT = 10;
 const REEL_FADE = 1.2;
-const HERO_POSTER = videoPosterUrl(REEL[0], 1280);
+const HERO_POSTER = videoPosterUrl(REEL[0].url, 1280);
 
 // Browsers take the first <source> that loads whose media query matches.
-// ImageKit's resized renditions come first (720px on phones, 1280px
-// otherwise); when one can't be served — e.g. a 403 while the account's
-// video-transformation quota is used up — the browser falls through to the
-// untransformed original (`orig-true`), which is never blocked.
-const reelSources = (url) => [
-  {
-    src: optimizeVideoUrl(url, 720),
-    type: "video/mp4",
-    media: "(max-width: 767px)",
-  },
-  { src: optimizeVideoUrl(url, 1280), type: "video/mp4" },
+// With `resize`, ImageKit's resized renditions come first (720px on phones,
+// 1280px otherwise); without it, the link itself. When one can't be served —
+// e.g. a 403 while the account's video-transformation quota is used up — the
+// browser falls through to the untransformed original (`orig-true`), which
+// is never blocked.
+const reelSources = ({ url, resize }) => [
+  ...(resize
+    ? [
+        {
+          src: optimizeVideoUrl(url, 720),
+          type: "video/mp4",
+          media: "(max-width: 767px)",
+        },
+        { src: optimizeVideoUrl(url, 1280), type: "video/mp4" },
+      ]
+    : [{ src: url, type: "video/mp4" }]),
   { src: `${url}?tr=orig-true`, type: "video/mp4" },
 ];
 
@@ -512,9 +526,9 @@ export default function Hero() {
         {/* Backdrop */}
         <div className="home-hero-backdrop" ref={backdropRef} aria-hidden="true">
           <div className="home-hero-backdrop-track">
-            {REEL.map((url, i) => (
+            {REEL.map((clip, i) => (
               <video
-                key={url}
+                key={clip.url}
                 ref={(el) => (videoRefs.current[i] = el)}
                 className="home-hero-video"
                 poster={i === 0 ? HERO_POSTER : undefined}
@@ -523,7 +537,7 @@ export default function Hero() {
                 playsInline
                 preload={i === 0 ? "auto" : "none"}
               >
-                {reelSources(url).map((source) => (
+                {reelSources(clip).map((source) => (
                   <source key={source.src} {...source} />
                 ))}
               </video>
