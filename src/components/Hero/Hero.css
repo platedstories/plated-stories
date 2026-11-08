@@ -56,12 +56,19 @@
   will-change: transform;
 }
 
+/* Reel clips are stacked; the inactive ones wait fully transparent. */
 .home-hero-video {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: 50% 45%;
+}
+
+.home-hero-video:not(:first-child) {
+  opacity: 0;
 }
 
 /* Darkens the corners where type sits and leaves the middle of the frame

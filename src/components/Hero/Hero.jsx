@@ -25,10 +25,25 @@ import { waitForFonts } from "@/lib/fonts";
 gsap.registerPlugin(useGSAP, CustomEase, ScrollTrigger, SplitText);
 CustomEase.create("hop", "0.9, 0, 0.1, 1");
 
-// Full-bleed backdrop reel. Muted + playsInline so it autoplays on iOS too.
-const BACKDROP_VIDEO =
-  "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4";
-const HERO_POSTER = videoPosterUrl(BACKDROP_VIDEO, 1280);
+// Full-bleed backdrop reel: the clips take turns, each on screen for
+// REEL_SLOT seconds, cross-dissolving over REEL_FADE seconds. Muted +
+// playsInline so they autoplay on iOS too.
+const REEL = [
+  {
+    url: "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4",
+    resize: true,
+  },
+  {
+    // ImageKit's video-transformation quota is used up, so resized
+    // renditions of this clip 403. Serve the untouched original (~7.4MB)
+    // until they're available, then flip `resize` on.
+    url: "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4",
+    resize: false,
+  },
+];
+const REEL_SLOT = 10;
+const REEL_FADE = 1.2;
+const HERO_POSTER = videoPosterUrl(REEL[0].url, 1280);
 
 const CONTACT = {
   role: "Co-founder",
@@ -41,32 +56,174 @@ const SUBMARK = "Stories";
 export default function Hero() {
   const heroRef = useRef(null);
   const backdropRef = useRef(null);
-  const videoRef = useRef(null);
+  const videoRefs = useRef([]);
+  // Set by the playback effect; called when the hero is revealed so the
+  // first clip's 10 seconds aren't spent behind the preloader.
+  const startReelRef = useRef(null);
   const { navigateWithTransition } = useViewTransition();
 
   // ---- Backdrop playback --------------------------------------------------
-
-  // Only decode the reel while the hero is actually on screen.
+  //
+  // One clip is "active" at a time. Near the end of its slot the next clip
+  // is started from 0 on a layer above and faded in over it; only once it
+  // is fully opaque is the old clip hidden and paused. Fading in over a
+  // solid layer (rather than fading both) keeps the frame from dipping in
+  // brightness mid-dissolve. Playback and the slot clock only run while the
+  // hero is on screen.
   useEffect(() => {
     const node = heroRef.current;
-    const video = videoRef.current;
-    if (!node || !video) return;
+    const videos = videoRefs.current.slice(0, REEL.length).filter(Boolean);
+    if (!node || !videos.length) return;
 
-    video.muted = true;
+    let active = 0;
+    let clipStart = 0;
+    let started = false;
+    let fading = false;
+    let fadeTween = null;
+    let incomingClip = null;
+    let visible = false;
+    let ticking = false;
+    const failed = new Set();
+    const detach = [];
+
+    videos.forEach((video, i) => {
+      video.muted = true;
+      gsap.set(video, { opacity: i === 0 ? 1 : 0, zIndex: i === 0 ? 1 : 0 });
+
+      // A broken <source> reports on the source element; catch it on the
+      // way down so the clip drops out of the rotation.
+      const onError = () => failed.add(i);
+      video.addEventListener("error", onError, true);
+      detach.push(() => video.removeEventListener("error", onError, true));
+    });
+
+    // The later clips wait (preload="none") until the first is playing, so
+    // they don't compete with it for bandwidth on first paint.
+    const warmUp = () => {
+      videos.forEach((video, i) => {
+        if (i === 0 || video.preload !== "none") return;
+        video.preload = "auto";
+        video.load();
+      });
+    };
+    videos[0].addEventListener("playing", warmUp, { once: true });
+    detach.push(() => videos[0].removeEventListener("playing", warmUp));
+
+    const nextIndex = () => {
+      for (let step = 1; step < videos.length; step++) {
+        const i = (active + step) % videos.length;
+        if (!failed.has(i)) return i;
+      }
+      return -1;
+    };
+
+    const crossfade = () => {
+      const next = nextIndex();
+      if (next < 0) {
+        // Nothing to hand over to — just keep the current clip looping.
+        videos[active].loop = true;
+        return;
+      }
+
+      fading = true;
+      const outgoing = videos[active];
+      const incoming = videos[next];
+      incomingClip = incoming;
+      incoming.currentTime = 0;
+
+      Promise.resolve(incoming.play())
+        .then(() => {
+          if (!fading) return;
+          gsap.set(outgoing, { zIndex: 1 });
+          gsap.set(incoming, { zIndex: 2 });
+          fadeTween = gsap.fromTo(
+            incoming,
+            { opacity: 0 },
+            {
+              opacity: 1,
+              duration: REEL_FADE,
+              ease: "sine.inOut",
+              onComplete: () => {
+                outgoing.pause();
+                gsap.set(outgoing, { opacity: 0, zIndex: 0 });
+                gsap.set(incoming, { zIndex: 1 });
+                active = next;
+                clipStart = 0;
+                fading = false;
+                fadeTween = null;
+                incomingClip = null;
+              },
+            }
+          );
+        })
+        .catch((err) => {
+          // AbortError = paused (scrolled away) before it started; try again
+          // on the next tick. Anything else means the clip can't play here.
+          if (err?.name === "NotSupportedError") failed.add(next);
+          fading = false;
+          incomingClip = null;
+        });
+    };
+
+    const tick = () => {
+      if (!started || fading) return;
+      const video = videos[active];
+      const elapsed = video.currentTime - clipStart;
+      // Also hand over just before a clip runs out, should it be shorter
+      // than the slot.
+      const nearEnd =
+        Number.isFinite(video.duration) &&
+        video.currentTime >= video.duration - REEL_FADE;
+      if (elapsed >= REEL_SLOT - REEL_FADE || nearEnd || video.ended) {
+        crossfade();
+      }
+    };
+
+    const setTicking = (on) => {
+      if (on === ticking) return;
+      ticking = on;
+      if (on) gsap.ticker.add(tick);
+      else gsap.ticker.remove(tick);
+    };
+
+    const resume = () => {
+      visible = true;
+      videos[active].play().catch(() => {});
+      // Mid-dissolve: both layers are on screen.
+      if (fadeTween) incomingClip?.play().catch(() => {});
+      setTicking(started);
+    };
+    const suspend = () => {
+      visible = false;
+      setTicking(false);
+      videos.forEach((video) => video.pause());
+    };
+
+    startReelRef.current = () => {
+      if (started) return;
+      started = true;
+      clipStart = videos[active].currentTime;
+      if (visible) setTicking(true);
+    };
+
+    let observer = null;
     if (typeof IntersectionObserver === "undefined") {
-      video.play().catch(() => {});
-      return;
+      resume();
+    } else {
+      observer = new IntersectionObserver(
+        ([entry]) => (entry.isIntersecting ? resume() : suspend()),
+        { threshold: 0.05 }
+      );
+      observer.observe(node);
     }
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) video.play().catch(() => {});
-        else video.pause();
-      },
-      { threshold: 0.05 }
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
+    return () => {
+      observer?.disconnect();
+      setTicking(false);
+      fadeTween?.kill();
+      detach.forEach((fn) => fn());
+      startReelRef.current = null;
+    };
   }, []);
 
   // ---- Intro + scroll ----------------------------------------------------
@@ -258,6 +415,7 @@ export default function Hero() {
 
         if (reduceMotion) {
           tl.progress(1);
+          startReelRef.current?.();
           return;
         }
 
@@ -265,9 +423,10 @@ export default function Hero() {
           if (cancelled) return;
           // Let the wipe (or overlay) clear the bottom edge before the first
           // words move.
-          startCall = gsap.delayedCall(isInitialLoad ? 0.2 : 0.35, () =>
-            tl.play()
-          );
+          startCall = gsap.delayedCall(isInitialLoad ? 0.2 : 0.35, () => {
+            tl.play();
+            startReelRef.current?.();
+          });
         });
       });
 
@@ -339,26 +498,34 @@ export default function Hero() {
         {/* Backdrop */}
         <div className="home-hero-backdrop" ref={backdropRef} aria-hidden="true">
           <div className="home-hero-backdrop-track">
-            {/* Sized per screen: the 1920px original is 8.7MB, the 1280px
-                rendition ~4.5MB and the 720px one ~2.1MB. The first
-                <source> whose media query matches wins. */}
-            <video
-              ref={videoRef}
-              className="home-hero-video"
-              poster={HERO_POSTER}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-            >
-              <source
-                src={optimizeVideoUrl(BACKDROP_VIDEO, 720)}
-                type="video/mp4"
-                media="(max-width: 767px)"
-              />
-              <source src={optimizeVideoUrl(BACKDROP_VIDEO, 1280)} type="video/mp4" />
-            </video>
+            {/* Sized per screen where ImageKit can resize (e.g. Monsoon:
+                1280px ~4.5MB, 720px ~2.1MB). The first <source> whose
+                media query matches wins. */}
+            {REEL.map((clip, i) => (
+              <video
+                key={clip.url}
+                ref={(el) => (videoRefs.current[i] = el)}
+                className="home-hero-video"
+                poster={i === 0 ? HERO_POSTER : undefined}
+                autoPlay={i === 0}
+                muted
+                playsInline
+                preload={i === 0 ? "auto" : "none"}
+              >
+                {clip.resize ? (
+                  <>
+                    <source
+                      src={optimizeVideoUrl(clip.url, 720)}
+                      type="video/mp4"
+                      media="(max-width: 767px)"
+                    />
+                    <source src={optimizeVideoUrl(clip.url, 1280)} type="video/mp4" />
+                  </>
+                ) : (
+                  <source src={`${clip.url}?tr=orig-true`} type="video/mp4" />
+                )}
+              </video>
+            ))}
           </div>
           <div className="home-hero-shade" />
           <div className="home-hero-grain" />
