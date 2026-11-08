@@ -40,6 +40,11 @@ const REEL = [
     url: "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4",
     resize: false,
   },
+  {
+    // Same as above — original is ~20.7MB, so resize as soon as possible.
+    url: "https://ik.imagekit.io/platedstories/6.%20Conveyor%20Belt%20(1).mp4",
+    resize: false,
+  },
 ];
 const REEL_SLOT = 10;
 const REEL_FADE = 1.2;
@@ -97,17 +102,18 @@ export default function Hero() {
       detach.push(() => video.removeEventListener("error", onError, true));
     });
 
-    // The later clips wait (preload="none") until the first is playing, so
-    // they don't compete with it for bandwidth on first paint.
-    const warmUp = () => {
-      videos.forEach((video, i) => {
-        if (i === 0 || video.preload !== "none") return;
-        video.preload = "auto";
-        video.load();
-      });
+    // The later clips wait (preload="none"); only the one up next is
+    // fetched, once the current one is playing, so they don't compete with
+    // it — or each other — for bandwidth.
+    const warm = (i) => {
+      const video = videos[i];
+      if (!video || video.preload !== "none") return;
+      video.preload = "auto";
+      video.load();
     };
-    videos[0].addEventListener("playing", warmUp, { once: true });
-    detach.push(() => videos[0].removeEventListener("playing", warmUp));
+    const warmNext = () => warm(nextIndex());
+    videos[0].addEventListener("playing", warmNext, { once: true });
+    detach.push(() => videos[0].removeEventListener("playing", warmNext));
 
     const nextIndex = () => {
       for (let step = 1; step < videos.length; step++) {
@@ -149,6 +155,7 @@ export default function Hero() {
                 gsap.set(incoming, { zIndex: 1 });
                 active = next;
                 clipStart = 0;
+                warmNext();
                 fading = false;
                 fadeTween = null;
                 incomingClip = null;
