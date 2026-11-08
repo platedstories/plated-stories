@@ -15,7 +15,11 @@ import { READY_EVENT, READY_STATE_KEY, normalizePath } from "@/lib/page-ready";
 import { useViewTransition } from "@/hooks/useViewTransition";
 import { workCategories } from "@/app/work/workCategories.js";
 import { teamMembers } from "@/components/TeamCards/teamMembers.js";
-import { optimizeImageUrl } from "@/lib/media-delivery";
+import {
+  optimizeImageUrl,
+  optimizeVideoUrl,
+  videoPosterUrl,
+} from "@/lib/media-delivery";
 import { waitForFonts } from "@/lib/fonts";
 
 gsap.registerPlugin(useGSAP, CustomEase, ScrollTrigger, SplitText);
@@ -24,31 +28,29 @@ CustomEase.create("hop", "0.9, 0, 0.1, 1");
 // Full-bleed backdrop reel: the clips take turns, each on screen for
 // REEL_SLOT seconds, cross-dissolving over REEL_FADE seconds. Muted +
 // playsInline so they autoplay on iOS too.
-//
-// Encoded locally from the 1080p60 originals (Monsoon Vibe, Cost more than
-// car, Conveyor Belt): audio dropped, trimmed to the part the reel can
-// show, 60fps kept. Each clip comes as AV1 (about half the size) with an
-// H.264 fallback for browsers without AV1, at 720p for phones and 1080p
-// otherwise. Both encodes were checked at VMAF >= 95 against the original.
-const REEL_DIR = "/videos/hero";
-const REEL = ["monsoon", "cost", "conveyor"];
+const REEL = [
+  "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4",
+  "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4",
+  "https://ik.imagekit.io/platedstories/6.%20Conveyor%20Belt%20(1).mp4",
+];
 const REEL_SLOT = 10;
 const REEL_FADE = 1.2;
-// First frame of the first clip, so nothing shifts when playback starts.
-const HERO_POSTER = optimizeImageUrl(`${REEL_DIR}/monsoon-poster.jpg`, 1280);
+const HERO_POSTER = videoPosterUrl(REEL[0], 1280);
 
-// Browsers take the first <source> they can play whose media query matches.
-const PHONE = "(max-width: 767px)";
-const reelSources = (name) => [
-  { height: 720, codec: "av01.0.08M.08", media: PHONE },
-  { height: 720, media: PHONE },
-  { height: 1080, codec: "av01.0.09M.08" },
-  { height: 1080 },
-].map(({ height, codec, media }) => ({
-  src: `${REEL_DIR}/${name}-${height}.${codec ? "av1" : "h264"}.mp4`,
-  type: codec ? `video/mp4; codecs="${codec}"` : "video/mp4",
-  media,
-}));
+// Browsers take the first <source> that loads whose media query matches.
+// ImageKit's resized renditions come first (720px on phones, 1280px
+// otherwise); when one can't be served — e.g. a 403 while the account's
+// video-transformation quota is used up — the browser falls through to the
+// untransformed original (`orig-true`), which is never blocked.
+const reelSources = (url) => [
+  {
+    src: optimizeVideoUrl(url, 720),
+    type: "video/mp4",
+    media: "(max-width: 767px)",
+  },
+  { src: optimizeVideoUrl(url, 1280), type: "video/mp4" },
+  { src: `${url}?tr=orig-true`, type: "video/mp4" },
+];
 
 const CONTACT = {
   role: "Co-founder",
@@ -510,9 +512,9 @@ export default function Hero() {
         {/* Backdrop */}
         <div className="home-hero-backdrop" ref={backdropRef} aria-hidden="true">
           <div className="home-hero-backdrop-track">
-            {REEL.map((name, i) => (
+            {REEL.map((url, i) => (
               <video
-                key={name}
+                key={url}
                 ref={(el) => (videoRefs.current[i] = el)}
                 className="home-hero-video"
                 poster={i === 0 ? HERO_POSTER : undefined}
@@ -521,7 +523,7 @@ export default function Hero() {
                 playsInline
                 preload={i === 0 ? "auto" : "none"}
               >
-                {reelSources(name).map((source) => (
+                {reelSources(url).map((source) => (
                   <source key={source.src} {...source} />
                 ))}
               </video>
