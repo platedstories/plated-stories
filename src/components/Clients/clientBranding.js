@@ -18,7 +18,11 @@ export const clientBranding = {
     logo: "/company/Baked by Nini’s Logo.png",
     logoArea: { canvas: [627, 627], box: [52, 209, 522, 226] },
   },
-  "cafe-srinivasa": { variant: "heavy" },
+  "cafe-srinivasa": {
+    variant: "heavy",
+    logo: "/company/Cafe Srinivasa.png",
+    logoArea: { canvas: [1254, 1254], box: [393, 157, 467, 945] },
+  },
   "cafe-toh": {
     variant: "rounded",
     logo: "/company/Elegant Cafe-Toh Script Logo.png",
@@ -28,7 +32,11 @@ export const clientBranding = {
   "hive-cafe": { variant: "heavy" },
   "home-bakers": { variant: "serif" },
   "love-and-flour": { variant: "rounded" },
-  "maison-faux": { variant: "wide" },
+  "maison-faux": {
+    variant: "wide",
+    logo: "/company/Ivory Maison Faux Wordmark.png",
+    logoArea: { canvas: [1774, 887], box: [243, 128, 1287, 633] },
+  },
   baftic: { variant: "mono" },
   kyomi: { variant: "rounded" },
   midash: { variant: "heavy" },
