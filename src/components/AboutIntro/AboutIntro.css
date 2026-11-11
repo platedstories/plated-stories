@@ -287,6 +287,54 @@
   color: var(--base-400);
 }
 
+/* Lede on the left, the square on the right edge of the column. */
+.about-lede-block {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* As tall as the lede (stretch) and as wide as it is tall (aspect-ratio). */
+.about-lede-cta {
+  position: relative;
+  flex: none;
+  align-self: stretch;
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 1rem;
+  background-color: var(--base-500);
+  color: var(--base-100);
+}
+
+/* The window the two arrows travel through: anything outside it is
+   clipped, so an arrow appears to exit and enter through the corners. */
+.about-lede-cta-arrows {
+  position: relative;
+  width: 36%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.about-lede-cta-arrow {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s var(--ai-ease);
+}
+
+.about-lede-cta-arrow--next {
+  transform: translate(-115%, 115%);
+}
+
+.about-lede-cta:focus-visible {
+  outline: 2px solid var(--base-400);
+  outline-offset: 3px;
+}
+
 /* --- Figure cards: two short figures over two tall details ---------------- */
 
 .about-cards {
@@ -450,6 +498,18 @@
     font-size: 1.35rem;
   }
 
+  /* On a phone the lede runs 5-6 lines; a square that tall would crush it,
+     so it keeps a fixed size at the lede's bottom-right instead. */
+  .about-lede-block {
+    gap: 1.25rem;
+  }
+
+  .about-lede-cta {
+    align-self: flex-end;
+    width: 3.75rem;
+    border-radius: 0.75rem;
+  }
+
   .about-card--figure {
     min-height: 7rem;
     padding: 1.5rem;
@@ -549,6 +609,14 @@
     font-weight: 500;
   }
 
+  .about-lede-block {
+    gap: calc(40 * var(--u));
+  }
+
+  .about-lede-cta {
+    border-radius: calc(20 * var(--u));
+  }
+
   .about-cards {
     grid-template-rows: calc(143 * var(--u)) calc(427 * var(--u));
     gap: calc(6 * var(--u));
@@ -605,6 +673,16 @@
 /* Hover states only where there is a real pointer, so a tap on a phone
    does not leave anything stuck in its hover state. */
 @media (hover: hover) {
+  /* Arrow out through the top-right, the next one in from the bottom-left;
+     the square stays brand orange. */
+  .about-lede-cta:hover .about-lede-cta-arrow {
+    transform: translate(115%, -115%);
+  }
+
+  .about-lede-cta:hover .about-lede-cta-arrow--next {
+    transform: translate(0, 0);
+  }
+
   .about-meta:hover .about-icon {
     transform: rotate(90deg);
     background-color: var(--base-500);
@@ -633,7 +711,8 @@
   .about-media-zoom img,
   .about-media-plus,
   .about-card,
-  .about-icon {
+  .about-icon,
+  .about-lede-cta-arrow {
     transition: none;
   }
 }

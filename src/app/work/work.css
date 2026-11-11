@@ -1,18 +1,23 @@
 /* /work — the index of work.
 
-   One screen, no scroll on desktop: a slim top bar, then three "contents"
-   cards side by side. Each card is a ruled, numbered list of its projects
-   and, under it, a live stage that takes whatever height the list leaves.
+   Desktop is one screen, no scroll: two columns under the nav.
 
-     .wi-card    the contents card (cursor-following glow on its border)
-     .wi-row     a project row (ink sweep, letter roll, arrow turn)
-     .wi-stage   the image stage (clip-path wipe between shots, progress bars) */
+     .wi-deck    left: a stacked deck of index cards. The front card is a
+                 ruled, numbered list; the ones behind peek out to the right.
+                 Prev / next live in the front card's footer and turn the
+                 deck (the motion itself is GSAP, in page.jsx).
+     .wi-stage   right: the live image stage for the front card's projects
+                 (clip-path wipe between shots, progress bars).
+
+   The cards use the homepage's three surfaces (as on the client review
+   cards): paper with an ink rule, solid ink, and the accent red. Each theme
+   only sets the --c-* tokens below; everything inside reads from them. */
 
 .work-index {
   --wi-ink: var(--base-400);
   --wi-paper: var(--base-100);
   --wi-accent: var(--base-500);
-  --wi-pad: clamp(1rem, 1.6vw, 1.6rem);
+  --wi-pad: clamp(1.1rem, 1.8vw, 2rem);
   --wi-ease: cubic-bezier(0.77, 0, 0.18, 1);
   --wi-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
@@ -34,7 +39,7 @@
   font-size: 0.8rem;
   font-weight: 500;
   line-height: 1.15;
-  letter-spacing: 0.12rem;
+  letter-spacing: 0.1rem;
 }
 
 .work-index .wi-sr {
@@ -46,57 +51,97 @@
   white-space: nowrap;
 }
 
-/* ------------------------------------------------------------- top bar */
+/* -------------------------------------------------------------- layout */
 
-.wi-topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  overflow: hidden;
-}
-
-.wi-topbar .wi-hint {
-  opacity: 0.5;
-}
-
-/* --------------------------------------------------------------- cards */
-
-.wi-grid {
-  flex: 1 0 auto;
+.wi-layout {
+  flex: 1 1 auto;
+  min-height: 0;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(0.75rem, 1.2vw, 1.25rem);
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  grid-template-rows: minmax(0, 1fr);
+  gap: clamp(1rem, 2vw, 2.5rem);
+}
+
+/* ---------------------------------------------------------------- deck */
+
+/* Every card sits in the same grid cell, so the deck is as tall as its
+   tallest card without absolute positioning. The right padding is the room
+   the cards behind peek into. */
+.wi-deck {
+  position: relative;
+  display: grid;
+  grid-template-areas: "card";
+  grid-template-rows: minmax(0, 1fr);
+  padding-right: calc(var(--wi-peek) * var(--wi-behind));
 }
 
 .wi-card {
   --mx: 50%;
   --my: 50%;
+  --c-bg: var(--wi-paper);
+  --c-fg: var(--wi-ink);
+  --c-line: var(--wi-ink);
+  --c-mark: var(--wi-accent);
+  --c-glow: color-mix(in srgb, var(--wi-accent) 12%, transparent);
 
+  grid-area: card;
   position: relative;
   display: flex;
-  flex-direction: column;
-  padding: var(--wi-pad);
-  border: 1px solid var(--wi-ink);
-  border-radius: 0.75rem;
-  background-color: var(--wi-paper);
+  min-height: 0;
+  border: 1px solid var(--c-line);
+  border-radius: 1rem;
+  background-color: var(--c-bg);
+  color: var(--c-fg);
   overflow: hidden;
   isolation: isolate;
-  transition:
-    opacity 500ms var(--wi-ease-out),
-    filter 500ms var(--wi-ease-out);
-  scroll-margin-top: 7rem;
+  /* The hinge the page turn swings on. page.jsx places each slot from it. */
+  transform-origin: left center;
+  box-shadow: 0 1.5rem 3rem -1.75rem
+    color-mix(in srgb, var(--wi-ink) 45%, transparent);
+  will-change: transform;
 }
 
-/* A soft accent glow that tracks the pointer across the card. */
+/* Light falloff: GSAP raises --shade as a card turns away, and each card
+   behind sits a little darker than the one in front. */
+.wi-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background-color: #000;
+  opacity: var(--shade, 0);
+  pointer-events: none;
+}
+
+.wi-card--ink {
+  --c-bg: var(--wi-ink);
+  --c-fg: var(--wi-paper);
+  --c-line: var(--wi-ink);
+  --c-glow: color-mix(in srgb, var(--wi-accent) 18%, transparent);
+}
+
+.wi-card--accent {
+  --c-bg: var(--wi-accent);
+  --c-fg: var(--wi-ink);
+  --c-line: var(--wi-accent);
+  --c-mark: var(--wi-paper);
+  --c-glow: color-mix(in srgb, var(--wi-paper) 22%, transparent);
+}
+
+/* A card waiting behind: its peeking edge brings it round on click. */
+.wi-card:not(.is-front) {
+  cursor: pointer;
+}
+
+/* A soft glow that tracks the pointer across the front card. */
 .wi-card::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
   background: radial-gradient(
-    28rem circle at var(--mx) var(--my),
-    color-mix(in srgb, var(--wi-accent) 12%, transparent),
+    30rem circle at var(--mx) var(--my),
+    var(--c-glow),
     transparent 60%
   );
   opacity: 0;
@@ -104,38 +149,67 @@
   pointer-events: none;
 }
 
-.wi-card:hover::before {
+.wi-card.is-front:hover::before {
   opacity: 1;
 }
 
-/* Hovering one card quiets the other two. */
-.wi-grid:has(.wi-card:hover) .wi-card:not(:hover) {
-  opacity: 0.4;
-  filter: grayscale(1);
+.wi-card-inner {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--wi-pad);
+  transition: opacity 400ms ease;
 }
+
+/* Cards behind show only their colour, so the peeking edges stay clean. The
+   delay lets a card leaving the front keep its contents until it's behind. */
+.wi-card:not(.is-front) .wi-card-inner {
+  opacity: 0;
+  transition-delay: 600ms;
+}
+
+/* --------------------------------------------------------- card header */
 
 .wi-card-head {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding-bottom: clamp(0.75rem, 1.6vh, 1.1rem);
+  padding-bottom: clamp(0.75rem, 1.8vh, 1.25rem);
 }
 
-/* Sized off the viewport so "Real Estate & Architecture" and its count still
-   share one line in a third-width card on a 1366px laptop. */
-.work-index .wi-card-head p.wi-mono {
+/* "01 Index" on the left, the card's number run on the right, sharing a
+   baseline. */
+.wi-card-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.work-index .wi-card-meta p.wi-mono {
   display: flex;
   align-items: baseline;
   gap: 0.75em;
   white-space: nowrap;
-  font-size: clamp(0.66rem, 0.76vw, 0.8rem);
-  letter-spacing: 0.08em;
 }
 
 .wi-card-no {
-  color: var(--wi-accent);
+  color: var(--c-mark);
+}
+
+/* The run of numbers this card holds, set like the homepage headings. */
+.work-index h2.wi-card-title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.15em;
+  font-size: clamp(2.5rem, min(5.5vw, 9vh), 6.5rem);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+}
+
+.wi-card-dash {
+  color: var(--c-mark);
+  font-weight: 400;
 }
 
 /* Every rule is its own element so the entrance can draw it left to right. */
@@ -144,41 +218,49 @@
   left: 0;
   right: 0;
   bottom: 0;
-  /* Drawn as a border, not a 1px-tall box: rows land on fractional pixels
-     (their height scales with the viewport), and a box's height is
-     antialiased across one or two device pixels depending on where it falls,
-     so neighbouring rules rendered at different weights under display
-     scaling. Border widths are snapped to whole device pixels instead. */
+  /* Drawn as a border, not a 1px-tall box: rows land on fractional pixels,
+     and a box's height is antialiased across one or two device pixels
+     depending on where it falls, so neighbouring rules rendered at different
+     weights under display scaling. Border widths snap to whole pixels. */
   height: 0;
-  border-top: 1px solid var(--wi-ink);
+  border-top: 1px solid var(--c-fg);
   transform-origin: left center;
   pointer-events: none;
 }
 
 /* ---------------------------------------------------------------- rows */
 
+/* The list takes the card's spare height and shares it between its rows. */
 .wi-list {
+  flex: 1 1 auto;
+  min-height: 0;
   list-style: none;
   margin: 0;
   padding: 0;
-  flex: none;
+  display: flex;
+  flex-direction: column;
 }
 
 .wi-list li {
   position: relative;
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  scroll-margin-top: 7rem;
 }
 
 /* The row bleeds out to the card edges, so the ink sweep fills the card's
    full width while the text stays aligned with the rules. */
 .wi-row {
   position: relative;
+  flex: 1 1 auto;
   display: grid;
-  grid-template-columns: 3rem minmax(0, 1fr) auto;
+  grid-template-columns: 3rem minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 0.75rem;
   margin: 0 calc(var(--wi-pad) * -1);
-  padding: clamp(0.4rem, 1.3vh, 0.95rem) var(--wi-pad);
-  color: var(--wi-ink);
+  padding: clamp(0.4rem, 1.2vh, 0.9rem) var(--wi-pad);
+  color: var(--c-fg);
   text-decoration: none;
   outline: none;
   isolation: isolate;
@@ -192,7 +274,7 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  background-color: var(--wi-ink);
+  background-color: var(--c-fg);
   transform: scaleY(0);
   transform-origin: center top;
   transition: transform 450ms var(--wi-ease);
@@ -201,7 +283,7 @@
 .wi-row:hover,
 .wi-row:focus-visible,
 .wi-row.is-active {
-  color: var(--wi-paper);
+  color: var(--c-bg);
 }
 
 .wi-row:hover::before,
@@ -226,16 +308,27 @@
 
 .wi-row-name {
   min-width: 0;
-  font-size: clamp(0.95rem, min(1.3vw, 2.4vh), 1.4rem);
+  font-size: clamp(1.1rem, min(1.75vw, 3.1vh), 2rem);
   line-height: 1.15;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+.work-index .wi-row-tag {
+  font-size: 0.68rem;
+  opacity: 0.45;
+  transition: opacity 450ms var(--wi-ease);
+}
+
+.wi-row:hover .wi-row-tag,
+.wi-row.is-active .wi-row-tag {
+  opacity: 0.7;
+}
+
 /* Rows not under the pointer recede, so the hovered one leads. */
 .wi-list:has(.wi-row:hover) .wi-row:not(:hover) {
-  color: color-mix(in srgb, var(--wi-ink) 40%, transparent);
+  color: color-mix(in srgb, var(--c-fg) 40%, transparent);
 }
 
 /* The letter roll. */
@@ -271,14 +364,117 @@
   transform: rotate(0deg) translateX(-0.2rem);
 }
 
+/* --------------------------------------------------------- card footer */
+
+.wi-card-foot {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding-top: clamp(0.85rem, 2vh, 1.5rem);
+}
+
+.wi-card-count {
+  white-space: nowrap;
+}
+
+.wi-pips {
+  flex: 1;
+  display: flex;
+  gap: 0.35rem;
+  max-width: 7rem;
+}
+
+.wi-pips span {
+  flex: 1;
+  height: 2px;
+  border-radius: 2px;
+  background-color: color-mix(in srgb, var(--c-fg) 25%, transparent);
+}
+
+.wi-pips span.is-on {
+  background-color: var(--c-fg);
+}
+
+.wi-nav {
+  display: flex;
+  gap: 0.6rem;
+  margin-left: auto;
+}
+
+/* The homepage button's round icon, scaled up: a solid disc in the card's
+   ink that flips on hover. */
+.wi-nav-btn {
+  display: grid;
+  place-items: center;
+  width: clamp(2.75rem, 3.4vw, 3.5rem);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 1px solid var(--c-fg);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--c-fg);
+  cursor: pointer;
+  perspective: 600px;
+  transition:
+    background-color 350ms var(--wi-ease),
+    color 350ms var(--wi-ease),
+    transform 350ms var(--wi-ease-out);
+}
+
+.wi-nav-btn--next {
+  background-color: var(--c-fg);
+  color: var(--c-bg);
+}
+
+.wi-nav-btn:hover,
+.wi-nav-btn:focus-visible {
+  background-color: var(--c-fg);
+  color: var(--c-bg);
+}
+
+.wi-nav-btn:active {
+  transform: scale(0.92);
+}
+
+.wi-nav-btn:focus-visible {
+  outline: 2px solid var(--wi-accent);
+  outline-offset: 3px;
+}
+
+.wi-card--accent .wi-nav-btn:focus-visible {
+  outline-color: var(--wi-ink);
+}
+
+.wi-nav-icon {
+  display: grid;
+  place-items: center;
+  font-size: 1.15rem;
+  transform-style: preserve-3d;
+}
+
+.wi-nav-btn--prev .wi-nav-icon svg {
+  transform: rotate(180deg);
+}
+
+.wi-nav-btn:hover .wi-nav-icon {
+  animation: wi-flip 0.8s ease-out both;
+}
+
+@keyframes wi-flip {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(720deg);
+  }
+}
+
 /* --------------------------------------------------------------- stage */
 
 .wi-stage {
   position: relative;
-  flex: 1 1 0;
-  min-height: clamp(6rem, 16vh, 10rem);
-  margin-top: var(--wi-pad);
-  border-radius: 0.5rem;
+  min-height: 0;
+  border-radius: 1rem;
   overflow: hidden;
   background-color: color-mix(in srgb, var(--wi-ink) 8%, var(--wi-paper));
   color: var(--wi-paper);
@@ -340,20 +536,20 @@
   z-index: 5;
   background: linear-gradient(
     to top,
-    color-mix(in srgb, var(--wi-ink) 70%, transparent),
-    transparent 45%
+    color-mix(in srgb, var(--wi-ink) 75%, transparent),
+    transparent 50%
   );
   pointer-events: none;
 }
 
 .wi-stage-progress {
   position: absolute;
-  top: 0.75rem;
-  left: 0.75rem;
-  right: 0.75rem;
+  top: 1.25rem;
+  left: 1.25rem;
+  right: 1.25rem;
   z-index: 6;
   display: flex;
-  gap: 0.3rem;
+  gap: 0.35rem;
 }
 
 .wi-stage-progress span {
@@ -388,34 +584,47 @@
 
 .wi-stage-caption {
   position: absolute;
-  left: 0.9rem;
-  right: 0.9rem;
-  bottom: 0.85rem;
+  left: clamp(1.25rem, 2.2vw, 2.25rem);
+  right: clamp(1.25rem, 2.2vw, 2.25rem);
+  bottom: clamp(1.25rem, 2.2vw, 2.25rem);
   z-index: 6;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .wi-stage-title {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.75rem;
   min-width: 0;
 }
 
-.wi-stage-title .wi-mono {
-  font-size: 0.7rem;
-  opacity: 0.75;
+.work-index .wi-stage-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 0.75rem;
+  opacity: 0.85;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.wi-stage-dot {
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: var(--wi-accent);
 }
 
 .wi-stage-name {
   font-family: var(--font-secondary);
   font-weight: 900;
   text-transform: uppercase;
-  font-size: clamp(1.25rem, 2vw, 2.25rem);
-  line-height: 0.9;
+  font-size: clamp(2.25rem, min(5.5vw, 11cqh), 6.5rem);
+  line-height: 0.85;
   letter-spacing: -0.04em;
   white-space: nowrap;
   overflow: hidden;
@@ -430,25 +639,25 @@
   }
 }
 
-.wi-stage-count {
-  font-size: 0.7rem;
+.work-index .wi-stage-count {
+  font-size: 0.75rem;
   white-space: nowrap;
 }
 
 /* "Open case" pill: drops in from the top-right corner on stage hover. */
 .wi-stage-cta {
   position: absolute;
-  top: 1.5rem;
-  right: 0.75rem;
+  top: 2.25rem;
+  right: 1.25rem;
   z-index: 6;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.55rem 0.8rem;
+  padding: 0.65rem 0.95rem;
   border-radius: 999px;
   background-color: var(--wi-accent);
   color: var(--wi-ink);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   opacity: 0;
   transform: translateY(-0.5rem) scale(0.9);
   transition:
@@ -470,52 +679,68 @@
 @container (max-height: 9rem) {
   .wi-stage-progress,
   .wi-stage-cta,
-  .wi-stage-title .wi-mono {
+  .wi-stage-kicker {
     display: none;
   }
 }
 
 /* ----------------------------------------------------------- responsive */
 
+/* Desktop: exactly one screen. The floor keeps a short laptop window from
+   squeezing the cards below their content. */
+@media (min-width: 1001px) {
+  .work-index {
+    height: 100svh;
+    min-height: 40rem;
+  }
+}
+
+/* Below 1000px the two columns stack: deck first, then the stage. The deck
+   still turns, with its buttons or the arrow keys. */
 @media (max-width: 1000px) {
   .work-index {
     padding: 6.5rem 1.25rem 1.25rem;
   }
 
-  .wi-topbar .wi-hint {
-    display: none;
-  }
-
-  .wi-grid {
+  .wi-layout,
+  .wi-deck {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
   }
 
-  .wi-card {
-    --wi-pad: 1.1rem;
-  }
-
-  .work-index .wi-card-head p.wi-mono {
-    font-size: 0.72rem;
-  }
-
-  .wi-stage {
+  .wi-list li {
     flex: none;
-    min-height: 0;
-    aspect-ratio: 16 / 10;
   }
 
   .wi-row-name {
-    font-size: 1.15rem;
+    font-size: 1.2rem;
   }
 
-  /* No pointer to follow, nothing to quiet. */
+  .work-index h2.wi-card-title {
+    font-size: 3rem;
+  }
+
+  .wi-stage {
+    aspect-ratio: 4 / 3;
+  }
+
+  .wi-stage-name {
+    font-size: clamp(1.75rem, 8vw, 3rem);
+  }
+
+  /* No pointer to follow. */
   .wi-card::before {
     display: none;
   }
+}
 
-  .wi-grid:has(.wi-card:hover) .wi-card:not(:hover) {
-    opacity: 1;
-    filter: none;
+@media (max-width: 480px) {
+  .work-index .wi-row-tag {
+    display: none;
+  }
+
+  .wi-row {
+    grid-template-columns: 2.25rem minmax(0, 1fr) auto auto;
   }
 }
 

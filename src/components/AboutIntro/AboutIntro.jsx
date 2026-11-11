@@ -9,6 +9,7 @@ import { useGSAP } from "@gsap/react";
 import { workCategories } from "@/app/work/workCategories.js";
 import { clientBranding } from "@/components/Clients/clientBranding.js";
 import { optimizeImageUrl } from "@/lib/media-delivery";
+import { useViewTransition } from "@/hooks/useViewTransition";
 
 gsap.registerPlugin(useGSAP, SplitText, ScrollTrigger);
 
@@ -85,6 +86,7 @@ function ClientMark({ client }) {
 
 export default function AboutIntro() {
   const sectionRef = useRef(null);
+  const { navigateWithTransition } = useViewTransition();
   const statementRef = useRef(null);
 
   useGSAP(
@@ -237,6 +239,19 @@ export default function AboutIntro() {
             }
           );
 
+          gsap.fromTo(
+            q(".about-lede-cta"),
+            { scale: 0.6, autoAlpha: 0 },
+            {
+              scale: 1,
+              autoAlpha: 1,
+              duration: 1,
+              delay: 0.2,
+              ease: "back.out(1.6)",
+              scrollTrigger: { trigger: q(".about-lede")[0], start: "top 90%", once: true },
+            }
+          );
+
           // --- Cards: rise in as the grid arrives. --------------------------
           gsap.fromTo(
             q(".about-card"),
@@ -342,6 +357,37 @@ export default function AboutIntro() {
             <p className="about-lede">
               <span className="about-lede-lead">{LEDE.lead}</span> {LEDE.rest}
             </p>
+
+            {/* Square as tall as the lede, flush with the column's right
+                edge. Two arrows: on hover the first leaves through the
+                top-right corner as the second arrives from the bottom-left. */}
+            <a
+              href="/work"
+              className="about-lede-cta"
+              aria-label="Explore our work"
+              onClick={(e) => {
+                e.preventDefault();
+                navigateWithTransition("/work");
+              }}
+            >
+              <span className="about-lede-cta-arrows" aria-hidden="true">
+                {[0, 1].map((i) => (
+                  <svg
+                    key={i}
+                    className={`about-lede-cta-arrow${i ? " about-lede-cta-arrow--next" : ""}`}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.75"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M6 18 18 6" />
+                    <path d="M8 6h10v10" />
+                  </svg>
+                ))}
+              </span>
+            </a>
           </div>
 
           {/* Figures on top, what they stand for underneath. Screen readers

@@ -59,4 +59,5 @@ export const clientBranding = {
     logo: "/company/Gold Ukiyo Interior Logo.png",
     logoArea: { canvas: [768, 512], box: [125, 78, 532, 339] },
   },
+  vora: { variant: "wide" },
 };

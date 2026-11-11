@@ -19,7 +19,7 @@ const prefersReducedMotion = () =>
   typeof window !== "undefined" &&
   window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
-// The live preview panel at the foot of each category card.
+// The live preview panel beside the deck, playing the front card's projects.
 //
 // `active` is the hovered project (or null). With nothing hovered the
 // playlist is the category itself: one shot per project when there are
@@ -38,7 +38,9 @@ const WorkStage = ({ category, active, onNavigate }) => {
     );
   }, [category, active]);
 
-  const playlistKey = active ? active.slug : "__idle";
+  // Keyed by the card too, so turning the deck restarts the showreel on the
+  // new card's projects rather than resuming at an old position.
+  const playlistKey = active ? active.slug : `__idle-${category.key}`;
   const hold = active ? ACTIVE_HOLD_MS : IDLE_HOLD_MS;
 
   // The position is stored against the playlist it belongs to, so a new
@@ -146,7 +148,12 @@ const WorkStage = ({ category, active, onNavigate }) => {
 
       <div className="wi-stage-caption">
         <div className="wi-stage-title">
-          <span className="wi-mono">{active ? "Now viewing" : "Showreel"}</span>
+          <span className="wi-mono wi-stage-kicker">
+            <span className="wi-stage-dot" aria-hidden="true" />
+            {active ? "Now viewing" : "Showreel"}
+            {project.index && <> · {project.index}</>}
+            {project.categoryTitle && <> · {project.categoryTitle}</>}
+          </span>
           <span className="wi-stage-name" key={project.slug}>
             {project.name}
           </span>

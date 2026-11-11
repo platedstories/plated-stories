@@ -104,6 +104,7 @@ const categoriesData = [
     title: "Real Estate & Architecture",
     projects: [
       { name: "Ukiyo Interiors", images: previews(37) },
+      { name: "Vora", images: previews(40) },
     ],
   },
 ];
