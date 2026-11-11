@@ -1,7 +1,7 @@
 /* Bespoke case-study layout for /work/food-beverages/baked-by-ninis.
    Scoped entirely under .bbn-case so it cannot reach any other project
    page. Built on the existing tokens (--base-100/300/400/500), the
-   `.sm` mono eyebrow and the DM Sans display headline the homepage
+   `.sm` eyebrow and the display headline the homepage
    "We are Plated Stories" h1 uses. */
 
 .bbn-case {
@@ -20,7 +20,7 @@
 .bbn-case .bbn-chapter-title,
 .bbn-case .bbn-outcome-title,
 .bbn-case .bbn-closing-title {
-  font-family: "DM Sans";
+  font-family: "PP Neue Montreal", sans-serif;
   font-weight: 900;
   text-transform: uppercase;
   line-height: 0.9;

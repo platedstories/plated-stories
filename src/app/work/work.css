@@ -29,7 +29,7 @@
 }
 
 .work-index .wi-mono {
-  font-family: "Geist Mono";
+  font-family: "PP Neue Montreal", sans-serif;
   text-transform: uppercase;
   font-size: 0.8rem;
   font-weight: 500;
@@ -411,7 +411,7 @@
 }
 
 .wi-stage-name {
-  font-family: "DM Sans";
+  font-family: "PP Neue Montreal", sans-serif;
   font-weight: 900;
   text-transform: uppercase;
   font-size: clamp(1.25rem, 2vw, 2.25rem);

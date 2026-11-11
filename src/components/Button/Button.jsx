@@ -31,10 +31,7 @@ export default function Button({
       await document.fonts.ready;
 
       const customFonts = [
-        "Geist Mono",
         "PP Neue Montreal",
-        "PP Pangram Sans",
-        "DM Sans",
       ];
       // `document.fonts.check()` returns a plain boolean, not a promise —
       // wrapping it in Promise.all didn't actually wait for anything, so

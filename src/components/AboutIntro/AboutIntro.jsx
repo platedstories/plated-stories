@@ -6,9 +6,9 @@ import { SplitText } from "gsap/SplitText";
 import { waitForFonts } from "@/lib/fonts";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import Copy from "@/components/Copy/Copy";
-import Button from "@/components/Button/Button";
 import { workCategories } from "@/app/work/workCategories.js";
+import { clientBranding } from "@/components/Clients/clientBranding.js";
+import { optimizeImageUrl } from "@/lib/media-delivery";
 
 gsap.registerPlugin(useGSAP, SplitText, ScrollTrigger);
 
@@ -30,6 +30,24 @@ const STATS = [
   { label: "Industries we shoot across", value: workCategories.length },
 ];
 
+// Lede beside the still: a short lead in full ink, the rest muted.
+const LEDE = {
+  lead: "Story first, start to finish.",
+  rest: "We start with the brand — its identity, its audience, its goals — and build every frame around a story worth telling.",
+};
+
+const DELIVERY_COPY =
+  "Production, editing and delivery, handled end to end for every brand.";
+
+// A few of the brands behind the numbers, from the clients' own logo files.
+const LOGO_CLIENTS = ["midash", "my-watch-merchant", "cafe-toh"];
+const PROJECTS = workCategories.flatMap((category) => category.projects);
+const LOGOS = LOGO_CLIENTS.map((slug) => ({
+  slug,
+  name: PROJECTS.find((project) => project.slug === slug)?.name ?? slug,
+  ...clientBranding[slug],
+})).filter((client) => client.logo);
+
 // Words wrapped in <em> in the statement pick up the brand accent.
 const STATEMENT = [
   "A story-first content studio turning food, spaces and craft into",
@@ -37,18 +55,33 @@ const STATEMENT = [
   "people remember.",
 ];
 
-const ROWS = [
-  {
-    tag: "(Pre)",
-    copy: "Concept development and shoot planning. We start with the brand — its identity, its audience, its goals — and build every frame around a story worth telling.",
-  },
-  {
-    tag: "(+Post)",
-    copy: "Production, editing and delivery, handled end to end. Premium execution meets strategic storytelling, so every piece looks beautiful and says who the brand is.",
-  },
-];
-
 const pad = (n) => String(n).padStart(2, "0");
+
+// A client logo cropped to its artwork with the same `logoArea` the clients
+// grid uses, so every mark sits at the same visual height.
+function ClientMark({ client }) {
+  const src = optimizeImageUrl(client.logo, 384);
+  if (!client.logoArea) {
+    return <img className="about-card-logo" src={src} alt={client.name} />;
+  }
+  const [canvasW] = client.logoArea.canvas;
+  const [x, y, w, h] = client.logoArea.box;
+  return (
+    <span className="about-card-logo is-cropped" style={{ aspectRatio: `${w} / ${h}` }}>
+      <img
+        src={src}
+        alt={client.name}
+        loading="lazy"
+        decoding="async"
+        style={{
+          width: `${(canvasW / w) * 100}%`,
+          left: `${(-x / w) * 100}%`,
+          top: `${(-y / h) * 100}%`,
+        }}
+      />
+    </span>
+  );
+}
 
 export default function AboutIntro() {
   const sectionRef = useRef(null);
@@ -65,7 +98,6 @@ export default function AboutIntro() {
       mm.add(
         {
           motion: "(prefers-reduced-motion: no-preference)",
-          desktop: "(min-width: 1001px)",
         },
         ({ conditions }) => {
           if (!conditions.motion) {
@@ -183,9 +215,7 @@ export default function AboutIntro() {
               yPercent: 9,
               ease: "none",
               scrollTrigger: {
-                // The frame is sticky on desktop, so drive the drift off the
-                // whole content block rather than the frame's own position.
-                trigger: conditions.desktop ? q(".about-body")[0] : frame,
+                trigger: frame,
                 start: "top bottom",
                 end: "bottom top",
                 scrub: true,
@@ -193,20 +223,33 @@ export default function AboutIntro() {
             }
           );
 
-          // --- Rows: each rule draws in as its row arrives. ----------------
-          q(".about-row").forEach((row) => {
-            gsap.fromTo(
-              row.querySelectorAll(":scope > .about-rule, .about-stat .about-rule"),
-              { scaleX: 0 },
-              {
-                scaleX: 1,
-                duration: 1.3,
-                stagger: 0.12,
-                ease: "expo.inOut",
-                scrollTrigger: { trigger: row, start: "top 85%", once: true },
-              }
-            );
-          });
+          // --- Lede: rises in whole. Splitting it into lines would re-flow
+          // the two-tone, indented paragraph and shift the cards below.
+          gsap.fromTo(
+            q(".about-lede"),
+            { y: 32, autoAlpha: 0 },
+            {
+              y: 0,
+              autoAlpha: 1,
+              duration: 1.1,
+              ease: "power3.out",
+              scrollTrigger: { trigger: q(".about-lede")[0], start: "top 90%", once: true },
+            }
+          );
+
+          // --- Cards: rise in as the grid arrives. --------------------------
+          gsap.fromTo(
+            q(".about-card"),
+            { y: 48, autoAlpha: 0 },
+            {
+              y: 0,
+              autoAlpha: 1,
+              duration: 1.1,
+              stagger: 0.08,
+              ease: "power3.out",
+              scrollTrigger: { trigger: q(".about-cards")[0], start: "top 85%", once: true },
+            }
+          );
 
           // --- Stats: count up from zero. ----------------------------------
           q(".about-stat-value").forEach((el) => {
@@ -269,7 +312,7 @@ export default function AboutIntro() {
         )}
       </h2>
 
-      {/* Image + rows */}
+      {/* Still on the left; lede and figure cards on the right */}
       <div className="about-body">
         <figure className="about-media">
           <div className="about-media-frame">
@@ -286,59 +329,52 @@ export default function AboutIntro() {
               </div>
             </div>
             <span className="about-media-grain" aria-hidden="true" />
-            <span className="about-media-tag" aria-hidden="true">
-              <i />
-              Shot by Plated Stories
-            </span>
-          </div>
-          <figcaption className="about-media-caption">
-            <Copy animateOnScroll={true} delay={0.2}>
+            <span className="about-media-plus" aria-hidden="true" />
+            <figcaption className="about-media-caption">
               <span>(Fig. 01)</span>
-            </Copy>
-            <Copy animateOnScroll={true} delay={0.3}>
               <span>{MEDIA_CAPTION}</span>
-            </Copy>
-          </figcaption>
+            </figcaption>
+          </div>
         </figure>
 
-        <div className="about-rows">
-          {ROWS.map((row) => (
-            <div className="about-row" key={row.tag}>
-              <span className="about-rule" aria-hidden="true" />
-              <Copy animateOnScroll={true}>
-                <p className="about-row-tag">{row.tag}</p>
-              </Copy>
-              <Copy animateOnScroll={true} delay={0.1}>
-                <p className="about-row-copy">{row.copy}</p>
-              </Copy>
+        <div className="about-content">
+          <div className="about-lede-block">
+            <p className="about-lede">
+              <span className="about-lede-lead">{LEDE.lead}</span> {LEDE.rest}
+            </p>
+          </div>
+
+          {/* Figures on top, what they stand for underneath. Screen readers
+              get each figure with its label; the figure cards are visual. */}
+          <div className="about-cards">
+            {STATS.map((stat, i) => (
+              <div className="about-card about-card--figure" key={stat.label} aria-hidden="true">
+                <span className="about-card-index">{pad(i + 1)}</span>
+                <p className="about-card-value about-stat-value" data-value={stat.value}>
+                  {pad(stat.value)}
+                </p>
+              </div>
+            ))}
+
+            <div className="about-card about-card--detail">
+              <p className="about-card-label">
+                <span className="about-sr">{STATS[0].value} </span>
+                {STATS[0].label}
+              </p>
+              <p className="about-card-copy">{DELIVERY_COPY}</p>
             </div>
-          ))}
 
-          <div className="about-row about-row--results">
-            <span className="about-rule" aria-hidden="true" />
-            <Copy animateOnScroll={true}>
-              <p className="about-row-tag">(=Results)</p>
-            </Copy>
-            <div className="about-results">
-              <dl className="about-stats">
-                {STATS.map((stat) => (
-                  <div className="about-stat" key={stat.label}>
-                    <dt>
-                      <i aria-hidden="true" />
-                      {stat.label}
-                    </dt>
-                    <dd className="about-stat-value" data-value={stat.value}>
-                      {pad(stat.value)}
-                    </dd>
-                    <span className="about-rule" aria-hidden="true" />
-                  </div>
+            <div className="about-card about-card--detail">
+              <p className="about-card-label">
+                <span className="about-sr">{STATS[1].value} </span>
+                {STATS[1].label}
+              </p>
+              <div className="about-card-logos" role="list" aria-label="Some of our clients">
+                {LOGOS.map((client) => (
+                  <span role="listitem" key={client.slug}>
+                    <ClientMark client={client} />
+                  </span>
                 ))}
-              </dl>
-
-              <div className="about-cta">
-                <Button href="/work" animateOnScroll={true} delay={0.2}>
-                  Explore our work
-                </Button>
               </div>
             </div>
           </div>

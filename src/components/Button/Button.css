@@ -14,7 +14,7 @@
   width: max-content;
   transform: translateY(0.1rem);
   color: var(--base-400);
-  font-family: "PP Pangram Sans";
+  font-family: "PP Neue Montreal", sans-serif;
   font-size: 1rem;
   font-weight: 900;
   -webkit-font-smoothing: antialiased;

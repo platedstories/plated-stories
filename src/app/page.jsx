@@ -6,8 +6,8 @@ import TeamCards from "@/components/TeamCards/TeamCards";
 import ClientReviews from "@/components/ClientReviews/ClientReviews";
 import Spotlight from "@/components/Spotlight/Spotlight";
 import BrandGallery from "@/components/BrandGallery/BrandGallery";
+import StudioStatement from "@/components/StudioStatement/StudioStatement";
 import CTACard from "@/components/CTACard/CTACard";
-import { optimizeImageUrl } from "@/lib/media-delivery";
 import Footer from "@/components/Footer/Footer";
 import Copy from "@/components/Copy/Copy";
 import Hero from "@/components/Hero/Hero";
@@ -29,65 +29,11 @@ const Page = () => {
       <Showreel />
 
       <div className="home-studio-section">
-        <section className="studio-header">
-          <div className="container">
-            <div className="studio-header-row">
-              <Copy delay={0.8}>
-                <h1>
-                  We are{" "}
-                  <span className="studio-brand-text">Plated Stories</span>
-                </h1>
-              </Copy>
-            </div>
+        <StudioStatement />
 
-            <div className="studio-header-tagline">
-              <Copy delay={1.05}>
-                <p>
-                  We craft visual stories for F&amp;B and lifestyle brands.
-                  <br />
-                  Strategy, production and storytelling, end to end.
-                </p>
-              </Copy>
-            </div>
-
-            <BrandGallery />
-          </div>
-        </section>
-
-        <section className="studio-copy">
-          <div className="container">
-            <div className="studio-copy-img">
-              <img src={optimizeImageUrl("/studio/studio-header.jpg", 1920)} alt="" loading="lazy" decoding="async" />
-            </div>
-
-            <Copy animateOnScroll={true}>
-              <p className="lg">
-                We are a creative content agency specializing in
-                visual storytelling for F&amp;B and lifestyle brands. From
-                concept development and shoot planning to production, editing and
-                content delivery, we manage the entire creative process
-                end-to-end. Our work combines strategy, creativity and
-                high-quality execution to create content that not only looks
-                beautiful but also communicates a brand&rsquo;s identity, engages
-                its audience and supports business growth. Whether it&rsquo;s a
-                cafe, restaurant, home baker, jewellery brand or interior design
-                studio, we help brands tell stories that people remember.
-              </p>
-
-              <p className="lg">
-                In a world overflowing with content, numbers alone aren&rsquo;t
-                enough. At Plated Stories, we combine premium production with
-                strategic storytelling to create content that resonates with
-                audiences and aligns with business goals. We don&rsquo;t believe
-                in creating content for the sake of posting &mdash; we focus on
-                crafting stories that build communities, strengthen brand
-                identity and drive meaningful engagement. Every project is
-                approached with creativity, attention to detail and a commitment
-                to delivering work that reflects the unique essence of the brand.
-              </p>
-            </Copy>
-          </div>
-        </section>
+        <div className="container">
+          <BrandGallery />
+        </div>
 
         <TeamCards />
       </div>

@@ -102,7 +102,7 @@ const Preloader = () => {
       const waitForFonts = async () => {
         try {
           await document.fonts.ready;
-          await document.fonts.check("16px DM Sans");
+          await document.fonts.load('700 16px "PP Neue Montreal"');
           await new Promise((resolve) => setTimeout(resolve, 100));
           return true;
         } catch (error) {

@@ -1,0 +1,77 @@
+/* ==========================================================================
+   Studio statement — one large statement on the page's own white, opened by
+   a small portrait still that the first line of type sits beside.
+   ========================================================================== */
+
+/* Even ~6rem of air on both sides: 6rem above, and below none of its own,
+   since the container (2rem) + Brand Gallery (4rem) padding that follow
+   already add up to 6rem. Same 2rem side inset as the .container sections,
+   so the Brand Gallery right below lines up with it. */
+.studio-statement {
+  --ss-pad: 2rem;
+  --ss-muted: rgba(26, 22, 20, 0.38);
+
+  position: relative;
+  padding: 6rem var(--ss-pad) 0;
+  background-color: var(--base-100);
+  color: var(--base-400);
+}
+
+/* Sized to set in three lines on desktop; the cap keeps it at three where
+   the 2000px max-width stops the measure growing with the viewport. */
+.studio-statement-text {
+  max-width: calc(2000px - 2 * var(--ss-pad));
+  margin: 0 auto;
+  text-transform: none;
+  font-family: "PP Neue Montreal", sans-serif;
+  font-weight: 500;
+  font-size: clamp(2rem, 4vw, 5rem);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  color: var(--base-400);
+}
+
+.studio-statement-muted {
+  color: var(--ss-muted);
+}
+
+/* Inline-block at the very start of the heading: with no text inside, its
+   bottom edge lands on the first line's baseline, so the type starts at the
+   still's bottom-right corner. */
+.studio-statement-media {
+  position: relative;
+  display: inline-block;
+  width: 12%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  vertical-align: baseline;
+  background-color: rgba(26, 22, 20, 0.06);
+}
+
+/* Zoomed into the rolls, which also keeps the photo's printed title out of
+   such a small frame. */
+.studio-statement-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.6);
+  transform-origin: 65% 80%;
+}
+
+.studio-statement-word {
+  will-change: opacity;
+}
+
+@media (max-width: 1000px) {
+  .studio-statement {
+    --ss-pad: 1.25rem;
+    padding-top: 4rem;
+  }
+
+  .studio-statement-media {
+    width: 26%;
+  }
+}

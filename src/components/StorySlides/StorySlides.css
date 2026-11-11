@@ -27,7 +27,7 @@
   color: var(--base-100);
   text-decoration: none;
   text-transform: uppercase;
-  font-family: "PP Pangram Sans";
+  font-family: "PP Neue Montreal", sans-serif;
   font-size: 0.9rem;
   font-weight: 900;
   -webkit-font-smoothing: antialiased;
@@ -146,7 +146,7 @@
 
 .stories .title-row h1 {
   text-transform: uppercase;
-  font-family: "DM Sans";
+  font-family: "PP Neue Montreal", sans-serif;
   font-weight: 900;
   line-height: 1;
 }
@@ -180,7 +180,7 @@
 
 .stories .stories-footer p {
   text-transform: uppercase;
-  font-family: "Geist Mono";
+  font-family: "PP Neue Montreal", sans-serif;
   font-size: 0.85rem;
   font-weight: 500;
   line-height: 1.15;

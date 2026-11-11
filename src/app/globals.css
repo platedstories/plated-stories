@@ -28,6 +28,7 @@ body {
 }
 
 body {
+  font-family: "PP Neue Montreal", sans-serif;
   background-color: var(--base-400);
   color: var(--base-400);
 }
@@ -37,7 +38,7 @@ h2,
 h3,
 h4 {
   text-transform: uppercase;
-  font-family: "DM Sans";
+  font-family: "PP Neue Montreal", sans-serif;
   font-weight: 900;
   line-height: 0.9;
   letter-spacing: -0.125rem;
@@ -79,7 +80,7 @@ p.sm,
 a.sm {
   text-decoration: none;
   text-transform: uppercase;
-  font-family: "Geist Mono";
+  font-family: "PP Neue Montreal", sans-serif;
   font-size: 0.85rem;
   font-weight: 500;
   line-height: 1.15;
@@ -89,7 +90,7 @@ a.sm {
 
 p.cap {
   text-transform: uppercase;
-  font-family: "PP Pangram Sans";
+  font-family: "PP Neue Montreal", sans-serif;
   font-size: 0.9rem;
   font-weight: 900;
   -webkit-font-smoothing: antialiased;
