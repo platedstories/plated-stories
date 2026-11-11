@@ -40,15 +40,15 @@ const SECTIONS = [
     marquee: true,
     copy: `The room in pieces ${EM} the seats, the pass and the plates that move between them.`,
     media: [
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1789021541/1._Conners_of_hive.mp4",
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1789021540/2._Serving_Now.mov",
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1789021535/3._Food_is_Art.mp4",
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1789021556/4._Soba_Noodles.mp4",
+      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
+      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
+      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
+      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
     ],
     // One reel was shot wide rather than vertical — it keeps its own ratio
     // instead of being cropped to match the rest of the strip.
     landscapeMedia: [
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1789021535/3._Food_is_Art.mp4",
+      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
     ],
   },
   {
@@ -60,12 +60,12 @@ const SECTIONS = [
     frame: "landscape",
     marquee: true,
     media: [
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1789022580/ewq.mp4",
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1789022578/dggd.mp4",
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1789022569/gj.mov",
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1789022568/hdfjk.mov",
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1789022563/ut.mov",
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1789022561/bv.mov",
+      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
+      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
+      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
+      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
+      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
+      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
     ],
   },
   {
@@ -74,11 +74,11 @@ const SECTIONS = [
     copy: `The slow half of the cafe ${EM} the reason people linger over a second order.`,
     marquee: true,
     media: [
-      "https://res.cloudinary.com/vaxfpcja/image/upload/v1789111825/Copy_of_Hive_Carousels_-_2_1.png",
-      "https://res.cloudinary.com/vaxfpcja/image/upload/v1789111825/Copy_of_Hive_Carousels_-_3_1.png",
-      "https://res.cloudinary.com/vaxfpcja/image/upload/v1789111825/Copy_of_Hive_Carousels_-_4_1.png",
-      "https://res.cloudinary.com/vaxfpcja/image/upload/v1789111826/Copy_of_Hive_Carousels_-_5_1.png",
-      "https://res.cloudinary.com/vaxfpcja/image/upload/v1789111825/Copy_of_Hive_Carousels_-_6_1.png",
+      "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
+      "https://ik.imagekit.io/platedstories/34.heic",
+      "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
+      "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
+      "https://ik.imagekit.io/platedstories/2.heic",
     ],
   },
 ];
@@ -235,7 +235,7 @@ const HiveCafe = ({ name, next }) => {
               previews the whole study. */}
           <div className="hv-hero-strip" aria-hidden="true">
             {HERO_FRAMES.map((src, i) => (
-              <div className={`hv-tile hv-hero-tile--${i + 1}`} key={src}>
+              <div className={`hv-tile hv-hero-tile--${i + 1}`} key={`${src}-${i}`}>
                 {isVideo(src) ? (
                   <OptimizedVideo src={src} width={720} autoPlay muted loop playsInline eager />
                 ) : (

@@ -1,6 +1,7 @@
 // Helpers shared by every case-study part. The media lists mix stills and
 // reels, and the file extension is the only thing that tells them apart.
-export const isVideo = (src) => /\.(mp4|webm|mov)$/i.test(src);
+// The extension may be followed by a query, e.g. an ImageKit `?tr=...`.
+export const isVideo = (src) => /\.(mp4|webm|mov)(?:[?#]|$)/i.test(src);
 
 export const slugify = (name) =>
   name

@@ -10,19 +10,19 @@
 // shared Cloudinary studio pool, so a project only needs `images` swapped
 // for its own stills once its Drive folder is exported.
 const STUDIO_POOL = [
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1788374646/4.png",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1788374646/2.png",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1788374646/5.png",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1788375825/as.png",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1788375825/er.png",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1788375825/2d.png",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1788381159/cghbjh.png",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1788381159/xfgcfhgh.png",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1788982241/sdg.png",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1788982239/grd.png",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1788982240/gdh.png",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1789114058/vghbxjk.jpg",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1789114058/gfecbwhdjkcdw.jpg",
+  "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
+  "https://ik.imagekit.io/platedstories/34.heic",
+  "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
+  "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
+  "https://ik.imagekit.io/platedstories/2.heic",
+  "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
+  "https://ik.imagekit.io/platedstories/34.heic",
+  "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
+  "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
+  "https://ik.imagekit.io/platedstories/2.heic",
+  "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
+  "https://ik.imagekit.io/platedstories/34.heic",
+  "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
 ];
 
 const previews = (offset) => [
@@ -54,46 +54,46 @@ const categoriesData = [
         name: "Baked by Nini's",
         images: previews(1),
         heroVideo:
-          "https://res.cloudinary.com/vaxfpcja/video/upload/v1788365967/1._Monsoon_Vibe.mp4",
+          "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
       },
       {
         name: "Cafe Srinivasa",
         images: [
-          "https://res.cloudinary.com/vaxfpcja/image/upload/v1788374078/1_1.png",
-          "https://res.cloudinary.com/vaxfpcja/image/upload/v1789768231/2_1.jpg",
-          "https://res.cloudinary.com/vaxfpcja/image/upload/v1788374646/3.png",
+          "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
+          "https://ik.imagekit.io/platedstories/2.heic",
+          "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
         ],
       },
       {
         name: "Cafe Toh",
         images: [
-          "https://res.cloudinary.com/vaxfpcja/image/upload/v1788380469/vewcbj.png",
-          "https://res.cloudinary.com/vaxfpcja/image/upload/v1788380469/hebdcks.png",
-          "https://res.cloudinary.com/vaxfpcja/image/upload/v1788380468/vehbkj.png",
+          "https://ik.imagekit.io/platedstories/34.heic",
+          "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
+          "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
         ],
       },
       {
         name: "Dine & Discover",
         images: [
-          "https://res.cloudinary.com/vaxfpcja/image/upload/v1788982241/gjhv.png",
-          "https://res.cloudinary.com/vaxfpcja/image/upload/v1788982241/fdxgch.png",
-          "https://res.cloudinary.com/vaxfpcja/image/upload/v1788982241/hg.png",
+          "https://ik.imagekit.io/platedstories/2.heic",
+          "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
+          "https://ik.imagekit.io/platedstories/34.heic",
         ],
       },
       {
         name: "Hive Cafe",
         images: [
-          "https://res.cloudinary.com/vaxfpcja/image/upload/v1789111825/Copy_of_Hive_Carousels_-_2_1.png",
-          "https://res.cloudinary.com/vaxfpcja/image/upload/v1789111825/Copy_of_Hive_Carousels_-_3_1.png",
-          "https://res.cloudinary.com/vaxfpcja/image/upload/v1789111825/Copy_of_Hive_Carousels_-_4_1.png",
+          "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
+          "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
+          "https://ik.imagekit.io/platedstories/2.heic",
         ],
       },
       {
         name: "Home Bakers",
         images: [
-          "https://res.cloudinary.com/vaxfpcja/image/upload/v1789114054/bdshc.jpg",
-          "https://res.cloudinary.com/vaxfpcja/image/upload/v1789114059/evgbjwhk.jpg",
-          "https://res.cloudinary.com/vaxfpcja/image/upload/v1789114059/vycgxjbhns.jpg",
+          "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
+          "https://ik.imagekit.io/platedstories/34.heic",
+          "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
         ],
       },
       { name: "Love & Flour", images: previews(19) },

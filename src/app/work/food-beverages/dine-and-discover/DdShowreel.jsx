@@ -31,8 +31,6 @@ const DdShowreel = ({ media = [], label }) => {
   const [isMuted, setIsMuted] = useState(true);
   const [inView, setInView] = useState(true);
 
-  const current = media[index];
-
   // Advance the sequence. A timeout per frame rather than one interval, so
   // stills and reels can hold for different lengths.
   useEffect(() => {
@@ -50,17 +48,18 @@ const DdShowreel = ({ media = [], label }) => {
   // this page carries enough reels that letting them all run would decode a
   // dozen streams at once.
   useEffect(() => {
-    Object.entries(videoRefs.current).forEach(([src, video]) => {
+    // Keyed by position, not URL: the same file can appear more than once.
+    Object.entries(videoRefs.current).forEach(([i, video]) => {
       if (!video) return;
 
-      if (src === current && inView) {
+      if (Number(i) === index && inView) {
         video.currentTime = 0;
         video.play().catch(() => {});
       } else if (!video.paused) {
         video.pause();
       }
     });
-  }, [current, inView]);
+  }, [index, inView]);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -156,13 +155,13 @@ const DdShowreel = ({ media = [], label }) => {
             className={`dd-showreel-layer${
               i === index ? " dd-showreel-layer--active" : ""
             }`}
-            key={src}
+            key={`${src}-${i}`}
             aria-hidden={i !== index}
           >
             {isVideo(src) ? (
               <video
                 ref={(el) => {
-                  videoRefs.current[src] = el;
+                  videoRefs.current[i] = el;
                 }}
                 src={shouldPrime ? optimizeVideoUrl(src, 1920) : undefined}
                 muted={isMuted}

@@ -105,7 +105,7 @@ const SeriesSection = ({ item, index, dark, label = "Series", onOpen }) => {
           >
             {item.media.map((src, j) => (
               <MediaFrame
-                key={src}
+                key={`${src}-${j}`}
                 src={src}
                 label={`${item.name} ${j + 1}`}
                 onOpen={onOpen ? () => onOpen(j) : undefined}

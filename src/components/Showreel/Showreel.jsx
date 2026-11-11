@@ -10,25 +10,10 @@ import { optimizeImageUrl, optimizeVideoUrl } from "@/lib/media-delivery";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
+// Each entry appears once: frames are tracked by URL.
 const PROJECT_REELS = [
-  "https://res.cloudinary.com/vaxfpcja/video/upload/v1788365967/1._Monsoon_Vibe.mp4",
-  "https://res.cloudinary.com/vaxfpcja/video/upload/v1788378603/6._Cult_Favourite.mp4",
-  "https://res.cloudinary.com/vaxfpcja/video/upload/v1788378600/7._Idli_Making.mp4",
-  "https://res.cloudinary.com/vaxfpcja/video/upload/v1788378596/2._Dal_Vada.mp4",
-  "https://res.cloudinary.com/vaxfpcja/video/upload/v1788378572/10._Thali.mp4",
-  "https://res.cloudinary.com/vaxfpcja/video/upload/v1788378571/8._Benne_Dosa.mp4",
-  "https://res.cloudinary.com/vaxfpcja/video/upload/v1788377446/1._Mulbagal_Dosa.mp4",
-  "https://res.cloudinary.com/vaxfpcja/video/upload/v1788413984/eyi.mp4",
-  "https://res.cloudinary.com/vaxfpcja/video/upload/v1788413980/eiruo.mp4",
-  "https://res.cloudinary.com/vaxfpcja/video/upload/v1788413967/xfgfchvgj.mp4",
-  "https://res.cloudinary.com/vaxfpcja/video/upload/v1788413967/rwe.mp4",
-  "https://res.cloudinary.com/vaxfpcja/video/upload/v1789021541/1._Conners_of_hive.mp4",
-  "https://res.cloudinary.com/vaxfpcja/video/upload/v1789021540/2._Serving_Now.mov",
-  "https://res.cloudinary.com/vaxfpcja/video/upload/v1789021535/3._Food_is_Art.mp4",
-  "https://res.cloudinary.com/vaxfpcja/video/upload/v1789021556/4._Soba_Noodles.mp4",
-  "https://res.cloudinary.com/vaxfpcja/video/upload/v1789114078/1._Hamper.mp4",
-  "https://res.cloudinary.com/vaxfpcja/video/upload/v1789114071/1._DIY.mp4",
-  "https://res.cloudinary.com/vaxfpcja/video/upload/v1789114064/2._Cake_Canvas.mp4",
+  "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
+  "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
 ];
 
 const SHOWREEL_IMAGES = [
@@ -39,13 +24,13 @@ const SHOWREEL_IMAGES = [
   "https://ik.imagekit.io/platedstories/2.heic",
 ];
 
-// The stills are spread evenly through the reels, opening on one: a still,
-// a run of reels, the next still, and so on.
-const REELS_PER_STILL = Math.ceil(PROJECT_REELS.length / SHOWREEL_IMAGES.length);
-const PROJECT_SHOWREEL_MEDIA = PROJECT_REELS.flatMap((reel, i) => {
-  const still =
-    i % REELS_PER_STILL === 0 ? SHOWREEL_IMAGES[i / REELS_PER_STILL] : null;
-  return still ? [still, reel] : [reel];
+// The reels are spread evenly through the stills, opening on a still:
+// a run of stills, a reel, the next run, and so on.
+const STILLS_PER_REEL = Math.ceil(SHOWREEL_IMAGES.length / (PROJECT_REELS.length + 1));
+const PROJECT_SHOWREEL_MEDIA = SHOWREEL_IMAGES.flatMap((still, i) => {
+  const reel =
+    (i + 1) % STILLS_PER_REEL === 0 ? PROJECT_REELS[(i + 1) / STILLS_PER_REEL - 1] : null;
+  return reel ? [still, reel] : [still];
 });
 
 const STILL_MS = 2200;

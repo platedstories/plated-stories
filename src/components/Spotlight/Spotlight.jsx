@@ -16,22 +16,22 @@ import { optimizeImageUrl } from "@/lib/media-delivery";
 // media, in place of the generic placeholder art that used to live in
 // /public/spotlight — the marquee now previews the actual work.
 const SPOTLIGHT_MEDIA = [
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1788374646/4.png",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1788374646/2.png",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1788374646/5.png",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1788375825/as.png",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1788375825/er.png",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1788375825/2d.png",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1788381159/cghbjh.png",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1788381159/xfgcfhgh.png",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1788982241/sdg.png",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1788982239/grd.png",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1788982240/gdh.png",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1789114058/vghbxjk.jpg",
-  "https://res.cloudinary.com/vaxfpcja/image/upload/v1789114058/gfecbwhdjkcdw.jpg",
-  "https://res.cloudinary.com/vaxfpcja/video/upload/v1788365967/1._Monsoon_Vibe.mp4",
-  "https://res.cloudinary.com/vaxfpcja/video/upload/v1788378603/6._Cult_Favourite.mp4",
-  "https://res.cloudinary.com/vaxfpcja/video/upload/v1789114078/1._Hamper.mp4",
+  "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
+  "https://ik.imagekit.io/platedstories/34.heic",
+  "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
+  "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
+  "https://ik.imagekit.io/platedstories/2.heic",
+  "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
+  "https://ik.imagekit.io/platedstories/34.heic",
+  "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
+  "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
+  "https://ik.imagekit.io/platedstories/2.heic",
+  "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
+  "https://ik.imagekit.io/platedstories/34.heic",
+  "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
+  "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
+  "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
+  "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
 ];
 
 const SpotlightImage = ({ number }) => {

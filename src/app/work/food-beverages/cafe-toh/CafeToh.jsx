@@ -41,10 +41,10 @@ const SECTIONS = [
     marquee: true,
     copy: `The room and the people who make it ${EM} work on the walls set against the hands that plate, pour and serve.`,
     media: [
-      "https://res.cloudinary.com/vaxfpcja/image/upload/v1788380469/vewcbj.png",
-      "https://res.cloudinary.com/vaxfpcja/image/upload/v1788380469/hebdcks.png",
-      "https://res.cloudinary.com/vaxfpcja/image/upload/v1788380468/vehbkj.png",
-      "https://res.cloudinary.com/vaxfpcja/image/upload/v1788380468/wiuer.png",
+      "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
+      "https://ik.imagekit.io/platedstories/34.heic",
+      "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
+      "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
     ],
   },
   {
@@ -53,11 +53,11 @@ const SECTIONS = [
     marquee: true,
     copy: `The orders regulars don${RSQUO}t need the menu for, shot to earn the second visit.`,
     media: [
-      "https://res.cloudinary.com/vaxfpcja/image/upload/v1788381159/cghbjh.png",
-      "https://res.cloudinary.com/vaxfpcja/image/upload/v1788381159/xfgcfhgh.png",
-      "https://res.cloudinary.com/vaxfpcja/image/upload/v1788381158/fgchvbh.png",
-      "https://res.cloudinary.com/vaxfpcja/image/upload/v1788381158/srdgfh.png",
-      "https://res.cloudinary.com/vaxfpcja/image/upload/v1788381158/tcfvghbj.png",
+      "https://ik.imagekit.io/platedstories/2.heic",
+      "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
+      "https://ik.imagekit.io/platedstories/34.heic",
+      "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
+      "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
     ],
   },
   {
@@ -69,10 +69,10 @@ const SECTIONS = [
     frame: "landscape",
     marquee: true,
     media: [
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1788413984/eyi.mp4",
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1788413980/eiruo.mp4",
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1788413967/xfgfchvgj.mp4",
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1788413967/rwe.mp4",
+      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
+      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
+      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
+      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
     ],
   },
   {
@@ -83,10 +83,10 @@ const SECTIONS = [
     frame: "landscape",
     marquee: true,
     media: [
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1788978442/dbhsq.mov",
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1788978440/oyi.mov",
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1788978439/ewvfg.mp4",
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1788978439/piot.mov",
+      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
+      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
+      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
+      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
     ],
   },
   {
@@ -95,12 +95,12 @@ const SECTIONS = [
     copy: `Off-menu today, gone tomorrow ${EM} the board shot as fast as it turns over.`,
     marquee: true,
     media: [
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1788980212/14._Chole_Kulcha_Waffle.mp4",
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1788980211/13._Drinks.mov",
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1788980172/7._Sourdough_Sandwiches.mp4",
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1788980168/6._Blueberry_Matcha.mp4",
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1788979088/3._Matcha.mp4",
-      "https://res.cloudinary.com/vaxfpcja/video/upload/v1788979086/4._Sunday_Orders.mp4",
+      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
+      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
+      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
+      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
+      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
+      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
     ],
   },
 ];
@@ -257,7 +257,7 @@ const CafeToh = ({ name, next }) => {
               previews the whole study. */}
           <div className="toh-hero-strip" aria-hidden="true">
             {HERO_FRAMES.map((src, i) => (
-              <div className={`toh-tile toh-hero-tile--${i + 1}`} key={src}>
+              <div className={`toh-tile toh-hero-tile--${i + 1}`} key={`${src}-${i}`}>
                 {isVideo(src) ? (
                   <OptimizedVideo src={src} width={720} autoPlay muted loop playsInline eager />
                 ) : (
