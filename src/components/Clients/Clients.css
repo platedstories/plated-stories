@@ -44,7 +44,7 @@
 
 .home-clients-title,
 .home-clients-years {
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-primary);
   font-size: 1.15rem;
   font-weight: 500;
   line-height: 1;
@@ -176,14 +176,14 @@
 
 /* Wordmark styles, assigned per client in clientBranding.js. */
 .home-clients-logo--heavy {
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-secondary);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: -0.05em;
 }
 
 .home-clients-logo--serif {
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-primary);
   font-style: italic;
   font-weight: 400;
   font-size: clamp(1.15rem, 1.6vw, 2rem);
@@ -191,14 +191,14 @@
 }
 
 .home-clients-logo--rounded {
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-primary);
   font-weight: 800;
   text-transform: lowercase;
   letter-spacing: -0.04em;
 }
 
 .home-clients-logo--wide {
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-primary);
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.28em;
@@ -206,7 +206,7 @@
 }
 
 .home-clients-logo--mono {
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-primary);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;

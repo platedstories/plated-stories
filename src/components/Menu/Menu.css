@@ -50,7 +50,7 @@ nav .nav-links .nav-link {
   padding: 0;
   margin: 0;
   line-height: 1;
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-secondary);
   font-weight: 700;
   letter-spacing: 0;
   color: var(--base-400) !important;
@@ -110,7 +110,7 @@ nav .nav-dropdown-inner {
 nav .nav-dropdown-link {
   padding: 0.55rem 0.75rem;
   border-radius: 0.35rem;
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-secondary);
   font-weight: 700;
   font-size: 0.85rem;
   letter-spacing: 0;

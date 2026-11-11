@@ -139,7 +139,7 @@
   align-items: flex-end;
   /* Undo the global uppercase/black heading style. */
   text-transform: none;
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-secondary);
   font-weight: 700;
   letter-spacing: 0;
   line-height: 1;
@@ -221,7 +221,7 @@
 .home-hero-services-label {
   display: block;
   margin-bottom: 1rem;
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-primary);
   font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.1rem;
@@ -241,7 +241,7 @@
   overflow: hidden;
   text-decoration: none;
   color: var(--hh-ink);
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-primary);
   font-size: clamp(1.05rem, 1.2vw, 1.6rem);
   font-weight: 500;
   line-height: 1.25;
@@ -344,7 +344,7 @@
   /* Shown by Hero.jsx once it has been split into words, so it never
      flashes in whole before the intro. */
   visibility: hidden;
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-primary);
   font-size: clamp(1.15rem, 1.45vw, 1.9rem);
   font-weight: 500;
   line-height: 1.2;
@@ -377,7 +377,7 @@
   grid-area: legal;
   align-self: end;
   justify-self: end;
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-primary);
   font-size: 1rem;
   font-weight: 500;
   color: var(--hh-ink);
@@ -457,7 +457,7 @@
   background-color: var(--base-400);
   color: var(--base-100);
   text-decoration: none;
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-primary);
   font-size: 0.9rem;
   font-weight: 500;
   transition: background-color 0.3s ease;

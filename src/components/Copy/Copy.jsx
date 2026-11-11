@@ -20,6 +20,7 @@ export default function Copy({ children, animateOnScroll = true, delay = 0 }) {
 
       const customFonts = [
         "PP Neue Montreal",
+        "Ariane Coachella",
       ];
       // `document.fonts.check()` returns a plain boolean, not a promise —
       // wrapping it in Promise.all didn't actually wait for anything, so

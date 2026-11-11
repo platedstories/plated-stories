@@ -23,7 +23,7 @@
   max-width: calc(2000px - 2 * var(--ss-pad));
   margin: 0 auto;
   text-transform: none;
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-primary);
   font-weight: 500;
   font-size: clamp(2rem, 4vw, 5rem);
   line-height: 0.98;

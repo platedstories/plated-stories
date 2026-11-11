@@ -20,7 +20,7 @@
 .bbn-case .bbn-chapter-title,
 .bbn-case .bbn-outcome-title,
 .bbn-case .bbn-closing-title {
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-secondary);
   font-weight: 900;
   text-transform: uppercase;
   line-height: 0.9;

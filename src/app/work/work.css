@@ -25,11 +25,11 @@
   padding: 7.5rem 2rem 2rem;
   background-color: var(--wi-paper);
   color: var(--wi-ink);
-  font-family: "PP Neue Montreal";
+  font-family: var(--font-primary);
 }
 
 .work-index .wi-mono {
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-primary);
   text-transform: uppercase;
   font-size: 0.8rem;
   font-weight: 500;
@@ -411,7 +411,7 @@
 }
 
 .wi-stage-name {
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-secondary);
   font-weight: 900;
   text-transform: uppercase;
   font-size: clamp(1.25rem, 2vw, 2.25rem);

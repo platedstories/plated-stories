@@ -4,6 +4,9 @@
   --base-100: #ffffff;
   --base-400: #1a1614;
   --base-500: #e84e38;
+
+  --font-primary: "PP Neue Montreal", sans-serif;
+  --font-secondary: "Ariane Coachella", "PP Neue Montreal", sans-serif;
 }
 
 * {
@@ -28,7 +31,7 @@ body {
 }
 
 body {
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-primary);
   background-color: var(--base-400);
   color: var(--base-400);
 }
@@ -38,7 +41,7 @@ h2,
 h3,
 h4 {
   text-transform: uppercase;
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-secondary);
   font-weight: 900;
   line-height: 0.9;
   letter-spacing: -0.125rem;
@@ -64,7 +67,7 @@ h4 {
 }
 
 p {
-  font-family: "PP Neue Montreal";
+  font-family: var(--font-primary);
   font-size: 1.25rem;
   font-weight: 400;
   line-height: 1.2;
@@ -80,7 +83,7 @@ p.sm,
 a.sm {
   text-decoration: none;
   text-transform: uppercase;
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-primary);
   font-size: 0.85rem;
   font-weight: 500;
   line-height: 1.15;
@@ -90,7 +93,7 @@ a.sm {
 
 p.cap {
   text-transform: uppercase;
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-primary);
   font-size: 0.9rem;
   font-weight: 900;
   -webkit-font-smoothing: antialiased;

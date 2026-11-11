@@ -102,7 +102,7 @@ const Preloader = () => {
       const waitForFonts = async () => {
         try {
           await document.fonts.ready;
-          await document.fonts.load('700 16px "PP Neue Montreal"');
+          await document.fonts.load('800 16px "Ariane Coachella"');
           await new Promise((resolve) => setTimeout(resolve, 100));
           return true;
         } catch (error) {

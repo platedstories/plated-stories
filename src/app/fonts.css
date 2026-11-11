@@ -1,5 +1,13 @@
-/* PP Neue Montreal is the site's only typeface. Weights above 700 (the
-   900 headings) resolve to Bold, the heaviest face available. */
+/* Type system
+   - Primary   PP Neue Montreal: body copy, labels, UI (400 / 500 / 700).
+   - Secondary Ariane Coachella: display type (h1-h4, hero wordmark, nav,
+     preloader, spotlight, case-study headlines). Requests for 900 resolve
+     to ExtraBold (800), the heaviest face shipped.
+   Use the --font-primary / --font-secondary tokens (globals.css :root)
+   rather than naming a family directly. Family names must stay literal
+   here: @font-face cannot read custom properties. */
+
+/* ---- Primary: PP Neue Montreal ---- */
 @font-face {
   font-family: "PP Neue Montreal";
   src: url("/fonts/neue-montral/PPNeueMontreal-Regular.woff2") format("woff2");
@@ -21,5 +29,78 @@
   src: url("/fonts/neue-montral/PPNeueMontreal-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
+  font-display: swap;
+}
+
+/* ---- Secondary: Ariane Coachella ---- */
+@font-face {
+  font-family: "Ariane Coachella";
+  src: url("/fonts/ariane-coachella/ArianeCoachella-Thin.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ariane Coachella";
+  src: url("/fonts/ariane-coachella/ArianeCoachella-ThinItalic.woff2") format("woff2");
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ariane Coachella";
+  src: url("/fonts/ariane-coachella/ArianeCoachella-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ariane Coachella";
+  src: url("/fonts/ariane-coachella/ArianeCoachella-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ariane Coachella";
+  src: url("/fonts/ariane-coachella/ArianeCoachella-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ariane Coachella";
+  src: url("/fonts/ariane-coachella/ArianeCoachella-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ariane Coachella";
+  src: url("/fonts/ariane-coachella/ArianeCoachella-BoldItalic.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ariane Coachella";
+  src: url("/fonts/ariane-coachella/ArianeCoachella-ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ariane Coachella";
+  src: url("/fonts/ariane-coachella/ArianeCoachella-ExtraBoldItalic.woff2") format("woff2");
+  font-weight: 800;
+  font-style: italic;
   font-display: swap;
 }

@@ -56,7 +56,7 @@
 
 .spotlight .marquee-img-item h1 {
   text-transform: uppercase;
-  font-family: "PP Neue Montreal", sans-serif;
+  font-family: var(--font-secondary);
   font-weight: 900;
   font-size: 4.25rem;
   line-height: 0.9;
