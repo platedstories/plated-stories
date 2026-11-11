@@ -46,8 +46,6 @@ const SECTIONS = [
       "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
       "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
       "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
-      // Source exports are HEIC — swapped to .jpg so Cloudinary re-encodes
-      // them, since browsers can't render HEIC in an <img>.
       "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
       "https://ik.imagekit.io/platedstories/34.heic",
       "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
@@ -68,10 +66,6 @@ const SECTIONS = [
       "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
       "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
       "https://ik.imagekit.io/platedstories/2.heic",
-      // This one HEIC is grid-tiled — a plain extension swap fails to
-      // re-encode it (Cloudinary error: "Cannot read grid descriptor"), so
-      // it needs the f_auto transform instead, kept on its original .heic
-      // path.
       "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
       "https://ik.imagekit.io/platedstories/34.heic",
     ],

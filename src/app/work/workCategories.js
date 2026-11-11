@@ -1,28 +1,17 @@
 // The three niches we shoot for, and the client projects under each.
 // Mirrors the "Plated Stories - Portfolio" Drive structure.
 //
-// NOTE ON IMAGERY: `previews` used to point at /public/loader/loader-N.jpg,
-// placeholders that were never actually added to /public — every folder
-// preview on /work 404'd. Projects with their own case-study page (Cafe
-// Srinivasa, Cafe Toh, Hive Cafe, Home Bakers, Dine & Discover) now get three
-// real stills pulled straight from that page's own media. Everything else
-// (no case-study media exported yet) falls back to a rotating slice of the
-// shared Cloudinary studio pool, so a project only needs `images` swapped
-// for its own stills once its Drive folder is exported.
+// NOTE ON IMAGERY: the original project media lived on a previous host
+// that has since been disabled. Until each project's own ImageKit links are
+// in, every project (and the case-study pages) uses stand-ins from the media
+// already on ImageKit: a rotating slice of STUDIO_POOL for `images`. Swap a
+// project's `images` for its own stills as they're uploaded.
 const STUDIO_POOL = [
   "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
   "https://ik.imagekit.io/platedstories/34.heic",
   "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
   "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
   "https://ik.imagekit.io/platedstories/2.heic",
-  "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-  "https://ik.imagekit.io/platedstories/34.heic",
-  "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
-  "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
-  "https://ik.imagekit.io/platedstories/2.heic",
-  "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-  "https://ik.imagekit.io/platedstories/34.heic",
-  "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
 ];
 
 const previews = (offset) => [

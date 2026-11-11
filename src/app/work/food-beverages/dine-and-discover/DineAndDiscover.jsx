@@ -52,8 +52,6 @@ const GALLERY = {
     "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
     "https://ik.imagekit.io/platedstories/2.heic",
     "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-    // Source exports are HEIC — swapped to .jpg so Cloudinary re-encodes
-    // them, since browsers can't render HEIC in an <img>.
     "https://ik.imagekit.io/platedstories/34.heic",
     "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
     "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
