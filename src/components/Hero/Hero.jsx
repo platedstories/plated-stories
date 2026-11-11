@@ -328,19 +328,6 @@ export default function Hero() {
           0.6
         )
         .fromTo(
-          ".home-hero-mark",
-          { scale: 0, rotate: -90, autoAlpha: 0 },
-          {
-            scale: 1,
-            rotate: 0,
-            autoAlpha: 1,
-            duration: 0.8,
-            stagger: 0.08,
-            ease: "power3.out",
-          },
-          0.8
-        )
-        .fromTo(
           ".home-hero-services-label, .home-hero-service-inner",
           { yPercent: 110 },
           { yPercent: 0, duration: 0.9, stagger: 0.07, ease: "power4.out" },
@@ -596,12 +583,6 @@ export default function Hero() {
                 </li>
               ))}
             </ul>
-          </div>
-
-          <div className="home-hero-marks" aria-hidden="true">
-            {[0, 1, 2, 3].map((i) => (
-              <span className="home-hero-mark" key={i} />
-            ))}
           </div>
 
           <div className="home-hero-statement">

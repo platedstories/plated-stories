@@ -1,6 +1,6 @@
 /* Type system
-   - Primary   PP Neue Montreal: body copy, labels, UI (400 / 500 / 700).
-   - Secondary Ariane Coachella: display type (h1-h4, hero wordmark, nav,
+   - Primary   PP Neue Montreal: body copy, labels, UI, nav (400 / 500 / 700).
+   - Secondary Ariane Coachella: display type (h1-h4, hero wordmark,
      preloader, spotlight, case-study headlines). Requests for 900 resolve
      to ExtraBold (800), the heaviest face shipped.
    Use the --font-primary / --font-secondary tokens (globals.css :root)

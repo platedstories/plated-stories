@@ -50,20 +50,27 @@ nav .nav-links .nav-link {
   padding: 0;
   margin: 0;
   line-height: 1;
-  font-family: var(--font-secondary);
-  font-weight: 700;
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  font-weight: 500;
   letter-spacing: 0;
-  color: var(--base-400) !important;
+  /* Labels as written ("About Us"), not the uppercase `.sm` applies. */
+  text-transform: none;
+  color: var(--base-100) !important;
   cursor: pointer;
   transition: color 200ms ease;
 }
 
 nav .nav-links .nav-link:hover {
-  color: var(--base-100) !important;
+  color: var(--base-400) !important;
 }
 
+/* Flex, so the Projects link is laid out like its siblings rather than as
+   inline text on this wrapper's own (larger) line box, which sat it lower. */
 nav .nav-item {
   position: relative;
+  display: flex;
+  align-items: center;
   line-height: 1;
 }
 
@@ -110,20 +117,20 @@ nav .nav-dropdown-inner {
 nav .nav-dropdown-link {
   padding: 0.55rem 0.75rem;
   border-radius: 0.35rem;
-  font-family: var(--font-secondary);
-  font-weight: 700;
-  font-size: 0.85rem;
+  font-family: var(--font-primary);
+  font-weight: 500;
+  font-size: 1rem;
   letter-spacing: 0;
   text-decoration: none;
-  text-transform: uppercase;
+  text-transform: none;
   white-space: nowrap;
-  color: var(--base-400) !important;
+  color: var(--base-100) !important;
   cursor: pointer;
   transition: color 200ms ease, background-color 200ms ease;
 }
 
 nav .nav-dropdown-link:hover {
-  color: var(--base-100) !important;
+  color: var(--base-400) !important;
   background-color: color-mix(in srgb, var(--base-100) 15%, transparent);
 }
 

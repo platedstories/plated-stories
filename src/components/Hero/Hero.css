@@ -1,6 +1,6 @@
 /* ==========================================================================
    Home hero — inset rounded frame, full-bleed living backdrop, oversized
-   wordmark and a four-column grid whose column starts are marked with "+".
+   wordmark and a four-column grid.
    Everything is namespaced `home-hero` because the case-study pages already
    own a set of global `hero-*` classes.
    ========================================================================== */
@@ -119,12 +119,11 @@
   padding: 7.5rem var(--hh-pad) var(--hh-pad);
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-template-rows: auto 1fr auto auto;
+  grid-template-rows: auto 1fr auto;
   column-gap: var(--hh-gap);
   grid-template-areas:
     "word word word services"
     ".    .    .    ."
-    "marks marks marks marks"
     "copy copy legal card";
 }
 
@@ -293,46 +292,6 @@
   transform: translate(0, 0);
 }
 
-/* --- Column markers ------------------------------------------------------ */
-
-.home-hero-marks {
-  grid-area: marks;
-  display: grid;
-  grid-template-columns: subgrid;
-  margin-bottom: 1.25rem;
-}
-
-.home-hero-mark {
-  position: relative;
-  width: 1.1rem;
-  height: 1.1rem;
-  margin-left: -0.55rem;
-  opacity: 0.7;
-}
-
-.home-hero-mark::before,
-.home-hero-mark::after {
-  content: "";
-  position: absolute;
-  background-color: var(--hh-ink);
-}
-
-.home-hero-mark::before {
-  left: 50%;
-  top: 0;
-  width: 1.5px;
-  height: 100%;
-  transform: translateX(-50%);
-}
-
-.home-hero-mark::after {
-  top: 50%;
-  left: 0;
-  height: 1.5px;
-  width: 100%;
-  transform: translateY(-50%);
-}
-
 /* --- Bottom row ---------------------------------------------------------- */
 
 .home-hero-statement {
@@ -494,7 +453,6 @@
     grid-template-areas:
       "word word word services"
       ".    .    .    ."
-      "marks marks marks marks"
       "copy copy card card";
   }
 
@@ -554,7 +512,6 @@
     margin-bottom: 0.6rem;
   }
 
-  .home-hero-marks,
   .home-hero-copyright {
     display: none;
   }
