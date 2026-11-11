@@ -297,17 +297,20 @@
 .home-hero-statement {
   grid-area: copy;
   align-self: end;
-  max-width: 36rem;
 }
 
 .home-hero-statement p {
   /* Shown by Hero.jsx once it has been split into words, so it never
      flashes in whole before the intro. */
   visibility: hidden;
+  /* Set from a 1900px-wide artboard: 23px type on a 27px line, a ~111px
+     first-line indent and a ~605px measure, all scaling with the viewport
+     (in em, so they keep their proportion to the type). Never below 1rem. */
+  max-width: 26.3em;
   font-family: var(--font-primary);
-  font-size: clamp(1.15rem, 1.45vw, 1.9rem);
+  font-size: max(1rem, calc(23 * 100vw / 1900));
   font-weight: 500;
-  line-height: 1.2;
+  line-height: 1.17;
   letter-spacing: -0.015em;
   color: var(--hh-ink);
 }
@@ -326,7 +329,7 @@
    the indent applied and then strips it, which re-wraps the paragraph. */
 .home-hero-indent {
   display: inline-block;
-  width: 3.5em;
+  width: 4.8em;
 }
 
 .home-hero-muted {
