@@ -5,7 +5,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { LuVolumeX, LuVolume } from "react-icons/lu";
-import { workCategories } from "@/app/work/workCategories.js";
 import { isVideo } from "@/components/CaseStudy/media";
 import { optimizeImageUrl, optimizeVideoUrl } from "@/lib/media-delivery";
 
@@ -32,16 +31,22 @@ const PROJECT_REELS = [
   "https://res.cloudinary.com/vaxfpcja/video/upload/v1789114064/2._Cake_Canvas.mp4",
 ];
 
-const projects = workCategories.flatMap((category) => category.projects);
-const PROJECT_IMAGES = [0, 1, 2]
-  .flatMap((imageIndex) => projects.map((project) => project.images[imageIndex]))
-  .filter(Boolean)
-  .slice(0, PROJECT_REELS.length);
+const SHOWREEL_IMAGES = [
+  "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
+  "https://ik.imagekit.io/platedstories/34.heic",
+  "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
+  "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
+  "https://ik.imagekit.io/platedstories/2.heic",
+];
 
-const PROJECT_SHOWREEL_MEDIA = PROJECT_IMAGES.flatMap((image, index) => [
-  image,
-  PROJECT_REELS[index],
-]);
+// The stills are spread evenly through the reels, opening on one: a still,
+// a run of reels, the next still, and so on.
+const REELS_PER_STILL = Math.ceil(PROJECT_REELS.length / SHOWREEL_IMAGES.length);
+const PROJECT_SHOWREEL_MEDIA = PROJECT_REELS.flatMap((reel, i) => {
+  const still =
+    i % REELS_PER_STILL === 0 ? SHOWREEL_IMAGES[i / REELS_PER_STILL] : null;
+  return still ? [still, reel] : [reel];
+});
 
 const STILL_MS = 2200;
 const VIDEO_MS = 4000;
@@ -51,11 +56,33 @@ const Showreel = () => {
   const containerRef = useRef(null);
   const audioRef = useRef(null);
   const videoRefs = useRef({});
-  const [currentFrame, setCurrentFrame] = useState(0);
+  const [currentMedia, setCurrentMedia] = useState(PROJECT_SHOWREEL_MEDIA[0]);
+  // Frames whose file couldn't be loaded; the reel steps over them instead
+  // of holding an empty frame for its full duration.
+  const [failed, setFailed] = useState(() => new Set());
   const [isMuted, setIsMuted] = useState(true);
   const [inView, setInView] = useState(true);
-  const currentMedia = PROJECT_SHOWREEL_MEDIA[currentFrame];
-  const nextFrame = (currentFrame + 1) % PROJECT_SHOWREEL_MEDIA.length;
+
+  const followingMedia = (src) => {
+    const list = PROJECT_SHOWREEL_MEDIA;
+    const from = list.indexOf(src);
+    for (let step = 1; step <= list.length; step++) {
+      const candidate = list[(from + step) % list.length];
+      if (!failed.has(candidate)) return candidate;
+    }
+    return src;
+  };
+  const nextMedia = followingMedia(currentMedia);
+
+  const markFailed = (src) =>
+    setFailed((prev) => (prev.has(src) ? prev : new Set(prev).add(src)));
+
+  // The frame on screen failed: move on now.
+  useEffect(() => {
+    if (failed.has(currentMedia) && nextMedia !== currentMedia) {
+      setCurrentMedia(nextMedia);
+    }
+  }, [failed, currentMedia, nextMedia]);
 
   const toggleMute = () => {
     if (audioRef.current) {
@@ -69,18 +96,15 @@ const Showreel = () => {
   };
 
   useEffect(() => {
-    if (PROJECT_SHOWREEL_MEDIA.length < 2 || !inView) return;
+    if (nextMedia === currentMedia || !inView) return;
 
     const id = setTimeout(
-      () =>
-        setCurrentFrame((frame) =>
-          (frame + 1) % PROJECT_SHOWREEL_MEDIA.length
-        ),
+      () => setCurrentMedia(nextMedia),
       isVideo(currentMedia) ? VIDEO_MS : STILL_MS
     );
 
     return () => clearTimeout(id);
-  }, [currentFrame, currentMedia, inView]);
+  }, [currentMedia, nextMedia, inView]);
 
   useEffect(() => {
     Object.entries(videoRefs.current).forEach(([src, video]) => {
@@ -178,16 +202,19 @@ const Showreel = () => {
   return (
     <section className="showreel" ref={showreelSecRef}>
       <div className="showreel-container" ref={containerRef}>
-        {PROJECT_SHOWREEL_MEDIA.map((src, i) => {
-          const shouldPrime = i === currentFrame || i === nextFrame;
+        {PROJECT_SHOWREEL_MEDIA.map((src) => {
+          const isCurrent = src === currentMedia;
+          const shouldPrime =
+            !failed.has(src) && (isCurrent || src === nextMedia);
+          const onError = () => markFailed(src);
 
           return (
             <div
               className={`showreel-layer${
-                i === currentFrame ? " showreel-layer--active" : ""
+                isCurrent ? " showreel-layer--active" : ""
               }`}
-              key={`${src}-${i}`}
-              aria-hidden={i !== currentFrame}
+              key={src}
+              aria-hidden={!isCurrent}
             >
               {isVideo(src) ? (
                 <video
@@ -195,6 +222,7 @@ const Showreel = () => {
                     videoRefs.current[src] = el;
                   }}
                   src={shouldPrime ? optimizeVideoUrl(src, 1920) : undefined}
+                  onError={onError}
                   muted
                   loop
                   playsInline
@@ -203,8 +231,9 @@ const Showreel = () => {
               ) : (
                 <img
                   src={shouldPrime ? optimizeImageUrl(src, 1920) : undefined}
-                  alt={i === currentFrame ? "Project showreel" : ""}
+                  alt={isCurrent ? "Project showreel" : ""}
                   decoding="async"
+                  onError={onError}
                 />
               )}
             </div>

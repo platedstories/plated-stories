@@ -13,6 +13,16 @@ const addCloudinaryTransform = (src, marker, transform) => {
   return query ? `${optimized}?${query}` : optimized;
 };
 
+const IMAGEKIT_HOST = "ik.imagekit.io";
+
+// ImageKit transforms ride on the `tr` query parameter. A URL that already
+// carries its own `tr` is left as it is.
+const addImageKitTransform = (src, transform) => {
+  if (typeof src !== "string" || !src.includes(IMAGEKIT_HOST)) return src;
+  if (/[?&]tr=/.test(src)) return src;
+  return `${src}${src.includes("?") ? "&" : "?"}tr=${transform}`;
+};
+
 export const optimizeImageUrl = (src, width = 1600) => {
   if (typeof src !== "string") return src;
 
@@ -20,19 +30,18 @@ export const optimizeImageUrl = (src, width = 1600) => {
     return `/_next/image?url=${encodeURIComponent(src)}&w=${nextImageWidth(width)}&q=75`;
   }
 
+  // ImageKit picks AVIF/WebP per browser (which also turns HEIC uploads
+  // into something every browser can show) and caps the width without
+  // upscaling smaller originals (c-at_max).
+  if (src.includes(IMAGEKIT_HOST)) {
+    return addImageKitTransform(src, `w-${width},c-at_max,q-80`);
+  }
+
   return addCloudinaryTransform(
     src,
     CLOUDINARY_IMAGE_MARKER,
     `f_auto,q_auto:good,c_limit,w_${width}`
   );
-};
-
-const IMAGEKIT_HOST = "ik.imagekit.io";
-
-// ImageKit transforms ride on the `tr` query parameter.
-const addImageKitTransform = (src, transform) => {
-  if (typeof src !== "string" || !src.includes(IMAGEKIT_HOST)) return src;
-  return `${src}${src.includes("?") ? "&" : "?"}tr=${transform}`;
 };
 
 export const optimizeVideoUrl = (src, width = 1280) => {
