@@ -151,7 +151,7 @@
   display: block;
   font-size: var(--hh-wordmark);
   line-height: 0.78;
-  letter-spacing: -0.065em;
+  letter-spacing: -0.05em;
   /* Optical nudge — the P's stem otherwise sits right of the column edge. */
   margin-left: -0.055em;
 }
@@ -188,7 +188,8 @@
   font-size: calc(var(--hh-wordmark) * 0.27);
   font-weight: 600;
   line-height: 1;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.04em;
+  font-family: var(--font-primary);
   padding: 0 0.04em 0.08em 0;
 }
 
