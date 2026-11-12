@@ -11,6 +11,7 @@
 
 .showreel .showreel-container {
   position: relative;
+  z-index: 1;
   width: 100%;
   height: 100%;
   transform: scale(0.75);
@@ -41,8 +42,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 6.5rem;
-  height: 6.5rem;
+  width: 4rem;
+  height: 4rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,4 +51,67 @@
   border-radius: 100%;
   cursor: pointer;
   z-index: 2;
+}
+
+/* --- "SHOW CASE" ----------------------------------------------------------
+   Two identical copies of the words, laid out on the full section. The ink
+   copy sits behind the reel; the white copy sits inside it (Showreel.jsx
+   undoes the reel's scale on it), so the reel's frame clips the white copy
+   and each word turns white exactly where it crosses onto the picture.
+   GSAP slides the words in from the edges until they meet in the centre.
+   Font-size sits on the layer so the gap scales with the words: "SHOW CASE"
+   is ~5.5em wide in Ariane Coachella, so 8vw spans ~44% of the screen. */
+.showreel .showreel-words {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3em;
+  font-size: 8vw;
+  pointer-events: none;
+}
+
+.showreel .showreel-words--outer {
+  z-index: 0;
+  color: var(--base-400);
+}
+
+.showreel .showreel-words--inner {
+  z-index: 2;
+  color: var(--base-100);
+}
+
+.showreel .showreel-word {
+  font-family: var(--font-secondary);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.showreel .showreel-dim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-color: var(--base-400);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (min-width: 1000px) {
+  /* The words meet in the centre, so the mute button drops below them. */
+  .showreel .volume-icon {
+    transform: translate(-50%, calc(-50% + 3.5vw + 4.25rem));
+  }
+}
+
+@media (max-width: 999px) {
+  /* No scroll effect on small screens: the reel plays plain. */
+  .showreel .showreel-words,
+  .showreel .showreel-dim {
+    display: none;
+  }
 }

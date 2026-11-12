@@ -1,241 +1,209 @@
 "use client";
 import "./Footer.css";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { useViewTransition } from "@/hooks/useViewTransition";
 import { optimizeImageUrl } from "@/lib/media-delivery";
-import Button from "../Button/Button";
-import { IoMail } from "react-icons/io5";
 import Copy from "../Copy/Copy";
 
-gsap.registerPlugin(useGSAP);
+gsap.registerPlugin(useGSAP, ScrollTrigger);
+
+const NAV = [
+  { label: "Home", route: "/" },
+  { label: "About Us", route: "/about" },
+  { label: "Projects", route: "/work" },
+  { label: "Contact", route: "/contact" },
+];
+
+const SOCIALS = [
+  { label: "Instagram", href: "https://www.instagram.com/platedstories" },
+  { label: "Email", href: "mailto:hi@platedstories.com" },
+];
+
+const WORDMARK = "Plated Stories";
+
+// Hover text-roll shared with the hero: a duplicate waits below the label and
+// swaps in on hover.
+const Roll = ({ children }) => (
+  <span className="footer-roll">
+    <span>{children}</span>
+    <span aria-hidden="true">{children}</span>
+  </span>
+);
 
 const Footer = () => {
   const footerRef = useRef(null);
-  const explosionContainerRef = useRef(null);
-  const [torontoTime, setTorontoTime] = useState("");
+  const wordmarkRef = useRef(null);
+  const { navigateWithTransition } = useViewTransition();
+  const year = new Date().getFullYear();
 
-  const config = {
-    gravity: 0.25,
-    friction: 0.99,
-    imageSize: 300,
-    horizontalForce: 20,
-    verticalForce: 15,
-    rotationSpeed: 10,
-    resetDelay: 500,
+  const goTo = (route) => (e) => {
+    e.preventDefault();
+    if (window.location.pathname === route) return;
+    navigateWithTransition(route);
   };
 
-  const imageParticleCount = 10;
-  const imagePaths = Array.from(
-    { length: imageParticleCount },
-    (_, i) => optimizeImageUrl(`/objects/obj-${i + 1}.png`, 384)
-  );
-
-  useEffect(() => {
-    const updateTorontoTime = () => {
-      const options = {
-        timeZone: "America/Toronto",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false,
-      };
-
-      const formatter = new Intl.DateTimeFormat("en-US", options);
-      const torontoTimeString = formatter.format(new Date());
-      setTorontoTime(torontoTimeString);
-    };
-
-    updateTorontoTime();
-    const timeInterval = setInterval(updateTorontoTime, 1000);
-
-    return () => clearInterval(timeInterval);
-  }, []);
-
-  class Particle {
-    constructor(element) {
-      this.element = element;
-      this.x = 0;
-      this.y = 0;
-      this.vx = (Math.random() - 0.5) * config.horizontalForce;
-      this.vy = -config.verticalForce - Math.random() * 10;
-      this.rotation = 0;
-      this.rotationSpeed = (Math.random() - 0.5) * config.rotationSpeed;
-    }
-
-    update() {
-      this.vy += config.gravity;
-      this.vx *= config.friction;
-      this.vy *= config.friction;
-      this.rotationSpeed *= config.friction;
-      this.x += this.vx;
-      this.y += this.vy;
-      this.rotation += this.rotationSpeed;
-      this.element.style.transform = `translate(${this.x}px, ${this.y}px) rotate(${this.rotation}deg)`;
-    }
-  }
-
+  // The wordmark is set to exactly the footer's inner width, whatever the
+  // viewport: measure at a reference size, then scale linearly.
   useGSAP(
     () => {
-      let hasExploded = false;
-      let animationId;
-      let checkTimeout;
+      const mark = wordmarkRef.current;
+      if (!mark) return;
+      const text = mark.firstElementChild;
 
-      imagePaths.forEach((path) => {
-        const img = new Image();
-        img.src = path;
+      const fit = () => {
+        const available = mark.clientWidth;
+        if (!available) return;
+        text.style.fontSize = "100px";
+        const natural = text.getBoundingClientRect().width;
+        if (natural) text.style.fontSize = `${(100 * available) / natural}px`;
+      };
+
+      fit();
+      document.fonts?.ready.then(fit);
+      const observer = new ResizeObserver(fit);
+      observer.observe(mark);
+
+      // Letters rise out of the mask as the footer scrolls in.
+      const chars = mark.querySelectorAll(".footer-wordmark-char");
+      gsap.set(chars, { yPercent: 105 });
+      gsap.to(chars, {
+        yPercent: 0,
+        duration: 1.2,
+        ease: "power4.out",
+        stagger: 0.04,
+        scrollTrigger: { trigger: mark, start: "top 95%", once: true },
       });
 
-      const getComputedImageSize = () => {
-        const viewportWidth =
-          typeof window !== "undefined" ? window.innerWidth : 1200;
-        const viewportHeight =
-          typeof window !== "undefined" ? window.innerHeight : 800;
-        const baseOnWidth = Math.floor(viewportWidth * 0.18);
-        const baseOnHeight = Math.floor(viewportHeight * 0.22);
-        return Math.max(
-          300,
-          Math.min(config.imageSize, baseOnWidth, baseOnHeight)
-        );
-      };
-
-      const createParticles = () => {
-        if (!explosionContainerRef.current) return;
-        explosionContainerRef.current.innerHTML = "";
-
-        const particleSize = getComputedImageSize();
-        explosionContainerRef.current.style.setProperty(
-          "--particle-size",
-          `${particleSize}px`
-        );
-
-        imagePaths.forEach((path) => {
-          const particle = document.createElement("img");
-          particle.src = path;
-          particle.classList.add("explosion-particle-img");
-          explosionContainerRef.current.appendChild(particle);
-        });
-      };
-
-      const explode = () => {
-        if (hasExploded || !explosionContainerRef.current) return;
-
-        hasExploded = true;
-        createParticles();
-
-        const particleElements = explosionContainerRef.current.querySelectorAll(
-          ".explosion-particle-img"
-        );
-        const particles = Array.from(particleElements).map(
-          (element) => new Particle(element)
-        );
-
-        const animate = () => {
-          particles.forEach((particle) => particle.update());
-          animationId = requestAnimationFrame(animate);
-
-          if (
-            explosionContainerRef.current &&
-            particles.every(
-              (particle) =>
-                particle.y > explosionContainerRef.current.offsetHeight / 2
-            )
-          ) {
-            cancelAnimationFrame(animationId);
-          }
-        };
-
-        animate();
-      };
-
-      const checkFooterPosition = () => {
-        if (!footerRef.current) return;
-
-        const footerRect = footerRef.current.getBoundingClientRect();
-        const viewportHeight = window.innerHeight;
-
-        if (footerRect.top > viewportHeight + 100) {
-          hasExploded = false;
-        }
-
-        if (!hasExploded && footerRect.top <= viewportHeight + 250) {
-          explode();
-        }
-      };
-
-      createParticles();
-      setTimeout(checkFooterPosition, 500);
-
-      const scrollHandler = () => {
-        clearTimeout(checkTimeout);
-        checkTimeout = setTimeout(checkFooterPosition, 5);
-      };
-
-      const resizeHandler = () => {
-        const newSize = getComputedImageSize();
-        if (explosionContainerRef.current) {
-          explosionContainerRef.current.style.setProperty(
-            "--particle-size",
-            `${newSize}px`
-          );
-        }
-        hasExploded = false;
-      };
-
-      window.addEventListener("scroll", scrollHandler);
-      window.addEventListener("resize", resizeHandler);
-
-      return () => {
-        window.removeEventListener("scroll", scrollHandler);
-        window.removeEventListener("resize", resizeHandler);
-        clearTimeout(checkTimeout);
-        cancelAnimationFrame(animationId);
-        if (explosionContainerRef.current) {
-          explosionContainerRef.current.innerHTML = "";
-        }
-      };
+      return () => observer.disconnect();
     },
     { scope: footerRef }
   );
 
   return (
     <footer className="site-footer" ref={footerRef}>
-      <div className="container">
-        <div className="footer-header-content">
-          <div className="footer-header">
-            <Copy animateOnScroll={true} delay={0.2}>
-              <h1>Let's build something that feels alive</h1>
-            </Copy>
-          </div>
-          <div className="footer-link">
-            <Button
-              animateOnScroll={true}
-              delay={0.5}
-              variant="light"
-              icon={IoMail}
+      <div className="footer-inner">
+        {/* Column rules run the full height, behind the wordmark. */}
+        <div className="footer-rules" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </div>
+
+        <div className="footer-grid">
+          <span className="footer-cross footer-cross--tl" aria-hidden="true" />
+          <span className="footer-cross footer-cross--tr" aria-hidden="true" />
+          <span className="footer-cross footer-cross--bl" aria-hidden="true" />
+          <span className="footer-cross footer-cross--br" aria-hidden="true" />
+
+          {/* 1 — Brand */}
+          <div className="footer-col footer-brand">
+            <div className="footer-brand-top">
+              <a href="/" className="footer-logo" onClick={goTo("/")}>
+                <img
+                  src={optimizeImageUrl("/logo.png", 320)}
+                  alt="Plated Stories"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
+              <Copy animateOnScroll={true} delay={0.1}>
+                <p className="footer-statement">
+                  <span className="footer-muted">
+                    Visual content for restaurants, caf&eacute;s and lifestyle
+                    brands, built on
+                  </span>{" "}
+                  strategy, craft and storytelling.
+                </p>
+              </Copy>
+            </div>
+
+            <a
               href="/contact"
+              className="footer-row footer-row--cta"
+              onClick={goTo("/contact")}
             >
-              Say Hello
-            </Button>
+              <Roll>Start a project</Roll>
+              <span className="footer-arrow" aria-hidden="true">
+                &rarr;
+              </span>
+            </a>
+          </div>
+
+          {/* 2 — Navigation */}
+          <nav className="footer-col footer-nav" aria-label="Footer">
+            {NAV.map((item) => (
+              <a
+                key={item.route}
+                href={item.route}
+                className="footer-row"
+                onClick={goTo(item.route)}
+              >
+                <Roll>{item.label}</Roll>
+                <span className="footer-arrow" aria-hidden="true">
+                  &rarr;
+                </span>
+              </a>
+            ))}
+          </nav>
+
+          {/* 3 — Follow */}
+          <div className="footer-col footer-follow">
+            <p className="footer-label">Follow on</p>
+            <ul>
+              {SOCIALS.map((social) => (
+                <li key={social.label}>
+                  <a
+                    href={social.href}
+                    className="footer-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Roll>{social.label}</Roll>
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <p className="footer-label footer-label--spaced">Base</p>
+            <p className="footer-link footer-link--static">Mumbai, India</p>
+          </div>
+
+          {/* 4 — Statement + credits */}
+          <div className="footer-col footer-meta">
+            <Copy animateOnScroll={true} delay={0.2}>
+              <p className="footer-tagline">
+                We craft stories that people can taste.
+              </p>
+            </Copy>
+
+            <div className="footer-credits">
+              <p className="footer-label">
+                Developed by{" "}
+                <span className="footer-credits-name">Blue Moon Creatives</span>
+              </p>
+              <p className="footer-label">
+                &copy; {year}{" "}
+                <span className="footer-credits-name">Plated Stories</span>
+              </p>
+            </div>
           </div>
         </div>
-        <div className="footer-byline">
-          <div className="footer-time">
-            <p>
-              Toronto, ON <span>{torontoTime}</span>
-            </p>
-          </div>
 
-          <div className="footer-author">
-            <p>Developed by Blue Moon Creatives</p>
-          </div>
-
-          <div className="footer-copyright">
-            <p>&copy; Plated Stories</p>
-          </div>
+        <div className="footer-wordmark" ref={wordmarkRef} aria-hidden="true">
+          <span className="footer-wordmark-text">
+            {WORDMARK.split("").map((char, i) => (
+              <span className="footer-wordmark-mask" key={i}>
+                <span className="footer-wordmark-char">
+                  {char === " " ? " " : char}
+                </span>
+              </span>
+            ))}
+          </span>
         </div>
       </div>
-      <div className="explosion-container" ref={explosionContainerRef}></div>
     </footer>
   );
 };

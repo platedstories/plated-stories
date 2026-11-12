@@ -1,112 +1,398 @@
+/* ==========================================================================
+   Site footer — ruled four-column index over an oversized wordmark.
+   Colours, type and the hover text-roll follow the home hero.
+   ========================================================================== */
+
 .site-footer {
+  --f-pad: 2rem;
+  --f-cell: 1.5rem;
+  --f-row: 5.5rem;
+  --f-line: rgba(255, 255, 255, 0.14);
+  --f-ink: var(--base-100);
+  --f-muted: rgba(255, 255, 255, 0.58);
+  --f-ease: cubic-bezier(0.76, 0, 0.24, 1);
+
   position: relative;
   width: 100%;
-  height: 100.5svh;
+  overflow: hidden;
   background-color: var(--base-400);
-  color: var(--base-100);
-  padding: 2rem;
+  color: var(--f-ink);
 }
 
-.site-footer .explosion-container {
+.footer-inner {
+  position: relative;
+  max-width: 2000px;
+  margin: 0 auto;
+  padding: 3rem var(--f-pad) 0.75rem;
+}
+
+/* --- Rules --------------------------------------------------------------- */
+
+.footer-rules {
   position: absolute;
-  bottom: 0;
+  inset: 0 var(--f-pad);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  pointer-events: none;
+}
+
+.footer-rules span {
+  border-right: 1px solid var(--f-line);
+}
+
+.footer-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid var(--f-line);
+}
+
+/* Horizontal rules bleed to the screen edges. */
+.footer-grid::before,
+.footer-grid::after {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--f-pad) - 1px);
+  right: calc(-1 * var(--f-pad) - 1px);
+  height: 1px;
+  background-color: var(--f-line);
+  pointer-events: none;
+}
+
+.footer-grid::before {
+  top: -1px;
+}
+
+.footer-grid::after {
+  bottom: -1px;
+}
+
+/* Registration marks on the grid's corners. */
+.footer-cross {
+  position: absolute;
+  z-index: 2;
+  width: 0.9rem;
+  height: 0.9rem;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.footer-cross::before,
+.footer-cross::after {
+  content: "";
+  position: absolute;
+  background-color: var(--f-ink);
+}
+
+.footer-cross::before {
+  top: 50%;
   left: 0;
   width: 100%;
-  height: 200%;
-  pointer-events: none;
-  overflow: hidden;
+  height: 1px;
+  transform: translateY(-50%);
 }
 
-.site-footer img.explosion-particle-img {
-  position: absolute;
-  bottom: -200px;
+.footer-cross::after {
   left: 50%;
-  width: var(--particle-size, 300px) !important;
-  height: auto !important;
-  border-radius: 1rem;
-  object-fit: cover;
+  top: 0;
+  width: 1px;
+  height: 100%;
   transform: translateX(-50%);
-  will-change: transform;
 }
 
-.sample-project-page .site-footer img.explosion-particle-img {
-  width: var(--particle-size, 300px) !important;
-  height: auto !important;
-}
+.footer-cross--tl { top: -1px; left: -1px; }
+.footer-cross--tr { top: -1px; left: calc(100% + 1px); }
+.footer-cross--bl { top: calc(100% + 1px); left: -1px; }
+.footer-cross--br { top: calc(100% + 1px); left: calc(100% + 1px); }
 
-.site-footer .footer-header-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 60%;
+/* --- Columns ------------------------------------------------------------- */
+
+.footer-col {
+  min-width: 0;
+  min-height: calc(var(--f-row) * 4);
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+}
+
+.footer-col + .footer-col {
+  border-left: 1px solid var(--f-line);
+}
+
+.footer-brand-top,
+.footer-follow,
+.footer-meta {
+  padding: 2.25rem var(--f-cell);
+}
+
+.footer-brand-top {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
 }
 
-.site-footer .footer-byline {
-  position: absolute;
-  left: 0;
-  bottom: 0;
+.footer-meta {
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* --- Type ---------------------------------------------------------------- */
+
+.footer-label {
+  font-family: var(--font-primary);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: var(--f-muted);
+}
+
+.footer-label--spaced {
+  margin-top: 2.5rem;
+}
+
+.footer-statement,
+.footer-tagline {
+  max-width: 24em;
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--f-ink);
+}
+
+.footer-muted {
+  color: var(--f-muted);
+}
+
+/* --- Logo ---------------------------------------------------------------- */
+
+.footer-logo {
+  display: block;
+  width: 6.5rem;
+  line-height: 0;
+}
+
+.footer-logo img {
+  display: block;
   width: 100%;
+  aspect-ratio: 6 / 4;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+/* --- Rows (nav + CTA) ---------------------------------------------------- */
+
+.footer-row {
+  position: relative;
+  height: var(--f-row);
+  flex: 0 0 auto;
   display: flex;
-  padding: 2rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 var(--f-cell);
+  text-decoration: none;
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--f-ink);
+  transition: background-color 0.4s ease;
 }
 
-.site-footer .footer-byline > div {
-  flex: 1;
+.footer-nav .footer-row {
+  flex: 1 0 var(--f-row);
+}
+
+.footer-nav .footer-row + .footer-row,
+.footer-row--cta {
+  border-top: 1px solid var(--f-line);
+}
+
+.footer-row:hover,
+.footer-row:focus-visible {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.footer-arrow {
+  font-size: 1.1rem;
+  line-height: 1;
+  transition: transform 0.45s var(--f-ease), color 0.3s ease;
+}
+
+.footer-row:hover .footer-arrow,
+.footer-row:focus-visible .footer-arrow {
+  color: var(--base-500);
+  transform: translateX(0.35rem);
+}
+
+/* --- Follow -------------------------------------------------------------- */
+
+.footer-follow ul {
+  list-style: none;
   display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
 }
 
-.site-footer .footer-copyright {
-  justify-content: flex-end;
+.footer-link {
+  display: inline-block;
+  text-decoration: none;
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--f-ink);
 }
 
-.site-footer .footer-author {
-  justify-content: center;
-  color: var(--base-400);
+.footer-link--static {
+  margin-top: 1.25rem;
 }
 
-.site-footer .footer-time {
-  color: var(--base-400);
-  justify-content: flex-start;
+/* --- Text roll (same motion as the hero's work links) -------------------- */
+
+.footer-roll {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  height: 1.25em;
+  line-height: 1.25;
+  overflow: hidden;
 }
 
-.site-footer .footer-time span {
-  color: var(--base-100);
+.footer-roll > span {
+  display: block;
+  transition: transform 0.55s var(--f-ease);
 }
 
-.site-footer .footer-byline p {
-  font-size: 0.9rem;
+.footer-roll > span:last-child {
+  color: var(--base-500);
 }
+
+.footer-row:hover .footer-roll > span,
+.footer-row:focus-visible .footer-roll > span,
+.footer-link:hover .footer-roll > span,
+.footer-link:focus-visible .footer-roll > span {
+  transform: translateY(-100%);
+}
+
+/* --- Credits ------------------------------------------------------------- */
+
+.footer-credits {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.footer-credits-name {
+  color: var(--f-ink);
+}
+
+/* --- Wordmark ------------------------------------------------------------ */
+
+.footer-wordmark {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding-top: 2.5rem;
+  line-height: 0;
+}
+
+/* Inline-block so Footer.jsx can measure its natural width and fit it. */
+.footer-wordmark-text {
+  display: inline-block;
+  white-space: nowrap;
+  font-family: var(--font-secondary);
+  font-size: 18vw;
+  font-weight: 700;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  color: var(--f-ink);
+}
+
+.footer-wordmark-mask {
+  display: inline-block;
+  overflow: hidden;
+  /* Room for ascender overshoot without letting the rise show early. */
+  padding-top: 0.06em;
+  vertical-align: bottom;
+}
+
+.footer-wordmark-char {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* --- Responsive ---------------------------------------------------------- */
 
 @media (max-width: 1000px) {
   .site-footer {
-    height: 100svh;
+    --f-pad: 1.25rem;
+    --f-cell: 1.25rem;
+    --f-row: 4rem;
   }
 
-  .site-footer .explosion-container {
+  .footer-inner {
+    padding-top: 2rem;
+  }
+
+  .footer-rules {
     display: none;
   }
 
-  .site-footer .footer-header-content {
-    width: 100%;
-    padding: 1.25rem;
+  .footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .site-footer .footer-copyright {
-    display: none !important;
+  .footer-col {
+    min-height: 0;
   }
 
-  .site-footer .footer-author {
-    justify-content: flex-end;
+  .footer-col + .footer-col {
+    border-left: none;
+    border-top: 1px solid var(--f-line);
   }
 
-  .site-footer .footer-byline {
-    padding: 1.25rem;
+  .footer-brand,
+  .footer-nav {
+    grid-column: 1 / -1;
+  }
+
+  .footer-meta {
+    border-left: 1px solid var(--f-line) !important;
+  }
+
+  .footer-nav .footer-row {
+    flex: 0 0 var(--f-row);
+  }
+
+  .footer-statement,
+  .footer-tagline,
+  .footer-row,
+  .footer-link {
+    font-size: 0.875rem;
+  }
+
+  .footer-wordmark {
+    padding-top: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .footer-meta {
+    border-left: none !important;
   }
 }

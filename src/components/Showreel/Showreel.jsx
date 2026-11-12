@@ -36,6 +36,33 @@ const PROJECT_SHOWREEL_MEDIA = SHOWREEL_IMAGES.flatMap((still, i) => {
 const STILL_MS = 2200;
 const VIDEO_MS = 4000;
 
+// The two words that slide in from the screen edges as the reel grows and
+// meet in the middle as one word, "SHOW CASE", by the time it's full screen.
+const WORDS = ["Show", "Case"];
+// How far (in viewport widths) each word starts pushed out from the centre,
+// so it opens half off-screen and travels in as you scroll.
+const WORD_TRAVEL_VW = 36;
+// A dark wash over the reel, lighter as it grows, so the white words read
+// over any shot (overlay opacity).
+const DIM_FROM = 0.5;
+const DIM_TO = 0.3;
+
+// Rendered twice: ink over the paper behind the reel, and white inside the
+// reel (clipped by its rounded frame), so a word changes colour exactly where
+// it crosses the picture's edge.
+const ShowreelWords = ({ className }) => (
+  <div className={`showreel-words ${className}`} aria-hidden="true">
+    {WORDS.map((word, i) => (
+      <span
+        key={word}
+        className={`showreel-word showreel-word--${i === 0 ? "start" : "end"}`}
+      >
+        {word}
+      </span>
+    ))}
+  </div>
+);
+
 const Showreel = () => {
   const showreelSecRef = useRef(null);
   const containerRef = useRef(null);
@@ -137,6 +164,39 @@ const Showreel = () => {
           audioRef.current.play().catch(() => {});
         }
 
+        const q = gsap.utils.selector(section);
+        const innerWords = q(".showreel-words--inner")[0];
+        const startWords = q(".showreel-word--start");
+        const endWords = q(".showreel-word--end");
+        const dim = q(".showreel-dim")[0];
+        const wordEase = gsap.parseEase("power1.out");
+
+        const render = (progress) => {
+          const scaleValue = gsap.utils.mapRange(0, 1, 0.75, 1, progress);
+          const borderRadiusValue =
+            progress <= 0.5 ? gsap.utils.mapRange(0, 0.5, 2, 0, progress) : 0;
+
+          gsap.set(container, {
+            scale: scaleValue,
+            borderRadius: `${borderRadiusValue}rem`,
+          });
+
+          // The white copy lives inside the scaled reel; undo the scale so it
+          // lines up with the ink copy outside, letter for letter.
+          gsap.set(innerWords, { scale: 1 / scaleValue });
+
+          // Words travel in from the edges and close up in the centre as the
+          // reel reaches full size.
+          const offset =
+            (1 - wordEase(progress)) * WORD_TRAVEL_VW * window.innerWidth * 0.01;
+          gsap.set(startWords, { x: -offset });
+          gsap.set(endWords, { x: offset });
+
+          gsap.set(dim, {
+            opacity: gsap.utils.mapRange(0, 1, DIM_FROM, DIM_TO, progress),
+          });
+        };
+
         const scrollTrigger = ScrollTrigger.create({
           trigger: section,
           start: "top top",
@@ -146,19 +206,12 @@ const Showreel = () => {
           // Pins refresh in document order — a pin above this one changes
           // where this one starts, so it has to be measured first.
           refreshPriority: 3,
-          onUpdate: (self) => {
-            const progress = self.progress;
-
-            const scaleValue = gsap.utils.mapRange(0, 1, 0.75, 1, progress);
-            const borderRadiusValue =
-              progress <= 0.5 ? gsap.utils.mapRange(0, 0.5, 2, 0, progress) : 0;
-
-            gsap.set(container, {
-              scale: scaleValue,
-              borderRadius: `${borderRadiusValue}rem`,
-            });
-          },
+          onUpdate: (self) => render(self.progress),
+          // The word travel is in viewport widths: re-place on resize.
+          onRefresh: (self) => render(self.progress),
         });
+
+        render(scrollTrigger.progress);
 
         if (scrollTrigger) {
           scrollTriggerInstances.push(scrollTrigger);
@@ -166,6 +219,9 @@ const Showreel = () => {
 
         return () => {
           scrollTriggerInstances.forEach((trigger) => trigger.kill());
+          gsap.set([innerWords, ...startWords, ...endWords, dim], {
+            clearProps: "transform,opacity",
+          });
         };
       });
 
@@ -185,7 +241,9 @@ const Showreel = () => {
   );
 
   return (
-    <section className="showreel" ref={showreelSecRef}>
+    <section className="showreel" ref={showreelSecRef} aria-label="Showreel">
+      <ShowreelWords className="showreel-words--outer" />
+
       <div className="showreel-container" ref={containerRef}>
         {PROJECT_SHOWREEL_MEDIA.map((src) => {
           const isCurrent = src === currentMedia;
@@ -224,13 +282,16 @@ const Showreel = () => {
             </div>
           );
         })}
+
+        <span className="showreel-dim" aria-hidden="true" />
+        <ShowreelWords className="showreel-words--inner" />
       </div>
 
       <div className="volume-icon" onClick={toggleMute}>
         {isMuted ? (
-          <LuVolumeX color="var(--base-400)" size={25} />
+          <LuVolumeX color="var(--base-400)" size={20} />
         ) : (
-          <LuVolume color="var(--base-400)" size={25} />
+          <LuVolume color="var(--base-400)" size={20} />
         )}
       </div>
 
