@@ -53,18 +53,30 @@ const Footer = () => {
       if (!mark) return;
       const text = mark.firstElementChild;
 
+      // Layout widths (offsetWidth/clientWidth) ignore ancestor transforms,
+      // so a scaled page mid-transition can't skew the measurement. Measured
+      // at 1000px so integer rounding is negligible.
       const fit = () => {
         const available = mark.clientWidth;
         if (!available) return;
-        text.style.fontSize = "100px";
-        const natural = text.getBoundingClientRect().width;
-        if (natural) text.style.fontSize = `${(100 * available) / natural}px`;
+        text.style.fontSize = "1000px";
+        const natural = text.offsetWidth;
+        if (natural) text.style.fontSize = `${(1000 * available) / natural}px`;
+      };
+
+      // Refit whenever the box or the text drifts out of true: a resize, or
+      // the display font swapping in after a fit made with the fallback
+      // (fonts.ready can resolve before the font has even been requested).
+      const refit = () => {
+        if (Math.abs(text.offsetWidth - mark.clientWidth) > 1) fit();
       };
 
       fit();
       document.fonts?.ready.then(fit);
-      const observer = new ResizeObserver(fit);
+      document.fonts?.addEventListener?.("loadingdone", fit);
+      const observer = new ResizeObserver(refit);
       observer.observe(mark);
+      observer.observe(text);
 
       // Letters rise out of the mask as the footer scrolls in.
       const chars = mark.querySelectorAll(".footer-wordmark-char");
@@ -78,13 +90,17 @@ const Footer = () => {
         scrollTrigger: { trigger: mark, start: "top 95%", once: true },
       });
 
-      return () => observer.disconnect();
+      return () => {
+        observer.disconnect();
+        document.fonts?.removeEventListener?.("loadingdone", fit);
+      };
     },
     { scope: footerRef }
   );
 
   return (
     <footer className="site-footer" ref={footerRef}>
+      <div className="footer-grain" aria-hidden="true" />
       <div className="footer-inner">
         {/* Column rules run the full height, behind the wordmark. */}
         <div className="footer-rules" aria-hidden="true">
@@ -103,12 +119,14 @@ const Footer = () => {
           <div className="footer-col footer-brand">
             <div className="footer-brand-top">
               <a href="/" className="footer-logo" onClick={goTo("/")}>
-                <img
-                  src={optimizeImageUrl("/logo.png", 320)}
-                  alt="Plated Stories"
-                  loading="lazy"
-                  decoding="async"
-                />
+                <span className="footer-logo-frame">
+                  <img
+                    src={optimizeImageUrl("/logo.png", 320)}
+                    alt="Plated Stories"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </span>
               </a>
               <Copy animateOnScroll={true} delay={0.1}>
                 <p className="footer-statement">
