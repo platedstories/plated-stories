@@ -45,38 +45,12 @@ const Footer = () => {
     navigateWithTransition(route);
   };
 
-  // The wordmark is set to exactly the footer's inner width, whatever the
-  // viewport: measure at a reference size, then scale linearly.
+  // The wordmark's width is fitted in CSS (Footer.css, container units), so
+  // there is no measuring here to go stale.
   useGSAP(
     () => {
       const mark = wordmarkRef.current;
       if (!mark) return;
-      const text = mark.firstElementChild;
-
-      // Layout widths (offsetWidth/clientWidth) ignore ancestor transforms,
-      // so a scaled page mid-transition can't skew the measurement. Measured
-      // at 1000px so integer rounding is negligible.
-      const fit = () => {
-        const available = mark.clientWidth;
-        if (!available) return;
-        text.style.fontSize = "1000px";
-        const natural = text.offsetWidth;
-        if (natural) text.style.fontSize = `${(1000 * available) / natural}px`;
-      };
-
-      // Refit whenever the box or the text drifts out of true: a resize, or
-      // the display font swapping in after a fit made with the fallback
-      // (fonts.ready can resolve before the font has even been requested).
-      const refit = () => {
-        if (Math.abs(text.offsetWidth - mark.clientWidth) > 1) fit();
-      };
-
-      fit();
-      document.fonts?.ready.then(fit);
-      document.fonts?.addEventListener?.("loadingdone", fit);
-      const observer = new ResizeObserver(refit);
-      observer.observe(mark);
-      observer.observe(text);
 
       // Letters rise out of the mask as the footer scrolls in.
       const chars = mark.querySelectorAll(".footer-wordmark-char");
@@ -89,11 +63,6 @@ const Footer = () => {
         stagger: 0.04,
         scrollTrigger: { trigger: mark, start: "top 95%", once: true },
       });
-
-      return () => {
-        observer.disconnect();
-        document.fonts?.removeEventListener?.("loadingdone", fit);
-      };
     },
     { scope: footerRef }
   );
@@ -102,13 +71,6 @@ const Footer = () => {
     <footer className="site-footer" ref={footerRef}>
       <div className="footer-grain" aria-hidden="true" />
       <div className="footer-inner">
-        {/* Column rules run the full height, behind the wordmark. */}
-        <div className="footer-rules" aria-hidden="true">
-          <span />
-          <span />
-          <span />
-        </div>
-
         <div className="footer-grid">
           <span className="footer-cross footer-cross--tl" aria-hidden="true" />
           <span className="footer-cross footer-cross--tr" aria-hidden="true" />
