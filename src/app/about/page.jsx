@@ -1,7 +1,6 @@
 "use client";
 
 import "./studio.css";
-import TeamCards from "@/components/TeamCards/TeamCards";
 import Spotlight from "@/components/Spotlight/Spotlight";
 import CTACard from "@/components/CTACard/CTACard";
 import Footer from "@/components/Footer/Footer";
@@ -104,8 +103,6 @@ const Page = () => {
           </Copy>
         </div>
       </section>
-
-      <TeamCards />
 
       <Spotlight />
 

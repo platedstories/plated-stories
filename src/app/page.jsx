@@ -2,7 +2,6 @@
 import "./home.css";
 import Showreel from "@/components/Showreel/Showreel";
 import FeaturedWork from "@/components/FeaturedWork/FeaturedWork";
-import TeamCards from "@/components/TeamCards/TeamCards";
 import ClientReviews from "@/components/ClientReviews/ClientReviews";
 import Spotlight from "@/components/Spotlight/Spotlight";
 import BrandGallery from "@/components/BrandGallery/BrandGallery";
@@ -34,8 +33,6 @@ const Page = () => {
         <div className="container">
           <BrandGallery />
         </div>
-
-        <TeamCards />
       </div>
 
       <section className="featured-work">
