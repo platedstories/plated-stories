@@ -321,9 +321,13 @@
 
 .footer-wordmark-mask {
   display: inline-block;
-  overflow: hidden;
-  /* Room for ascender overshoot without letting the rise show early. */
-  padding-top: 0.06em;
+  /* Room for ascender overshoot above and the round letters' overshoot
+     below the baseline. */
+  padding: 0.06em 0 0.14em;
+  /* Clip the bottom edge only: the letters rise from beneath it. With the
+     tight tracking, glyphs reach past their own box sideways, and
+     overflow: hidden here sliced their sides off. */
+  clip-path: inset(-0.5em -0.5em 0 -0.5em);
   vertical-align: bottom;
 }
 

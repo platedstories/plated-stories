@@ -68,7 +68,8 @@ const Footer = () => {
 
       // Letters rise out of the mask as the footer scrolls in.
       const chars = mark.querySelectorAll(".footer-wordmark-char");
-      gsap.set(chars, { yPercent: 105 });
+      // Far enough down to clear the mask's bottom padding before the rise.
+      gsap.set(chars, { yPercent: 140 });
       gsap.to(chars, {
         yPercent: 0,
         duration: 1.2,
@@ -132,8 +133,14 @@ const Footer = () => {
             </a>
           </div>
 
-          {/* 2 — Navigation */}
-          <nav className="footer-col footer-nav" aria-label="Footer">
+          {/* 2 — Navigation. A div with role="navigation", not a nav
+              element: Menu.css styles every bare `nav` as the fixed site
+              header, which would pin this column to the top of the screen. */}
+          <div
+            className="footer-col footer-nav"
+            role="navigation"
+            aria-label="Footer"
+          >
             {NAV.map((item) => (
               <a
                 key={item.route}
@@ -147,7 +154,7 @@ const Footer = () => {
                 </span>
               </a>
             ))}
-          </nav>
+          </div>
 
           {/* 3 — Follow */}
           <div className="footer-col footer-follow">
