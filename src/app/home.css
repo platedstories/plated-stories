@@ -100,12 +100,7 @@
     width: 100%;
   }
 
-  .featured-work-list {
-    padding: 8rem 0 !important;
-  }
-
   .featured-work-list .row {
-    width: 100% !important;
     flex-direction: column;
   }
 }

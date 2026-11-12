@@ -8,7 +8,27 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(SplitText, ScrollTrigger);
 
-export default function Copy({ children, animateOnScroll = true, delay = 0 }) {
+// SplitText rewrites the element's DOM outside React. If the copy then
+// changes (e.g. a hot reload after editing the text), React patches nodes
+// that are no longer there and appends the new text to the end, duplicating
+// lines. Keying on the text remounts Copy instead: the old split is reverted
+// and the new copy is split from scratch.
+function textKey(node) {
+  if (node == null || typeof node === "boolean") return "";
+  if (typeof node === "string" || typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(textKey).join("");
+  if (React.isValidElement(node)) {
+    const tag = typeof node.type === "string" ? node.type : "c";
+    return `<${tag}>${textKey(node.props.children)}</${tag}>`;
+  }
+  return "";
+}
+
+export default function Copy(props) {
+  return <CopyInner key={textKey(props.children)} {...props} />;
+}
+
+function CopyInner({ children, animateOnScroll = true, delay = 0 }) {
   const containerRef = useRef(null);
   const elementRefs = useRef([]);
   const splitRefs = useRef([]);

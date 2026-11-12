@@ -84,9 +84,11 @@ export default function BrandGallery() {
               <br />
               in visual storytelling for F&amp;B and lifestyle brands.
               <br />
-              From concept development and shoot planning to production, editing
-              and content delivery, we manage the entire creative process
-              end-to-end.
+              From concept development and shoot planning to
+              <br />
+              production, editing and content delivery, we manage the
+              <br />
+              entire creative process end-to-end.
             </p>
           </Copy>
         </div>

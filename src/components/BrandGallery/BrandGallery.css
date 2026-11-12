@@ -98,9 +98,15 @@
   min-width: 0;
 }
 
-/* font-size / line-height come from the global p.lg class */
+/* Line breaks are set in the markup and each line stays on one line. The
+   widest ("production, editing and content delivery, we manage the") is
+   ~25.3em in Ariane Coachella: the global p.lg 1.75rem fits the 4-column
+   cell from ~1600px up, and below that the size eases down just enough to
+   keep it clear of the image beside it. line-height comes from p.lg. */
 .brand-gallery-note p.lg {
-  max-width: 40ch;
+  font-family: var(--font-secondary);
+  font-size: min(1.75rem, 1.95vw - 0.2rem);
+  white-space: nowrap;
   color: var(--base-400);
 }
 
@@ -134,7 +140,13 @@
     padding: 0;
   }
 
-  .brand-gallery-note p {
-    max-width: none;
+  /* Full-width column: let the copy wrap naturally. */
+  .brand-gallery-note p.lg {
+    font-size: 1.125rem;
+    white-space: normal;
+  }
+
+  .brand-gallery-note p.lg br {
+    display: none;
   }
 }

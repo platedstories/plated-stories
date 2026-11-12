@@ -398,6 +398,7 @@
 
 .about-card-copy {
   max-width: 22rem;
+  font-family: var(--font-secondary);
   font-size: 1.1rem;
   line-height: 1.35;
   color: var(--ai-muted);
