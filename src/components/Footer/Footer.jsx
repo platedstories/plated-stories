@@ -199,7 +199,7 @@ const Footer = () => {
   );
 
   return (
-    <footer ref={footerRef}>
+    <footer className="site-footer" ref={footerRef}>
       <div className="container">
         <div className="footer-header-content">
           <div className="footer-header">

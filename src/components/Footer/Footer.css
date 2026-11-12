@@ -1,4 +1,4 @@
-footer {
+.site-footer {
   position: relative;
   width: 100%;
   height: 100.5svh;
@@ -7,7 +7,7 @@ footer {
   padding: 2rem;
 }
 
-footer .explosion-container {
+.site-footer .explosion-container {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -17,7 +17,7 @@ footer .explosion-container {
   overflow: hidden;
 }
 
-footer img.explosion-particle-img {
+.site-footer img.explosion-particle-img {
   position: absolute;
   bottom: -200px;
   left: 50%;
@@ -29,12 +29,12 @@ footer img.explosion-particle-img {
   will-change: transform;
 }
 
-.sample-project-page footer img.explosion-particle-img {
+.sample-project-page .site-footer img.explosion-particle-img {
   width: var(--particle-size, 300px) !important;
   height: auto !important;
 }
 
-footer .footer-header-content {
+.site-footer .footer-header-content {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -48,7 +48,7 @@ footer .footer-header-content {
   gap: 2rem;
 }
 
-footer .footer-byline {
+.site-footer .footer-byline {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -57,56 +57,56 @@ footer .footer-byline {
   padding: 2rem;
 }
 
-footer .footer-byline > div {
+.site-footer .footer-byline > div {
   flex: 1;
   display: flex;
 }
 
-footer .footer-copyright {
+.site-footer .footer-copyright {
   justify-content: flex-end;
 }
 
-footer .footer-author {
+.site-footer .footer-author {
   justify-content: center;
   color: var(--base-400);
 }
 
-footer .footer-time {
+.site-footer .footer-time {
   color: var(--base-400);
   justify-content: flex-start;
 }
 
-footer .footer-time span {
+.site-footer .footer-time span {
   color: var(--base-100);
 }
 
-footer .footer-byline p {
+.site-footer .footer-byline p {
   font-size: 0.9rem;
 }
 
 @media (max-width: 1000px) {
-  footer {
+  .site-footer {
     height: 100svh;
   }
 
-  footer .explosion-container {
+  .site-footer .explosion-container {
     display: none;
   }
 
-  footer .footer-header-content {
+  .site-footer .footer-header-content {
     width: 100%;
     padding: 1.25rem;
   }
 
-  footer .footer-copyright {
+  .site-footer .footer-copyright {
     display: none !important;
   }
 
-  footer .footer-author {
+  .site-footer .footer-author {
     justify-content: flex-end;
   }
 
-  footer .footer-byline {
+  .site-footer .footer-byline {
     padding: 1.25rem;
   }
 }
