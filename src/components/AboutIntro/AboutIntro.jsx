@@ -8,16 +8,15 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { workCategories } from "@/app/work/workCategories.js";
 import { clientBranding } from "@/components/Clients/clientBranding.js";
+import OptimizedVideo from "@/components/OptimizedVideo/OptimizedVideo";
 import { optimizeImageUrl } from "@/lib/media-delivery";
 import { useViewTransition } from "@/hooks/useViewTransition";
 
 gsap.registerPlugin(useGSAP, SplitText, ScrollTrigger);
 
-// A still from the "Monsoon Vibe" reel shot for Baked by Nini's, served from
-// ImageKit (cropped to 3:4, AVIF/WebP picked per browser). Swap `so-22` for
-// another second of the reel, or point this at any other photograph.
+// Baked by Nini's reel served through ImageKit for optimized delivery.
 const MEDIA_SRC =
-  "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4/ik-thumbnail.jpg?tr=so-22,w-810,h-1080,q-80,f-auto";
+  "https://ik.imagekit.io/platedstories/21D4F911-799D-4C94-883E-CC6821C46B14-compressed.mp4?tr=orig-true";
 const MEDIA_CAPTION = "Baked by Nini’s";
 
 const FOUNDED = 2025;
@@ -327,19 +326,21 @@ export default function AboutIntro() {
         )}
       </h2>
 
-      {/* Still on the left; lede and figure cards on the right */}
+      {/* Reel on the left; lede and figure cards on the right */}
       <div className="about-body">
         <figure className="about-media">
           <div className="about-media-frame">
             <div className="about-media-parallax">
               <div className="about-media-zoom">
-                <img
+                <OptimizedVideo
                   src={MEDIA_SRC}
-                  alt="A guest enjoying a jar from Baked by Nini’s at a café table"
-                  loading="lazy"
-                  decoding="async"
-                  width={810}
-                  height={1080}
+                  width={1080}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  aria-label="Baked by Nini’s reel"
                 />
               </div>
             </div>
