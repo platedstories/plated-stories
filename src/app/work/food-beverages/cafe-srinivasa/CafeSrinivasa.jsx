@@ -43,6 +43,8 @@ const SERIES = [
     marquee: true,
     copy: `The dishes people come back for ${EM} bisi bele bath, benne dosa, idli, dal vada and the full thali, each shot at the moment it leaves the kitchen.`,
     media: [
+      "https://ik.imagekit.io/platedstories/bissi%20belle.jpeg",
+      "https://ik.imagekit.io/platedstories/bissi%20belle%202.jpeg",
       "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
       "https://ik.imagekit.io/platedstories/34.heic",
       "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
@@ -54,15 +56,16 @@ const SERIES = [
   },
   {
     name: "Icecreams",
-    // All five in a single line rather than wrapping across three columns.
-    columns: 5,
-    copy: `A cold counterpoint to the kitchen${RSQUO}s heat. Scoops, melt and colour blocking, built as a set that holds together across a grid rather than as five single posts.`,
+    // The five ice cream stills and reel loop on a strip like Classics.
+    marquee: true,
+    copy: `A cold counterpoint to the kitchen${RSQUO}s heat. Scoops, melt and colour blocking, built as a set that holds together as a series rather than as five single posts.`,
     media: [
-      "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
-      "https://ik.imagekit.io/platedstories/2.heic",
-      "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-      "https://ik.imagekit.io/platedstories/34.heic",
+      "https://ik.imagekit.io/platedstories/ice.jpeg",
+      "https://ik.imagekit.io/platedstories/ice1.jpeg",
+      "https://ik.imagekit.io/platedstories/ice2.jpeg",
+      "https://ik.imagekit.io/platedstories/ice3.jpeg",
+      "https://ik.imagekit.io/platedstories/ice4.jpeg",
+      "https://ik.imagekit.io/platedstories/3.%20Tadgola%20Ice%20Cream-compressed.mp4?tr=orig-true",
     ],
   },
   {
