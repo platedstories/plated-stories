@@ -12,16 +12,33 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 // Each entry appears once: frames are tracked by URL.
 const PROJECT_REELS = [
-  "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
-  "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
+  "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?updatedAt=1794156829167&tr=orig-true",
+  "https://ik.imagekit.io/platedstories/6.%20Conveyor%20Belt%20(1).mp4?updatedAt=1794157112948&tr=orig-true",
 ];
 
+// A mixed selection from the portfolio and the newer case-study galleries.
+// Alternate subjects so the showcase stays varied and primarily photographic.
 const SHOWREEL_IMAGES = [
   "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-  "https://ik.imagekit.io/platedstories/34.heic",
+  "https://ik.imagekit.io/platedstories/ice2.jpeg",
+  "https://ik.imagekit.io/platedstories/pair3.jpeg",
+  "https://ik.imagekit.io/platedstories/muldosa.jpeg",
   "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
+  "https://ik.imagekit.io/platedstories/tadgola.jpeg",
+  "https://ik.imagekit.io/platedstories/pair.jpeg",
+  "https://ik.imagekit.io/platedstories/bissi%20belle.jpeg",
   "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
+  "https://ik.imagekit.io/platedstories/garlicdosa.jpeg",
+  "https://ik.imagekit.io/platedstories/ice4.jpeg",
+  "https://ik.imagekit.io/platedstories/pair5.jpeg",
+  "https://ik.imagekit.io/platedstories/compressed_image_XJOfL1wMP.jpeg",
+  "https://ik.imagekit.io/platedstories/tad.jpeg",
+  "https://ik.imagekit.io/platedstories/pair2_ajLOFr4Rp.jpeg",
+  "https://ik.imagekit.io/platedstories/34.heic",
+  "https://ik.imagekit.io/platedstories/masaladosa.jpeg",
+  "https://ik.imagekit.io/platedstories/ice.jpeg",
   "https://ik.imagekit.io/platedstories/2.heic",
+  "https://ik.imagekit.io/platedstories/pair4_kqTG6o_0R.jpeg",
 ];
 
 // The reels are spread evenly through the stills, opening on a still:
