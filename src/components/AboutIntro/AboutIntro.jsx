@@ -1,6 +1,6 @@
 "use client";
 import "./AboutIntro.css";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { waitForFonts } from "@/lib/fonts";
@@ -14,11 +14,12 @@ import { useViewTransition } from "@/hooks/useViewTransition";
 
 gsap.registerPlugin(useGSAP, SplitText, ScrollTrigger);
 
-// Baked by Nini's reel served through ImageKit for optimized delivery.
-const MEDIA_SRC =
-  "https://ik.imagekit.io/platedstories/21D4F911-799D-4C94-883E-CC6821C46B14-compressed.mp4?tr=orig-true";
-const MEDIA_CAPTION = "Baked by Nini’s";
-
+// Baked by Nini's reels served through ImageKit. `orig-true` bypasses
+// account-level video transformations because the uploads are pre-compressed.
+const MEDIA_SOURCES = [
+  "https://ik.imagekit.io/platedstories/21D4F911-799D-4C94-883E-CC6821C46B14-compressed.mp4?tr=orig-true",
+  "https://ik.imagekit.io/platedstories/B36CFB63-FE97-488E-952D-E08CEFD82B7D-compressed.mp4?tr=orig-true",
+];
 const FOUNDED = 2025;
 
 // Counted from the work list, so the figures stay true as projects are added.
@@ -87,6 +88,37 @@ export default function AboutIntro() {
   const sectionRef = useRef(null);
   const { navigateWithTransition } = useViewTransition();
   const statementRef = useRef(null);
+  const mediaRefs = useRef([]);
+  const fadeTimerRef = useRef(null);
+  const [mediaIndex, setMediaIndex] = useState(0);
+
+  useEffect(
+    () => () => {
+      clearTimeout(fadeTimerRef.current);
+    },
+    []
+  );
+
+  const crossfadeToNextMedia = (currentIndex) => {
+    if (currentIndex !== mediaIndex) return;
+
+    const nextIndex = (currentIndex + 1) % MEDIA_SOURCES.length;
+    const nextVideo = mediaRefs.current[nextIndex];
+
+    if (nextVideo) {
+      nextVideo.currentTime = 0;
+      nextVideo.play().catch(() => {});
+    }
+
+    setMediaIndex(nextIndex);
+    clearTimeout(fadeTimerRef.current);
+    fadeTimerRef.current = setTimeout(() => {
+      const previousVideo = mediaRefs.current[currentIndex];
+      if (!previousVideo) return;
+      previousVideo.pause();
+      previousVideo.currentTime = 0;
+    }, 900);
+  };
 
   useGSAP(
     () => {
@@ -332,24 +364,30 @@ export default function AboutIntro() {
           <div className="about-media-frame">
             <div className="about-media-parallax">
               <div className="about-media-zoom">
-                <OptimizedVideo
-                  src={MEDIA_SRC}
-                  width={1080}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  aria-label="Baked by Nini’s reel"
-                />
+                {MEDIA_SOURCES.map((src, index) => (
+                  <OptimizedVideo
+                    key={src}
+                    ref={(video) => {
+                      mediaRefs.current[index] = video;
+                    }}
+                    className={`about-media-video${
+                      index === mediaIndex ? " is-active" : ""
+                    }`}
+                    src={src}
+                    width={1080}
+                    autoPlay={index === mediaIndex}
+                    muted
+                    playsInline
+                    preload="auto"
+                    aria-label={`Baked by Nini’s reel ${index + 1}`}
+                    aria-hidden={index !== mediaIndex}
+                    onEnded={() => crossfadeToNextMedia(index)}
+                  />
+                ))}
               </div>
             </div>
             <span className="about-media-grain" aria-hidden="true" />
             <span className="about-media-plus" aria-hidden="true" />
-            <figcaption className="about-media-caption">
-              <span>(Fig. 01)</span>
-              <span>{MEDIA_CAPTION}</span>
-            </figcaption>
           </div>
         </figure>
 
