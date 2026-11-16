@@ -45,13 +45,10 @@ const SERIES = [
     media: [
       "https://ik.imagekit.io/platedstories/bissi%20belle.jpeg",
       "https://ik.imagekit.io/platedstories/bissi%20belle%202.jpeg",
-      "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-      "https://ik.imagekit.io/platedstories/34.heic",
-      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
-      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
-      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
-      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
-      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
+      "https://ik.imagekit.io/platedstories/compressed_image_XJOfL1wMP.jpeg",
+      "https://ik.imagekit.io/platedstories/7.%20Idli%20Making-compressed.mp4?tr=orig-true",
+      "https://ik.imagekit.io/platedstories/10.%20Thali-compressed.mp4?tr=orig-true",
+      "https://ik.imagekit.io/platedstories/6.%20Cult%20Favourite-compressed.mp4?tr=orig-true",
     ],
   },
   {
@@ -101,10 +98,10 @@ const SERIES = [
     columns: 4,
     copy: `The season${RSQUO}s ice apple, shot cold and close ${EM} translucence, water and the short window the fruit is actually on the menu.`,
     media: [
-      "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
-      "https://ik.imagekit.io/platedstories/2.heic",
-      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
+      "https://ik.imagekit.io/platedstories/tadgola%20(2).jpeg",
+      "https://ik.imagekit.io/platedstories/tad.jpeg",
+      "https://ik.imagekit.io/platedstories/tadgola.jpeg",
+      "https://ik.imagekit.io/platedstories/3.%20Tadgola%20Ice%20Cream-compressed.mp4?tr=orig-true",
     ],
   },
   {
@@ -113,10 +110,10 @@ const SERIES = [
     columns: 4,
     copy: `Food as an occasion rather than a product ${EM} two orders, one table, shot the way the cafe is actually used.`,
     media: [
-      "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-      "https://ik.imagekit.io/platedstories/34.heic",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
+      "https://ik.imagekit.io/platedstories/pair.jpeg",
+      "https://ik.imagekit.io/platedstories/pair2_ajLOFr4Rp.jpeg",
+      "https://ik.imagekit.io/platedstories/pair4_kqTG6o_0R.jpeg",
+      "https://ik.imagekit.io/platedstories/pair3_xycJmDvM0.jpeg",
     ],
   },
 ];
