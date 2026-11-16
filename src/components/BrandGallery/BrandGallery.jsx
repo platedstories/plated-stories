@@ -1,6 +1,6 @@
 "use client";
 import "./BrandGallery.css";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { brandGalleryItems } from "./galleryItems.js";
 import Copy from "@/components/Copy/Copy";
 import gsap from "gsap";
@@ -13,6 +13,45 @@ import { useViewTransition } from "@/hooks/useViewTransition";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, CustomEase);
 CustomEase.create("hop", "0.9, 0, 0.1, 1");
+
+// Cycle only through this project's clips. If a clip fails, skip it; if none
+// remain, show the project's image rather than borrowing another brand's reel.
+const ProjectPreview = ({ item }) => {
+  const [index, setIndex] = useState(0);
+  const [failed, setFailed] = useState(() => new Set());
+  const videos = item.videos.filter((src) => !failed.has(src));
+  const src = videos.length ? videos[index % videos.length] : null;
+
+  if (!src) {
+    return (
+      <img
+        src={optimizeImageUrl(item.src, 960)}
+        alt={item.label}
+        loading="lazy"
+        decoding="async"
+      />
+    );
+  }
+
+  return (
+    <OptimizedVideo
+      src={src}
+      width={960}
+      poster={optimizeImageUrl(item.src, 960)}
+      aria-label={`${item.label} project video`}
+      autoPlay
+      muted
+      loop={videos.length === 1}
+      playsInline
+      preload="metadata"
+      onEnded={() => setIndex((current) => (current + 1) % videos.length)}
+      onError={() => {
+        setFailed((current) => new Set(current).add(src));
+        setIndex(0);
+      }}
+    />
+  );
+};
 
 export default function BrandGallery() {
   const galleryRef = useRef(null);
@@ -106,24 +145,7 @@ export default function BrandGallery() {
             }}
           >
             <div className="brand-gallery-item-img">
-              {item.type === "video" ? (
-                <OptimizedVideo
-                  src={item.src}
-                  width={960}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                />
-              ) : (
-                <img
-                  src={optimizeImageUrl(item.src, 960)}
-                  alt={item.label}
-                  loading="lazy"
-                  decoding="async"
-                />
-              )}
+              <ProjectPreview item={item} />
             </div>
             <div className="brand-gallery-item-label">
               <p className="sm">{item.label}</p>

@@ -1,3 +1,10 @@
+import { cafeSrinivasaSeries } from "@/lib/cafe-srinivasa-media";
+import { isVideo } from "@/components/CaseStudy/media";
+
+const cafeSrinivasaMedia = [
+  ...new Set(cafeSrinivasaSeries.flatMap((series) => series.media)),
+];
+
 // The three niches we shoot for, and the client projects under each.
 // Mirrors the "Plated Stories - Portfolio" Drive structure.
 //
@@ -43,15 +50,12 @@ const categoriesData = [
         name: "Baked by Nini's",
         images: previews(1),
         heroVideo:
-          "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
+          "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=orig-true",
       },
       {
         name: "Cafe Srinivasa",
-        images: [
-          "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
-          "https://ik.imagekit.io/platedstories/2.heic",
-          "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-        ],
+        images: cafeSrinivasaMedia.filter((src) => !isVideo(src)),
+        videos: cafeSrinivasaMedia.filter(isVideo),
       },
       {
         name: "Cafe Toh",
