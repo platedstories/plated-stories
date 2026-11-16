@@ -123,12 +123,6 @@ const SERIES = [
 // Every frame in the case study, in series order — what the showreel cycles.
 const ALL_MEDIA = SERIES.flatMap((item) => item.media);
 
-const OUTCOMES = [
-  { title: "Deliverables", value: "Content Strategy, Reels & Carousels" },
-  { title: "Community", value: "Highly Engaged & Loyal" },
-  { title: "Brand Impact", value: "Stronger Recognition & Recall" },
-];
-
 const CafeSrinivasa = ({ name, next }) => {
   const pageRef = useRef(null);
   const [viewer, setViewer] = useState({ open: false, section: 0, index: 0 });
@@ -248,36 +242,6 @@ const CafeSrinivasa = ({ name, next }) => {
           />
         ))}
       </div>
-
-      {/* ------------------------------------------------------- outcome */}
-      <section className="cs-outcomes">
-        <div className="container">
-          <Copy animateOnScroll={true}>
-            <p className="sm cs-index">The Outcome</p>
-          </Copy>
-
-          {OUTCOMES.map((outcome, i) => (
-            <div className="cs-outcome" key={outcome.title}>
-              <div className="cs-outcome-head">
-                <Copy animateOnScroll={true}>
-                  <p className="sm cs-index">{pad(i + 1)}</p>
-                </Copy>
-                <Copy animateOnScroll={true}>
-                  <h2 className="cs-display cs-outcome-title">
-                    {outcome.title}
-                  </h2>
-                </Copy>
-              </div>
-
-              <div className="cs-outcome-value">
-                <Copy animateOnScroll={true}>
-                  <p>{outcome.value}</p>
-                </Copy>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* ------------------------------------------------------- closing */}
       <section className="cs-closing">

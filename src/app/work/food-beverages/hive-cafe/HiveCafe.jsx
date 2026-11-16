@@ -90,12 +90,6 @@ const HERO_FRAMES = [
   ...SECTIONS.flatMap((item) => item.media.slice(1)),
 ].slice(0, 5);
 
-const OUTCOMES = [
-  { title: "Deliverables", value: "Content Strategy, Reels & Carousels" },
-  { title: "Community", value: "Highly Engaged & Loyal" },
-  { title: "Brand Impact", value: "Stronger Recognition & Recall" },
-];
-
 const HiveCafe = ({ name, next }) => {
   const pageRef = useRef(null);
   const heroRef = useRef(null);
@@ -301,38 +295,6 @@ const HiveCafe = ({ name, next }) => {
           />
         ))}
       </div>
-
-      {/* ------------------------------------------------------- outcome */}
-      <section className="cs-outcomes">
-        <div className="container">
-          <Copy animateOnScroll={true}>
-            <p className="sm cs-index">The Outcome</p>
-          </Copy>
-
-          {OUTCOMES.map((outcome, i) => (
-            <div className="cs-outcome" key={outcome.title}>
-              <div className="cs-outcome-head">
-                <Copy animateOnScroll={true}>
-                  <p className="sm cs-index">
-                    {String(i + 1).padStart(2, "0")}
-                  </p>
-                </Copy>
-                <Copy animateOnScroll={true}>
-                  <h2 className="cs-display cs-outcome-title">
-                    {outcome.title}
-                  </h2>
-                </Copy>
-              </div>
-
-              <div className="cs-outcome-value">
-                <Copy animateOnScroll={true}>
-                  <p>{outcome.value}</p>
-                </Copy>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* ------------------------------------------------------- closing */}
       <section className="cs-closing">

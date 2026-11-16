@@ -1,7 +1,7 @@
 /* Dine & Discover — what is genuinely this project's own.
 
-   The chapter flow, the frames, the gallery, the viewer, the outcome rows
-   and the closing all come from @/components/CaseStudy/CaseStudy.css. This
+   The chapter flow, the frames, the gallery, the viewer and the closing all
+   come from @/components/CaseStudy/CaseStudy.css. This
    file only carries the showreel stacking and the brief. The header +
    pinned banner above them still come from ProjectPage.css / Showreel.css
    (imported by the components) and are untouched. Scoped under .dd-case,

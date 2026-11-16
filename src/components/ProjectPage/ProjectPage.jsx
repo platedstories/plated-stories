@@ -124,11 +124,6 @@ const ProjectPage = ({ name, images = [], heroVideo }) => {
           </div>
 
           <div className="details">
-            <p>Deliverables</p>
-            <h3>Content Strategy, Reels &amp; Carousels</h3>
-          </div>
-
-          <div className="details">
             <p>Studio</p>
             <h3>Plated Stories</h3>
           </div>
@@ -165,15 +160,6 @@ const ProjectPage = ({ name, images = [], heroVideo }) => {
             </h3>
           </div>
 
-          <div className="details">
-            <p>Community</p>
-            <h3>Highly Engaged &amp; Loyal</h3>
-          </div>
-
-          <div className="details">
-            <p>Brand Impact</p>
-            <h3>Stronger Recognition &amp; Recall</h3>
-          </div>
         </Copy>
       </section>
 

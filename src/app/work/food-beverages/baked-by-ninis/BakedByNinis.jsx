@@ -45,16 +45,6 @@ const CHAPTERS = [
   },
 ];
 
-const OUTCOMES = [
-  {
-    index: "04",
-    title: "Deliverables",
-    value: "Content Strategy, Reels & Carousels",
-  },
-  { index: "05", title: "Community", value: "Highly Engaged & Loyal" },
-  { index: "06", title: "Brand Impact", value: "Stronger Recognition & Recall" },
-];
-
 const META = [
   { label: "Client", value: "Baked by Nini’s" },
   { label: "Category", value: "Food & Beverages" },
@@ -89,7 +79,7 @@ const VideoControls = ({ isMuted, isPlaying, toggleMute, togglePlay }) => {
 };
 
 // Bespoke case-study page for Baked by Nini's. Deliberately not the shared
-// ProjectPage template: the six section labels carry the display headline
+// ProjectPage template: the chapter labels carry the display headline
 // (the `.line1` treatment the homepage "We are Plated Stories" h1 gets) and
 // the descriptive sentences sit under them as light supporting copy.
 const BakedByNinis = ({ name, heroVideo, next }) => {
@@ -278,30 +268,6 @@ const BakedByNinis = ({ name, heroVideo, next }) => {
           </div>
         </section>
       ))}
-
-      <section className="bbn-outcomes">
-        <div className="container">
-          {OUTCOMES.map((outcome) => (
-            <div className="bbn-outcome" key={outcome.index}>
-              <div className="bbn-outcome-head">
-                <Copy animateOnScroll={true}>
-                  <p className="sm bbn-chapter-index">{outcome.index}</p>
-                </Copy>
-
-                <Copy animateOnScroll={true}>
-                  <h2 className="bbn-outcome-title">{outcome.title}</h2>
-                </Copy>
-              </div>
-
-              <div className="bbn-outcome-value">
-                <Copy animateOnScroll={true}>
-                  <p>{outcome.value}</p>
-                </Copy>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       <section className="bbn-closing">
         <div className="container bbn-closing-inner">

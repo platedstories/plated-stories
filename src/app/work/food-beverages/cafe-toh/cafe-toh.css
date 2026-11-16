@@ -1,7 +1,7 @@
 /* Cafe Toh — what is genuinely this project's own.
 
-   The contents card, the chapter flow, the frames, the marquee, the viewer,
-   the outcome rows and the closing all come from
+   The contents card, the chapter flow, the frames, the marquee, the viewer
+   and the closing all come from
    @/components/CaseStudy/CaseStudy.css. This file only carries the hero and
    the brief, plus the token overrides that give the page its paper-white
    ground. Scoped under .toh-case, which sits alongside .case-study on the

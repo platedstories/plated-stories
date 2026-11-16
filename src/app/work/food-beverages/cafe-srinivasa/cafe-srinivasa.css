@@ -1,7 +1,7 @@
 /* Cafe Srinivasa — what is genuinely this project's own.
 
-   The contents card, the chapter flow, the frames, the marquee, the viewer,
-   the outcome rows and the closing all come from
+   The contents card, the chapter flow, the frames, the marquee, the viewer
+   and the closing all come from
    @/components/CaseStudy/CaseStudy.css. This file only carries the showreel
    stacking and the brief. The header + pinned banner above them still come
    from ProjectPage.css / Showreel.css (imported by the components) and are

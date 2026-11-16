@@ -526,49 +526,6 @@
   transform: scale(0.94);
 }
 
-/* -------------------------------------------------------------- outcome */
-
-.case-study .cs-outcomes {
-  padding: clamp(4rem, 10vh, 8rem) 0;
-}
-
-.case-study .cs-outcome {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-  align-items: end;
-  gap: 2rem;
-  padding: clamp(2rem, 4.5vh, 3.5rem) 0;
-  /* Ruled underneath, not on top: a border-top on the first row draws a
-     line directly under the section label. */
-  border-bottom: 1px solid var(--cs-line);
-}
-
-.case-study .cs-outcomes > .container > .cs-outcome:first-of-type {
-  margin-top: 1.5rem;
-}
-
-.case-study .cs-outcome-head {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.case-study .cs-outcome-title {
-  font-size: clamp(2rem, 5vw, 5.5rem);
-  transition: color 300ms ease;
-}
-
-.case-study .cs-outcome:hover .cs-outcome-title {
-  color: var(--cs-accent);
-}
-
-.case-study .cs-outcome-value p {
-  font-size: clamp(1.05rem, 1.5vw, 1.5rem);
-  line-height: 1.4;
-  color: var(--cs-dim);
-  padding-bottom: 0.5rem;
-}
-
 /* -------------------------------------------------------------- closing */
 
 .case-study .cs-closing {
@@ -614,12 +571,6 @@
   .case-study span.sm {
     font-size: 0.8rem;
     letter-spacing: 0.05rem;
-  }
-
-  .case-study .cs-outcome {
-    grid-template-columns: 1fr;
-    align-items: start;
-    gap: 1rem;
   }
 
   /* globals.css zeroes heading letter-spacing with !important below 1000px;
