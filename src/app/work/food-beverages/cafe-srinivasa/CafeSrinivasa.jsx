@@ -181,9 +181,8 @@ const CafeSrinivasa = ({ name, next }) => {
         </Copy>
       </section>
 
-      {/* The homepage Showreel frame — same pin, scale and radius — running
-          this project's own stills and reels instead of the /showreel
-          sequence. */}
+      {/* The homepage showcase, including its animated title and expanding
+          frame, running this project's own stills and reels. */}
       <CsShowreel media={ALL_MEDIA} label={name} />
 
       {/* --------------------------------------------------------- brief */}

@@ -1,6 +1,6 @@
 "use client";
 import "./Showreel.css";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -63,12 +63,13 @@ const ShowreelWords = ({ className }) => (
   </div>
 );
 
-const Showreel = () => {
+const Showreel = ({ media = PROJECT_SHOWREEL_MEDIA, label = "Project showreel" }) => {
+  const items = useMemo(() => [...new Set(media)], [media]);
   const showreelSecRef = useRef(null);
   const containerRef = useRef(null);
   const audioRef = useRef(null);
   const videoRefs = useRef({});
-  const [currentMedia, setCurrentMedia] = useState(PROJECT_SHOWREEL_MEDIA[0]);
+  const [currentMedia, setCurrentMedia] = useState(items[0]);
   // Frames whose file couldn't be loaded; the reel steps over them instead
   // of holding an empty frame for its full duration.
   const [failed, setFailed] = useState(() => new Set());
@@ -76,7 +77,7 @@ const Showreel = () => {
   const [inView, setInView] = useState(true);
 
   const followingMedia = (src) => {
-    const list = PROJECT_SHOWREEL_MEDIA;
+    const list = items;
     const from = list.indexOf(src);
     for (let step = 1; step <= list.length; step++) {
       const candidate = list[(from + step) % list.length];
@@ -241,11 +242,11 @@ const Showreel = () => {
   );
 
   return (
-    <section className="showreel" ref={showreelSecRef} aria-label="Showreel">
+    <section className="showreel" ref={showreelSecRef} aria-label={label}>
       <ShowreelWords className="showreel-words--outer" />
 
       <div className="showreel-container" ref={containerRef}>
-        {PROJECT_SHOWREEL_MEDIA.map((src) => {
+        {items.map((src) => {
           const isCurrent = src === currentMedia;
           const shouldPrime =
             !failed.has(src) && (isCurrent || src === nextMedia);
@@ -274,7 +275,7 @@ const Showreel = () => {
               ) : (
                 <img
                   src={shouldPrime ? optimizeImageUrl(src, 1920) : undefined}
-                  alt={isCurrent ? "Project showreel" : ""}
+                  alt={isCurrent ? label : ""}
                   decoding="async"
                   onError={onError}
                 />
@@ -287,7 +288,19 @@ const Showreel = () => {
         <ShowreelWords className="showreel-words--inner" />
       </div>
 
-      <div className="volume-icon" onClick={toggleMute}>
+      <div
+        className="volume-icon"
+        onClick={toggleMute}
+        role="button"
+        tabIndex={0}
+        aria-label={isMuted ? "Unmute showreel" : "Mute showreel"}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggleMute();
+          }
+        }}
+      >
         {isMuted ? (
           <LuVolumeX color="var(--base-400)" size={20} />
         ) : (
