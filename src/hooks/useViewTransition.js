@@ -8,7 +8,7 @@ import {
   normalizePath,
 } from "@/lib/page-ready";
 
-// The page transition is driven entirely by the GSAP overlay below — we do NOT
+// The page transition is driven entirely by the GSAP overlay below - we do NOT
 // use the browser's View Transition API here. Layering the two (this timeline
 // plus next-view-transitions' `document.startViewTransition`) meant every
 // navigation raced a transition the router could not finish in time, which
@@ -17,7 +17,7 @@ import {
 // so the overlay played but the route never changed.
 
 // Guards against a second click while a transition is mid-flight (covering,
-// waiting on the destination page, or revealing) — otherwise two timelines
+// waiting on the destination page, or revealing) - otherwise two timelines
 // fight over the same overlay node and one of them removes it out from under
 // the other. This can't be `activeTimeline.isActive()` alone because the
 // overlay sits fully covering the screen, with no tween running, while we
@@ -30,8 +30,8 @@ let transitionInProgress = false;
 // as long as the page actually takes. These only bound that wait.
 //
 // Base deadline for a route that never reports in at all. Every progress tick
-// pushes it out — a page that is still pulling assets is making progress and
-// shouldn't be abandoned — up to the hard ceiling.
+// pushes it out - a page that is still pulling assets is making progress and
+// shouldn't be abandoned - up to the hard ceiling.
 const READY_TIMEOUT_MS = 6000;
 const PROGRESS_GRACE_MS = 3000;
 const MAX_READY_WAIT_MS = 15000;
@@ -122,7 +122,7 @@ export const useViewTransition = () => {
     const overlay = createSVGOverlay();
     const overlayPath = overlay.querySelector(".overlay__path");
 
-    // No overlay to animate — still navigate rather than dropping the click.
+    // No overlay to animate - still navigate rather than dropping the click.
     if (!overlayPath) {
       router.push(href);
       if (onRouteChange) onRouteChange();
@@ -179,13 +179,13 @@ export const useViewTransition = () => {
           });
       });
 
-      // Screen is fully covered — safe to swap the route.
+      // Screen is fully covered - safe to swap the route.
       router.push(href);
       if (onRouteChange) onRouteChange();
 
       // Hold here for real: driven by the destination page actually being
       // mounted with its images/video loaded (see client-layout.js), not a
-      // fixed guess — so the reveal never uncovers a still-loading page.
+      // fixed guess - so the reveal never uncovers a still-loading page.
       await waitForPageReady(href);
 
       // Reveal: short pickup, then a long power3 settle off the top edge.
@@ -214,7 +214,7 @@ export const useViewTransition = () => {
 
   // `href` is authored decoded (see workCategories.js) while
   // `window.location.pathname` comes back percent-encoded, so both sides are
-  // decoded before the same-page check — otherwise "/a b" never matches
+  // decoded before the same-page check - otherwise "/a b" never matches
   // "/a%20b" and we'd replay the whole transition onto the current page.
   const samePath = (a, b) => {
     const decode = (value) => {

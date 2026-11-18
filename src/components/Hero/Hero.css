@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Home hero — inset rounded frame, full-bleed living backdrop, oversized
+   Home hero - inset rounded frame, full-bleed living backdrop, oversized
    wordmark and a four-column grid.
    Everything is namespaced `home-hero` because the case-study pages already
    own a set of global `hero-*` classes.
@@ -151,7 +151,7 @@
   font-size: var(--hh-wordmark);
   line-height: 0.78;
   letter-spacing: -0.05em;
-  /* Optical nudge — the P's stem otherwise sits right of the column edge. */
+  /* Optical nudge - the P's stem otherwise sits right of the column edge. */
   margin-left: -0.055em;
 }
 

@@ -34,7 +34,7 @@ export default function Button({
         "PP Neue Montreal",
         "Ariane Coachella",
       ];
-      // `document.fonts.check()` returns a plain boolean, not a promise —
+      // `document.fonts.check()` returns a plain boolean, not a promise -
       // wrapping it in Promise.all didn't actually wait for anything, so
       // SplitText could still run against fallback-font metrics.
       // `document.fonts.load()` triggers the load (if needed) and returns a

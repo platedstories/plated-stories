@@ -48,8 +48,8 @@ const HERO_POSTER = videoPosterUrl(REEL[0].url, 1280);
 
 // Browsers take the first <source> that loads whose media query matches.
 // With `resize`, ImageKit's resized renditions come first (720px on phones,
-// 1280px otherwise); without it, the link itself. When one can't be served —
-// e.g. a 403 while the account's video-transformation quota is used up — the
+// 1280px otherwise); without it, the link itself. When one can't be served -
+// e.g. a 403 while the account's video-transformation quota is used up - the
 // browser falls through to the untransformed original (`orig-true`), which
 // is never blocked.
 const reelSources = ({ url, resize }) => [
@@ -125,7 +125,7 @@ export default function Hero() {
 
     // The later clips wait (preload="none"); only the one up next is
     // fetched, once the current one is playing, so they don't compete with
-    // it — or each other — for bandwidth.
+    // it - or each other - for bandwidth.
     const warm = (i) => {
       const video = videos[i];
       if (!video || video.preload !== "none") return;
@@ -147,7 +147,7 @@ export default function Hero() {
     const crossfade = () => {
       const next = nextIndex();
       if (next < 0) {
-        // Nothing to hand over to — just keep the current clip looping.
+        // Nothing to hand over to - just keep the current clip looping.
         videos[active].loop = true;
         return;
       }
@@ -358,7 +358,7 @@ export default function Hero() {
       // breaks depend on them). Each word rises out of a soft blur; the split
       // is undone when the intro ends so the paragraph reflows on resize.
       const buildStatement = () => {
-        // Hidden on small screens (display: none) — nothing to measure.
+        // Hidden on small screens (display: none) - nothing to measure.
         if (!statement || statement.getClientRects().length === 0) return;
 
         statementSplit = SplitText.create(statement, {
@@ -462,7 +462,7 @@ export default function Hero() {
       });
 
       // Letters slip back up into their mask at staggered speeds on the way
-      // out — the intro in reverse. Pixel `y`, so it composes with the
+      // out - the intro in reverse. Pixel `y`, so it composes with the
       // intro's `yPercent` instead of fighting it.
       if (!reduceMotion) {
         gsap.to(chars, {
@@ -591,7 +591,7 @@ export default function Hero() {
               We craft stories that people can taste.{" "}
               <span className="home-hero-muted">
                 Visual content for restaurants, caf&eacute;s and lifestyle
-                brands &mdash; strategy, production and storytelling, end to
+                brands - strategy, production and storytelling, end to
                 end.
               </span>
             </p>

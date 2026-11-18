@@ -20,7 +20,7 @@ export const loadFontsFor = (root) => {
 
 // Loads the faces `root` uses, then waits until the document has no font
 // loads in flight at all. SplitText warns whenever `document.fonts.status` is
-// "loading" — even when the pending face belongs to some other element — and
+// "loading" - even when the pending face belongs to some other element - and
 // `ready` is replaced every time a new load starts, so re-check a few times.
 export const waitForFonts = async (root, maxRounds = 5) => {
   if (typeof document === "undefined" || !document.fonts) return;

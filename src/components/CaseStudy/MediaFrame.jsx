@@ -10,7 +10,7 @@ import { optimizeImageUrl } from "@/lib/media-delivery";
 // cluster revealed on hover or focus.
 //
 // The whole tile opens the viewer when `onOpen` is given. The control
-// buttons sit inside it, so they stop the click from bubbling — pausing a
+// buttons sit inside it, so they stop the click from bubbling - pausing a
 // reel in place should not also throw it full-screen.
 const MediaFrame = ({
   src,
@@ -48,14 +48,14 @@ const MediaFrame = ({
     return () => observer.disconnect();
   }, []);
 
-  // A cloned marquee tile still opens the viewer under the cursor — it is
-  // indistinguishable from the original on screen — but it is hidden from
+  // A cloned marquee tile still opens the viewer under the cursor - it is
+  // indistinguishable from the original on screen - but it is hidden from
   // assistive tech, so it must not also be a second tab stop announcing the
   // same frame twice. Mouse gets the click; only the original gets the role.
   const clickable = Boolean(onOpen);
   const interactive = clickable && !hidden;
 
-  // Marks the tile as something you can open, cloned or not — the cursor and
+  // Marks the tile as something you can open, cloned or not - the cursor and
   // the "View" cue hang off this rather than off the ARIA role, which the
   // clones deliberately do not carry.
   const openClass = clickable ? " cs-frame--open" : "";

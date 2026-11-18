@@ -29,7 +29,7 @@ const Page = () => {
               around 3,000 Instagram followers but lacked a strong digital
               identity. While the food experience was exceptional, its social
               media failed to reflect the quality, story and authenticity behind
-              the brand &mdash; making it hard to reach new audiences or build a
+              the brand - making it hard to reach new audiences or build a
               loyal community.
             </h3>
           </div>
@@ -98,7 +98,7 @@ const Page = () => {
             <p>The Solution</p>
             <h3>
               Over nine months, Plated Stories managed the entire creative
-              process &mdash; from ideation and scripting to production, editing
+              process - from ideation and scripting to production, editing
               and strategy. Our content focused on high-quality food and
               lifestyle visuals, founder-led storytelling, relatable
               trend-adapted reels, creative carousel concepts and consistent
@@ -114,7 +114,7 @@ const Page = () => {
 
           <div className="details">
             <p>Signature Win</p>
-            <h3>Mulbagal Dosa &mdash; a best-seller</h3>
+            <h3>Mulbagal Dosa - a best-seller</h3>
           </div>
         </Copy>
       </section>

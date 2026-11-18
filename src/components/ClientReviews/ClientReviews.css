@@ -1,15 +1,15 @@
 /* Mobile-first: the reviews are a plain vertical list. The stacked-card
    treatment below (min-width: 1000px) is layered on top of that, and its
    breakpoint matches the gsap.matchMedia query in ClientReviews.jsx exactly
-   — if the two ever drift, the cards get absolutely positioned with no
+   - if the two ever drift, the cards get absolutely positioned with no
    timeline to place them and every card lands on the same spot. */
 .client-reviews {
   position: relative;
   width: 100%;
   background-color: var(--base-100);
 
-  /* Every space inside a card — its padding, the gap under the quote, the
-     gap between the two credit lines — is a multiple of the quote's own type
+  /* Every space inside a card - its padding, the gap under the quote, the
+     gap between the two credit lines - is a multiple of the quote's own type
      size, so the card's proportions hold at any viewport instead of the type
      scaling while fixed rem gaps stay put. */
   --quote-size: clamp(1.25rem, 2.4vw, 2.5rem);
@@ -33,7 +33,7 @@
 }
 
 /* The text block is the flex child that holds the quote. Without `min-width: 0`
-   it keeps its min-content width — long unbreakable runs of uppercase then
+   it keeps its min-content width - long unbreakable runs of uppercase then
    push the wrapper wider than the card and the quote spills out past the
    rounded edge. */
 .client-reviews .review-card-content {
@@ -42,7 +42,7 @@
 }
 
 /* The quote and the credit sit one after the other with a single gap between
-   them — no `space-between`, which would stretch that gap to whatever height
+   them - no `space-between`, which would stretch that gap to whatever height
    the card happened to have and leave a dead band under short reviews. The
    card takes its height from this block instead, so the spacing is the same
    whether a review runs two lines or six. */
@@ -131,7 +131,7 @@
      review can never grow past the stage it has to animate inside. */
   /* Narrower than the stage on purpose: the quote wraps onto more lines, and
      because the height follows the text the card grows taller to match. That
-     portrait-ish proportion is the point — a full-width card reads as a
+     portrait-ish proportion is the point - a full-width card reads as a
      banner, not as something someone said. */
   .client-reviews .review-card-container {
     width: min(50rem, 90%);

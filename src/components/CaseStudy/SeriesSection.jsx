@@ -4,7 +4,7 @@ import MediaFrame from "./MediaFrame";
 import { pad, slugify, splitRows } from "./media";
 
 // One row of an endless marquee strip. Pulled out of SeriesSection so a
-// section can run either one row or several — see `marqueeRows` there.
+// section can run either one row or several - see `marqueeRows` there.
 const MarqueeRow = ({
   items,
   offset,
@@ -40,19 +40,19 @@ const MarqueeRow = ({
 );
 
 // One chapter of a case study: the label, the title and the copy first, then
-// the media underneath — read the section, then look at it. Alternating
+// the media underneath - read the section, then look at it. Alternating
 // grounds (`dark`) break the page into chapters rather than one long scroll
 // of galleries.
 //
 // Two layouts, chosen per series:
-//   marquee  — an endless strip, for sets big enough to run. `marqueeRows`
+//   marquee  - an endless strip, for sets big enough to run. `marqueeRows`
 //              (default 1) splits the set across several stacked strips,
 //              each running the opposite direction from the one above it.
-//   grid     — a column layout at the series' own `columns` count
+//   grid     - a column layout at the series' own `columns` count
 const SeriesSection = ({ item, index, dark, label = "Series", onOpen }) => {
   const landscape = item.frame === "landscape";
   // A section can also mark specific items as landscape rather than the
-  // whole set — one wide reel mixed among otherwise vertical ones.
+  // whole set - one wide reel mixed among otherwise vertical ones.
   const isItemLandscape = (src) => Boolean(item.landscapeMedia?.includes(src));
   const marqueeRows = item.marqueeRows ?? 1;
 
@@ -81,7 +81,7 @@ const SeriesSection = ({ item, index, dark, label = "Series", onOpen }) => {
         {item.marquee ? (
           // The track holds each row's set twice over and slides exactly
           // one set's width before looping, so the seam never shows. CSS
-          // owns the motion — see .cs-marquee in the stylesheet — which
+          // owns the motion - see .cs-marquee in the stylesheet - which
           // keeps pause-on-hover a single declaration rather than a scroll
           // listener.
           <div className="cs-marquee-rows">

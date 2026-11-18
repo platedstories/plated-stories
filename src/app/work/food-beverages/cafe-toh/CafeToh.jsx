@@ -21,7 +21,6 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 // GSAP's SplitText rebuilds the text nodes it splits and trims each one's
 // leading whitespace, so a sentence broken across `{expr}` boundaries loses
 // the spaces around them. One text node, one string.
-const EM = "—";
 const RSQUO = "’";
 
 const META = [
@@ -39,7 +38,7 @@ const SECTIONS = [
     number: "01",
     name: "Art vs Artist",
     marquee: true,
-    copy: `The room and the people who make it ${EM} work on the walls set against the hands that plate, pour and serve.`,
+    copy: `The room and the people who make it - work on the walls set against the hands that plate, pour and serve.`,
     media: [
       "https://ik.imagekit.io/platedstories/svdhbj.jpeg",
       "https://ik.imagekit.io/platedstories/gyufhkj.jpeg",
@@ -63,8 +62,8 @@ const SECTIONS = [
   {
     number: "03",
     name: "Textures",
-    copy: `Close enough to feel it ${EM} crumb, foam, grain and glaze at a distance no diner gets.`,
-    // Wider frames than the other chapters — texture footage reads
+    copy: `Close enough to feel it - crumb, foam, grain and glaze at a distance no diner gets.`,
+    // Wider frames than the other chapters - texture footage reads
     // landscape, so fewer of them run on the line.
     frame: "landscape",
     marquee: true,
@@ -79,7 +78,7 @@ const SECTIONS = [
     number: "04",
     name: "Vinyls",
     copy: `The other half of the room, and the reason people stay for a second cup.`,
-    // Same wider ratio as Textures — this footage reads landscape too.
+    // Same wider ratio as Textures - this footage reads landscape too.
     frame: "landscape",
     marquee: true,
     media: [
@@ -92,7 +91,7 @@ const SECTIONS = [
   {
     number: "05",
     name: "Specials",
-    copy: `Off-menu today, gone tomorrow ${EM} the board shot as fast as it turns over.`,
+    copy: `Off-menu today, gone tomorrow - the board shot as fast as it turns over.`,
     marquee: true,
     media: [
       "https://ik.imagekit.io/platedstories/3.%20Matcha-compressed.mp4?tr=orig-true",
@@ -204,7 +203,7 @@ const CafeToh = ({ name, next }) => {
   );
 
   // Frames in a grid chapter rise as they cross the fold. A marquee is
-  // already moving, so it is left alone — animating a tile inside an
+  // already moving, so it is left alone - animating a tile inside an
   // animating track only fights it.
   useGSAP(
     () => {
@@ -293,7 +292,7 @@ const CafeToh = ({ name, next }) => {
 
             <Copy animateOnScroll={true}>
               <p className="cs-copy">
-                {`Cafe Toh is as much a room as a menu ${EM} art on the walls, food regulars order without looking, and a reason to sit longer than you meant to. We shot it in four parts, each one a different reason to walk in, and cut them so the feed reads as a place rather than a catalogue.`}
+                {`Cafe Toh is as much a room as a menu - art on the walls, food regulars order without looking, and a reason to sit longer than you meant to. We shot it in four parts, each one a different reason to walk in, and cut them so the feed reads as a place rather than a catalogue.`}
               </p>
             </Copy>
           </div>

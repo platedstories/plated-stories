@@ -10,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 // separate clocks: Lenis writes the scroll position from its own rAF, while
 // ScrollTrigger reacts to the native scroll event it fires afterwards. A pinned
 // section is a fixed-position swap decided from that position, so a frame of
-// lag shows up as the pin engaging late and — going back up — releasing early,
+// lag shows up as the pin engaging late and - going back up - releasing early,
 // which is how a pinned card ends up floating over the section above it.
 //
 // The fix is one clock: GSAP's ticker drives Lenis, and every Lenis scroll
@@ -38,8 +38,8 @@ const ScrollSync = () => {
   }, [lenis]);
 
   // Pin start/end positions are measured once and cached. Anything that changes
-  // document height after that measurement — a lazy image arriving, fonts
-  // swapping, a section reflowing — leaves every trigger below it pointing at
+  // document height after that measurement - a lazy image arriving, fonts
+  // swapping, a section reflowing - leaves every trigger below it pointing at
   // the wrong scroll offset. One observer here replaces the per-component
   // refresh calls that used to fire mid-setup, while other sections had not yet
   // registered their own triggers.

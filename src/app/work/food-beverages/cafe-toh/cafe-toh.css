@@ -1,4 +1,4 @@
-/* Cafe Toh — what is genuinely this project's own.
+/* Cafe Toh - what is genuinely this project's own.
 
    The contents card, the chapter flow, the frames, the marquee, the viewer
    and the closing all come from
@@ -21,7 +21,7 @@
   min-height: 100svh;
   display: flex;
   align-items: flex-end;
-  /* Clears the fixed header — the old collage ran up under the nav. */
+  /* Clears the fixed header - the old collage ran up under the nav. */
   padding-top: clamp(7rem, 14vh, 11rem);
   padding-bottom: clamp(2.5rem, 6vh, 5rem);
   overflow: hidden;
@@ -134,7 +134,7 @@
 /* ------------------------------------------------------------ responsive */
 
 @media (max-width: 1000px) {
-  /* Five tiles are postage stamps on a phone — show three. */
+  /* Five tiles are postage stamps on a phone - show three. */
   .toh-case .toh-hero-strip {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }

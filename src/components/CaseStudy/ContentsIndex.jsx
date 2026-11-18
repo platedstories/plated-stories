@@ -4,7 +4,7 @@ import { pad, slugify } from "./media";
 // The contents card: a ruled list of every part of the study, numbered on
 // the left and frame-counted on the right. Parts that are shot link through
 // to their section; parts still to come stay in the list, dimmed, with a
-// `--` count — the study reads as a whole even while it is being filled in.
+// `--` count - the study reads as a whole even while it is being filled in.
 //
 // Nothing here is project-specific: `items` is the same array the sections
 // are rendered from, so the card can never drift out of sync with them.

@@ -21,7 +21,6 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 // GSAP's SplitText rebuilds the text nodes it splits and trims each one's
 // leading whitespace, so a sentence broken across `{expr}` boundaries loses
 // the spaces around them. One text node, one string.
-const EM = "—";
 const RSQUO = "’";
 
 const META = [
@@ -38,7 +37,7 @@ const SECTIONS = [
   {
     number: "01",
     name: "Delightful Delicacies",
-    copy: `Small-batch bakes shot the way they're actually sold ${EM} one home kitchen, one box at a time.`,
+    copy: `Small-batch bakes shot the way they're actually sold - one home kitchen, one box at a time.`,
     marquee: true,
     // Two strips instead of one, running opposite ways.
     marqueeRows: 2,
@@ -76,7 +75,7 @@ const SECTIONS = [
     copy: `A baker's own name on the label, so the story behind the box gets the same frame as the bake.`,
     marquee: true,
     // Three strips: seven frames each on the first two lines, six on the
-    // third — `marqueeSplit` keeps rows from being folded evenly into each
+    // third - `marqueeSplit` keeps rows from being folded evenly into each
     // other. Odd rows already reverse (see SeriesSection), so the lines
     // alternate direction top to bottom.
     marqueeRows: 3,
@@ -125,7 +124,7 @@ const SECTIONS = [
   {
     number: "04",
     name: "Mewa",
-    copy: `Ingredient-forward bakes ${EM} the dried fruit and nut doing the work a filter usually would.`,
+    copy: `Ingredient-forward bakes - the dried fruit and nut doing the work a filter usually would.`,
     // Seven frames, same weight class as Cafe Srinivasa's marquee chapters
     // (5-7 items) rather than the grid layout, which is reserved for the
     // smaller 3-4 item sets.
@@ -143,7 +142,7 @@ const SECTIONS = [
   {
     number: "05",
     name: "Only Desserts",
-    copy: `Nothing but the finish ${EM} the plate cleared down to just what${RSQUO}s worth photographing.`,
+    copy: `Nothing but the finish - the plate cleared down to just what${RSQUO}s worth photographing.`,
     marquee: true,
     media: [
       "https://ik.imagekit.io/platedstories/34.heic",
@@ -255,7 +254,7 @@ const HomeBakers = ({ name, next }) => {
   );
 
   // Frames in a grid chapter rise as they cross the fold. A marquee is
-  // already moving, so it is left alone — animating a tile inside an
+  // already moving, so it is left alone - animating a tile inside an
   // animating track only fights it.
   useGSAP(
     () => {
@@ -344,7 +343,7 @@ const HomeBakers = ({ name, next }) => {
 
             <Copy animateOnScroll={true}>
               <p className="cs-copy">
-                {`Home Bakers brings five independent home-kitchen brands under one lens ${EM} each with its own name, its own following and its own reason people order again. We shot each one as its own chapter rather than folding them into a single generic feed.`}
+                {`Home Bakers brings five independent home-kitchen brands under one lens - each with its own name, its own following and its own reason people order again. We shot each one as its own chapter rather than folding them into a single generic feed.`}
               </p>
             </Copy>
           </div>

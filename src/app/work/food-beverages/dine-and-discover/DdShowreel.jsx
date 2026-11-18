@@ -44,7 +44,7 @@ const DdShowreel = ({ media = [], label }) => {
     return () => clearTimeout(id);
   }, [index, media, inView]);
 
-  // Only the frame on screen plays, and only while the section is in view —
+  // Only the frame on screen plays, and only while the section is in view -
   // this page carries enough reels that letting them all run would decode a
   // dozen streams at once.
   useEffect(() => {

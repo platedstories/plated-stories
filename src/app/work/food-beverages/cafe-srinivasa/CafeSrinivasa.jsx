@@ -22,7 +22,6 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 // GSAP's SplitText rebuilds the text nodes it splits and trims each one's
 // leading whitespace, so a sentence broken across `{expr}` boundaries loses
 // the spaces around them. One text node, one string.
-const EM = "—";
 const RSQUO = "’";
 
 const META = [
@@ -31,7 +30,7 @@ const META = [
   { label: "Services", value: "Strategy, Production, Editing" },
 ];
 
-// Every frame in the case study, in series order — what the showreel cycles.
+// Every frame in the case study, in series order - what the showreel cycles.
 const ALL_MEDIA = SERIES.flatMap((item) => item.media);
 
 const CafeSrinivasa = ({ name, next }) => {
@@ -63,7 +62,7 @@ const CafeSrinivasa = ({ name, next }) => {
   );
 
   // Frames in a grid chapter rise as they cross the fold. A marquee is
-  // already moving, so it is left alone — animating a tile inside an
+  // already moving, so it is left alone - animating a tile inside an
   // animating track only fights it.
   useGSAP(
     () => {
@@ -115,7 +114,7 @@ const CafeSrinivasa = ({ name, next }) => {
 
             <Copy animateOnScroll={true}>
               <p className="cs-copy">
-                {`Cafe Srinivasa had the food and the following, but not the imagery to match ${EM} plates that landed hot on the table and flat on the feed. We rebuilt the visual language series by series, shooting each part of the menu as its own story instead of one catch-all shoot.`}
+                {`Cafe Srinivasa had the food and the following, but not the imagery to match - plates that landed hot on the table and flat on the feed. We rebuilt the visual language series by series, shooting each part of the menu as its own story instead of one catch-all shoot.`}
               </p>
             </Copy>
 

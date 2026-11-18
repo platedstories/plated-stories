@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Site footer — ruled four-column index over an oversized wordmark.
+   Site footer - ruled four-column index over an oversized wordmark.
    Colours, type and the hover text-roll follow the home hero.
    ========================================================================== */
 
@@ -23,8 +23,8 @@
    Two plain-blended speck layers rather than one blend-mode layer, because
    overlay/soft-light leave pure white untouched (the wordmark stayed clean)
    and barely move a near-black ground:
-     ::before — light specks, which read on the dark ground;
-     ::after  — dark specks, which read on the white type.
+     ::before - light specks, which read on the dark ground;
+     ::after  - dark specks, which read on the white type.
    Each speck layer is oversized so the jitter never shows an edge. */
 .footer-grain {
   position: absolute;

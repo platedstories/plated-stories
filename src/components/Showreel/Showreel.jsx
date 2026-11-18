@@ -221,7 +221,7 @@ const Showreel = ({ media = PROJECT_SHOWREEL_MEDIA, label = "Project showreel" }
           end: () => `+=${window.innerHeight * 2}px`,
           pin: true,
           pinSpacing: true,
-          // Pins refresh in document order — a pin above this one changes
+          // Pins refresh in document order - a pin above this one changes
           // where this one starts, so it has to be measured first.
           refreshPriority: 3,
           onUpdate: (self) => render(self.progress),

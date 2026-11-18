@@ -20,7 +20,7 @@ export let isInitialLoad = true;
 export const PRELOADER_REVEAL_EVENT = "preloader:reveal";
 export const PRELOADER_REVEALED_KEY = "__platedStoriesPreloaderRevealed";
 
-// Pool the slot-machine shuffle draws from — the studio's own gallery.
+// Pool the slot-machine shuffle draws from - the studio's own gallery.
 const allImageSources = [
   "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
   "https://ik.imagekit.io/platedstories/34.heic",
@@ -152,7 +152,7 @@ const Preloader = () => {
 
         const tl = gsap.timeline();
 
-        // Phase A — the logo fills from muted to bright, line by line.
+        // Phase A - the logo fills from muted to bright, line by line.
         tl.to(
           ".logo-line-1",
           { backgroundPosition: "0% 0%", duration: 0.9, ease: "none" },
@@ -164,7 +164,7 @@ const Preloader = () => {
           0.85
         );
 
-        // Phase B — the grid wipes open and starts shuffling.
+        // Phase B - the grid wipes open and starts shuffling.
         tl.to(
           gridImages,
           {
@@ -183,7 +183,7 @@ const Preloader = () => {
           2.5
         );
 
-        // Phase C — everything but the centre tile collapses away.
+        // Phase C - everything but the centre tile collapses away.
         tl.to(
           otherTiles,
           {
@@ -197,7 +197,7 @@ const Preloader = () => {
 
         tl.to(".hero-img", { y: -30, duration: 0.5, ease: "hop" }, 3.3);
 
-        // Phase D — the hero tile pushes in and settles.
+        // Phase D - the hero tile pushes in and settles.
         tl.to(
           ".hero-img",
           {
@@ -216,7 +216,7 @@ const Preloader = () => {
           3.7
         );
 
-        // Phase E — the whole overlay wipes up to reveal the page beneath.
+        // Phase E - the whole overlay wipes up to reveal the page beneath.
         tl.to(
           scope,
           {

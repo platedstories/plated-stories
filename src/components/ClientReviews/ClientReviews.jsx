@@ -9,7 +9,7 @@ import { useGSAP } from "@gsap/react";
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 // How far the card underneath sinks as the next one covers it. Small numbers
-// on purpose — the stack should read as depth, not as the old card running
+// on purpose - the stack should read as depth, not as the old card running
 // away from the new one.
 const SETTLE_SCALE = 0.92;
 const SETTLE_LIFT = -3;
@@ -25,8 +25,8 @@ const ClientReviews = () => {
       // One pinned stage, one scrubbed timeline. The previous version pinned
       // every card separately with `pinSpacing: false` and no tween between
       // them, so an incoming card simply guillotined the one below it
-      // mid-sentence, and the pins — created in a delayedCall, after other
-      // sections had already registered their own — measured against a stale
+      // mid-sentence, and the pins - created in a delayedCall, after other
+      // sections had already registered their own - measured against a stale
       // layout and left a viewport-sized gap before the last card.
       mm.add("(min-width: 1000px)", () => {
         const cards = gsap.utils.toArray(".review-card");
@@ -58,7 +58,7 @@ const ClientReviews = () => {
             end: () => `+=${(cards.length - 1) * window.innerHeight}`,
             pin: true,
             pinSpacing: true,
-            // Pins refresh in document order — a pin above this one changes
+            // Pins refresh in document order - a pin above this one changes
             // where this one starts, so it has to be measured first.
             refreshPriority: 1,
             scrub: 1,
@@ -79,12 +79,12 @@ const ClientReviews = () => {
             )
             // The incoming card covers the one below from the bottom up, so
             // the quote underneath has to be gone before that edge reaches
-            // it — otherwise you spend the handover reading a sentence
+            // it - otherwise you spend the handover reading a sentence
             // sliced in half. The card body stays solid; only its text goes.
             .to(quotes[i - 1], { opacity: 0, duration: 0.35 }, step + 0.1)
             // Eased rather than linear: the cover crosses the middle of the
-            // handover quickly, so the half-covered moment — where the card
-            // below is a blank slab with its quote already gone — is over
+            // handover quickly, so the half-covered moment - where the card
+            // below is a blank slab with its quote already gone - is over
             // fast, while the arrival still settles gently.
             .to(card, { yPercent: 0, duration: 1, ease: "power2.inOut" }, step);
         });
@@ -95,7 +95,7 @@ const ClientReviews = () => {
         };
       });
 
-      // Below the breakpoint the cards are a plain scrolling list — nothing
+      // Below the breakpoint the cards are a plain scrolling list - nothing
       // is pinned, so anything the desktop branch set has to come back off.
       mm.add("(max-width: 999px)", () => {
         gsap.set(

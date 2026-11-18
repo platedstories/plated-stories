@@ -87,7 +87,7 @@ const Page = () => {
               Beyond creating visually appealing content, we focus on helping
               brands build a stronger digital presence, deeper audience
               connection and long-term growth. Every piece of content is created
-              with purpose &mdash; balancing creativity, strategy and impact to
+              with purpose - balancing creativity, strategy and impact to
               ensure that it contributes meaningfully to the brand&rsquo;s
               overall image and growth.
             </p>

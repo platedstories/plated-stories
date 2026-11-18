@@ -17,7 +17,6 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 // leading whitespace of each one, so an inline `When {name} partnered`
 // (text node / expression / text node) rendered as "Nini'spartnered". One
 // text node, one string, no boundary to lose.
-const EM = "—";
 const RSQUO = "’";
 
 const CHAPTERS = [
@@ -26,14 +25,14 @@ const CHAPTERS = [
     kicker: "Context",
     title: "The",
     accent: "Problem",
-    copy: `When Baked by Nini${RSQUO}s partnered with Plated Stories, the brand had a strong offering but lacked a digital identity that reflected its quality, story and authenticity ${EM} making it hard to reach new audiences or build a loyal community.`,
+    copy: `When Baked by Nini${RSQUO}s partnered with Plated Stories, the brand had a strong offering but lacked a digital identity that reflected its quality, story and authenticity - making it hard to reach new audiences or build a loyal community.`,
   },
   {
     index: "02",
     kicker: "Strategy",
     title: "The",
     accent: "Approach",
-    copy: `We built a content ecosystem balancing storytelling, entertainment and visual appeal ${EM} highlighting the story and philosophy behind the brand through consistent posting and creative experimentation.`,
+    copy: `We built a content ecosystem balancing storytelling, entertainment and visual appeal - highlighting the story and philosophy behind the brand through consistent posting and creative experimentation.`,
     dark: true,
   },
   {
@@ -41,7 +40,7 @@ const CHAPTERS = [
     kicker: "Execution",
     title: "The",
     accent: "Solution",
-    copy: `Plated Stories managed the entire creative process ${EM} from ideation and scripting to production, editing and strategy. Our content focused on high-quality visuals, founder-led storytelling and consistent brand messaging, transforming the page into a thriving content-driven community.`,
+    copy: `Plated Stories managed the entire creative process - from ideation and scripting to production, editing and strategy. Our content focused on high-quality visuals, founder-led storytelling and consistent brand messaging, transforming the page into a thriving content-driven community.`,
   },
 ];
 
@@ -90,8 +89,8 @@ const BakedByNinis = ({ name, heroVideo, next }) => {
   const [isPlaying, setIsPlaying] = useState(true);
 
   // The reel is meant to play with sound on. Browsers only permit autoplay
-  // while muted, so the element still renders `muted` — dropping it would
-  // block playback entirely — and we unmute the moment it starts. If the
+  // while muted, so the element still renders `muted` - dropping it would
+  // block playback entirely - and we unmute the moment it starts. If the
   // browser rejects unmuted playback (no prior interaction with the site),
   // we fall back to muted and take the visitor's first gesture anywhere on
   // the page as the permission to turn sound on.
@@ -116,7 +115,7 @@ const BakedByNinis = ({ name, heroVideo, next }) => {
         await v.play();
         return !cancelled;
       } catch {
-        // Blocked — stay muted and keep the reel visibly playing.
+        // Blocked - stay muted and keep the reel visibly playing.
         v.muted = true;
         v.play().catch(() => {});
         return false;

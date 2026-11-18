@@ -121,7 +121,7 @@ const DeckCard = ({
               <span className="wi-sr">Projects </span>
               {first}
               <span className="wi-card-dash" aria-hidden="true">
-                —
+                -
               </span>
               <span className="wi-sr"> to </span>
               {last}

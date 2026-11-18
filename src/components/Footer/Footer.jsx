@@ -77,7 +77,7 @@ const Footer = () => {
           <span className="footer-cross footer-cross--bl" aria-hidden="true" />
           <span className="footer-cross footer-cross--br" aria-hidden="true" />
 
-          {/* 1 — Brand */}
+          {/* 1 - Brand */}
           <div className="footer-col footer-brand">
             <div className="footer-brand-top">
               <a href="/" className="footer-logo" onClick={goTo("/")}>
@@ -113,7 +113,7 @@ const Footer = () => {
             </a>
           </div>
 
-          {/* 2 — Navigation. A div with role="navigation", not a nav
+          {/* 2 - Navigation. A div with role="navigation", not a nav
               element: Menu.css styles every bare `nav` as the fixed site
               header, which would pin this column to the top of the screen. */}
           <div
@@ -136,7 +136,7 @@ const Footer = () => {
             ))}
           </div>
 
-          {/* 3 — Follow */}
+          {/* 3 - Follow */}
           <div className="footer-col footer-follow">
             <p className="footer-label">Follow on</p>
             <ul>
@@ -158,7 +158,7 @@ const Footer = () => {
             <p className="footer-link footer-link--static">Mumbai, India</p>
           </div>
 
-          {/* 4 — Statement + credits */}
+          {/* 4 - Statement + credits */}
           <div className="footer-col footer-meta">
             <Copy animateOnScroll={true} delay={0.2}>
               <p className="footer-tagline">

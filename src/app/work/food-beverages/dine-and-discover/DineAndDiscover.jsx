@@ -20,7 +20,6 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 // GSAP's SplitText rebuilds the text nodes it splits and trims each one's
 // leading whitespace, so a sentence broken across `{expr}` boundaries loses
 // the spaces around them. One text node, one string.
-const EM = "—";
 
 const META = [
   { label: "Client", value: "Dine & Discover" },
@@ -28,13 +27,13 @@ const META = [
   { label: "Services", value: "Strategy, Production, Editing" },
 ];
 
-// One shoot, not several — unlike Cafe Srinivasa this project was never
+// One shoot, not several - unlike Cafe Srinivasa this project was never
 // split into named series, so it renders as a single chapter carrying the
 // whole set rather than a contents card with multiple parts.
 const GALLERY = {
   name: "The Full Spread",
   columns: 3,
-  copy: `Every table, plate and pour from one shoot ${EM} a single set rather than a set of chapters.`,
+  copy: `Every table, plate and pour from one shoot - a single set rather than a set of chapters.`,
   media: [
     "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
     "https://ik.imagekit.io/platedstories/34.heic",
@@ -113,7 +112,7 @@ const DineAndDiscover = ({ name, next }) => {
         </Copy>
       </section>
 
-      {/* The homepage Showreel frame — same pin, scale and radius — running
+      {/* The homepage Showreel frame - same pin, scale and radius - running
           this project's own stills instead of the /showreel sequence. */}
       <DdShowreel media={GALLERY.media} label={name} />
 
@@ -133,7 +132,7 @@ const DineAndDiscover = ({ name, next }) => {
 
           <Copy animateOnScroll={true}>
             <p className="cs-copy">
-              {`Dine & Discover needed one shoot that could carry the whole feed ${EM} plates, pours and the room itself, framed as a single consistent set rather than a scatter of one-off posts.`}
+              {`Dine & Discover needed one shoot that could carry the whole feed - plates, pours and the room itself, framed as a single consistent set rather than a scatter of one-off posts.`}
             </p>
           </Copy>
 

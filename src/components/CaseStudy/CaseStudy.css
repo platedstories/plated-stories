@@ -3,8 +3,8 @@
    Two things the client signed off on, made reusable so every project page
    speaks the same language:
 
-     .cs-contents  the contents card — a ruled, numbered index of the parts
-     .cs-series    the chapter flow — label, title, copy, then the media
+     .cs-contents  the contents card - a ruled, numbered index of the parts
+     .cs-series    the chapter flow - label, title, copy, then the media
 
    Everything is scoped under .case-study, which a project page puts on its
    root element. A page keeps its own stylesheet only for what is genuinely
@@ -35,7 +35,7 @@
 }
 
 /* Display headline shared by every section label. Letter-spacing is set in
-   `em`, not `rem`, so tracking stays proportional at every size — the fixed
+   `em`, not `rem`, so tracking stays proportional at every size - the fixed
    values in globals.css crowd words together as the font-size drops. */
 .case-study .cs-display {
   font-family: var(--font-secondary);
@@ -54,7 +54,7 @@
   color: var(--cs-dim);
 }
 
-/* globals.css only styles `.sm` on p/a — the numbers in the contents rows
+/* globals.css only styles `.sm` on p/a - the numbers in the contents rows
    are spans, so they need the mono treatment spelled out. */
 .case-study span.sm,
 .cs-lightbox span.sm {
@@ -127,7 +127,7 @@
   color: var(--cs-dim);
 }
 
-/* A part that is commissioned but not yet shot still earns its row — the
+/* A part that is commissioned but not yet shot still earns its row - the
    study reads as a whole, and the `--` count says why it is quiet. */
 .case-study .cs-contents-list .is-pending {
   color: var(--cs-dim);
@@ -223,7 +223,7 @@
   transition: transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* Some footage — textures, room shots — only reads wide. */
+/* Some footage - textures, room shots - only reads wide. */
 .case-study .cs-gallery--landscape .cs-frame img,
 .case-study .cs-gallery--landscape .cs-frame video,
 .case-study .cs-marquee--landscape .cs-frame img,
@@ -235,7 +235,7 @@
   transform: scale(1.04);
 }
 
-/* A reel sits in the same column flow as the stills — no zoom on hover,
+/* A reel sits in the same column flow as the stills - no zoom on hover,
    since the frame carries controls instead. */
 .case-study .cs-frame--video {
   aspect-ratio: 4 / 5;
@@ -247,8 +247,8 @@
   aspect-ratio: 16 / 10;
 }
 
-/* A single tile can also read wide on its own — one landscape reel mixed
-   into an otherwise vertical set — without switching the whole section. */
+/* A single tile can also read wide on its own - one landscape reel mixed
+   into an otherwise vertical set - without switching the whole section. */
 .case-study .cs-frame--landscape img,
 .case-study .cs-frame--landscape video,
 .case-study .cs-frame--landscape.cs-frame--video {
@@ -355,7 +355,7 @@
 /* A series can run as an endless single-line strip instead of a grid.
    Four tiles are visible at a time; the track carries the set twice and
    travels exactly one set's width, so the loop is seamless. Sizing is in
-   `cqw` against the strip itself — a percentage width inside a
+   `cqw` against the strip itself - a percentage width inside a
    content-sized flex track would resolve circularly. */
 .case-study .cs-marquee {
   --marquee-gap: var(--cs-gap);
@@ -392,7 +392,7 @@
   animation: cs-marquee-scroll var(--marquee-duration, 30s) linear infinite;
 }
 
-/* A row can run the opposite way from the one above it — same loop, played
+/* A row can run the opposite way from the one above it - same loop, played
    back to front, so a two-row set reads as two currents rather than one
    strip repeated. */
 .case-study .cs-marquee--reverse .cs-marquee-track {
@@ -408,7 +408,7 @@
   margin-bottom: 0;
 }
 
-/* Hovering any tile stops the strip — including a reel, so its controls
+/* Hovering any tile stops the strip - including a reel, so its controls
    stay under the cursor. Focus does the same for keyboard users. */
 .case-study .cs-marquee-track:has(.cs-frame:hover),
 .case-study .cs-marquee-track:focus-within {
@@ -437,7 +437,7 @@
 
 /* ------------------------------------------------------------- lightbox */
 
-/* The viewer stays dark whatever the page does — photography reads best
+/* The viewer stays dark whatever the page does - photography reads best
    against near-black, and it is a room of its own. It sits at the top level
    of the DOM, so it is scoped by its own class rather than .case-study. */
 .cs-lightbox {

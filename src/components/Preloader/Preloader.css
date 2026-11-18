@@ -38,7 +38,7 @@
   aspect-ratio: 1;
   overflow: hidden;
   border-radius: 0.5rem;
-  /* Collapsed at the top edge — the reveal opens it into a full square. */
+  /* Collapsed at the top edge - the reveal opens it into a full square. */
   clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
   will-change: clip-path, transform;
 }

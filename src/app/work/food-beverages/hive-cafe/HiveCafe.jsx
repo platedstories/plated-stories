@@ -21,7 +21,6 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 // GSAP's SplitText rebuilds the text nodes it splits and trims each one's
 // leading whitespace, so a sentence broken across `{expr}` boundaries loses
 // the spaces around them. One text node, one string.
-const EM = "—";
 
 const META = [
   { label: "Client", value: "Hive Cafe" },
@@ -38,14 +37,14 @@ const SECTIONS = [
     number: "01",
     name: "Corners of Hive",
     marquee: true,
-    copy: `The room in pieces ${EM} the seats, the pass and the plates that move between them.`,
+    copy: `The room in pieces - the seats, the pass and the plates that move between them.`,
     media: [
       "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
       "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
       "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
       "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
     ],
-    // One reel was shot wide rather than vertical — it keeps its own ratio
+    // One reel was shot wide rather than vertical - it keeps its own ratio
     // instead of being cropped to match the rest of the strip.
     landscapeMedia: [
       "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
@@ -54,8 +53,8 @@ const SECTIONS = [
   {
     number: "02",
     name: "Food Pairing",
-    copy: `What goes with what ${EM} plate and cup framed together so the menu sells the combination, not just the dish.`,
-    // Shot wide across the board — same treatment as Cafe Toh's landscape
+    copy: `What goes with what - plate and cup framed together so the menu sells the combination, not just the dish.`,
+    // Shot wide across the board - same treatment as Cafe Toh's landscape
     // chapters.
     frame: "landscape",
     marquee: true,
@@ -71,7 +70,7 @@ const SECTIONS = [
   {
     number: "03",
     name: "Therapy",
-    copy: `The slow half of the cafe ${EM} the reason people linger over a second order.`,
+    copy: `The slow half of the cafe - the reason people linger over a second order.`,
     marquee: true,
     media: [
       "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
@@ -182,7 +181,7 @@ const HiveCafe = ({ name, next }) => {
   );
 
   // Frames in a grid chapter rise as they cross the fold. A marquee is
-  // already moving, so it is left alone — animating a tile inside an
+  // already moving, so it is left alone - animating a tile inside an
   // animating track only fights it.
   useGSAP(
     () => {
@@ -271,7 +270,7 @@ const HiveCafe = ({ name, next }) => {
 
             <Copy animateOnScroll={true}>
               <p className="cs-copy">
-                {`Hive Cafe is a room built for lingering ${EM} corners to sit in, plates worth pairing and a pace slow enough to call therapy. We shot it in three parts, each one a different reason to stay.`}
+                {`Hive Cafe is a room built for lingering - corners to sit in, plates worth pairing and a pace slow enough to call therapy. We shot it in three parts, each one a different reason to stay.`}
               </p>
             </Copy>
           </div>

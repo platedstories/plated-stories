@@ -12,7 +12,7 @@ const projectIndex = category.projects.findIndex(
 const project = category.projects[projectIndex];
 const next = category.projects[projectIndex + 1] ?? null;
 
-export const metadata = { title: `${project.name} — Plated Stories` };
+export const metadata = { title: `${project.name} - Plated Stories` };
 
 const Page = () => (
   <CafeSrinivasa name={project.name} next={next} />

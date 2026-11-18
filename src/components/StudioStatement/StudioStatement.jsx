@@ -103,7 +103,7 @@ export default function StudioStatement() {
         We are Plated Stories, a content studio crafting visual stories for
         F&amp;B and lifestyle brands{" "}
         <span className="studio-statement-muted">
-          &mdash; strategy, production and storytelling, handled end to end.
+          - strategy, production and storytelling, handled end to end.
         </span>
       </h2>
     </section>

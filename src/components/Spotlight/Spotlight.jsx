@@ -14,7 +14,7 @@ import { optimizeImageUrl } from "@/lib/media-delivery";
 
 // Real stills and reels pulled from the shared studio pool and case-study
 // media, in place of the generic placeholder art that used to live in
-// /public/spotlight — the marquee now previews the actual work.
+// /public/spotlight - the marquee now previews the actual work.
 const SPOTLIGHT_MEDIA = [
   "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
   "https://ik.imagekit.io/platedstories/34.heic",

@@ -13,7 +13,7 @@ import {
 } from "@/lib/page-ready";
 
 // Media that never settles (a 404'd image, a video the browser refuses to
-// buffer) shouldn't hold the overlay hostage — each asset gets its own budget,
+// buffer) shouldn't hold the overlay hostage - each asset gets its own budget,
 // and the whole readiness check gets an outer one.
 const PER_ASSET_TIMEOUT_MS = 4000;
 const READINESS_TIMEOUT_MS = 12000;
@@ -43,8 +43,8 @@ export default function ClientLayout({ children }) {
   // we just navigated to is genuinely presentable: mounted, fonts resolved,
   // and every above-the-fold image/video loaded AND decoded. The overlay holds
   // until this fires, so a transition lasts as long as the page actually takes
-  // — a cached route reveals almost immediately, a heavy case study holds
-  // longer — instead of running on a fixed duration.
+  // - a cached route reveals almost immediately, a heavy case study holds
+  // longer - instead of running on a fixed duration.
   //
   // Fires on every pathname change including the first render; that first
   // dispatch is harmless since no transition is listening yet.
@@ -98,7 +98,7 @@ export default function ClientLayout({ children }) {
       window.dispatchEvent(new CustomEvent(READY_EVENT, { detail }));
     };
 
-    // Two frames so the new route's DOM has actually laid out — element
+    // Two frames so the new route's DOM has actually laid out - element
     // positions are what decide which media counts as above the fold.
     const painted = new Promise((resolve) => {
       nextFrame(() => nextFrame(resolve));

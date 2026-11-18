@@ -69,7 +69,7 @@ export default function BrandGallery() {
         const img = item.querySelector("img, video");
         const label = item.querySelector(".brand-gallery-item-label");
 
-        // Hidden start — clipped shut, media pre-zoomed, label down.
+        // Hidden start - clipped shut, media pre-zoomed, label down.
         gsap.set(imgWrap, {
           clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",
         });
@@ -92,7 +92,7 @@ export default function BrandGallery() {
             0.15
           );
 
-        // Continuous parallax — the media drifts inside its frame on scroll.
+        // Continuous parallax - the media drifts inside its frame on scroll.
         // The 1.12 resting scale leaves headroom so no edge is ever exposed.
         gsap.fromTo(
           img,

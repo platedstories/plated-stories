@@ -47,7 +47,7 @@ export default function FeaturedWork() {
       // Each row swings its two cards in as it comes up. The offsets are
       // deliberately modest: the previous version threw them 1000px with a
       // 60deg tilt, which on any quick scroll meant a row was still visibly
-      // mid-flight — or, if its trigger measured before layout settled,
+      // mid-flight - or, if its trigger measured before layout settled,
       // never arrived at all.
       gsap.utils.toArray(".featured-work-list .row").forEach((row) => {
         const items = row.querySelectorAll(".featured-work-item");

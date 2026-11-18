@@ -5,7 +5,7 @@ const project = workCategories
   .find((c) => c.key === "luxury-fashion")
   .projects.find((p) => p.slug === "my-watch-merchant");
 
-export const metadata = { title: `${project.name} — Plated Stories` };
+export const metadata = { title: `${project.name} - Plated Stories` };
 
 const Page = () => (
   <ProjectPage name={project.name} images={project.images} />

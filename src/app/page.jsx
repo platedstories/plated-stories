@@ -72,7 +72,7 @@ const Page = () => {
             <div className="featured-work-header-copy">
               <Copy animateOnScroll={true} delay={0.25}>
                 <p className="lg">
-                  A look at the brands we&rsquo;ve helped grow &mdash; content
+                  A look at the brands we&rsquo;ve helped grow - content
                   built on storytelling, strategy and premium production across
                   food, hospitality and lifestyle.
                 </p>

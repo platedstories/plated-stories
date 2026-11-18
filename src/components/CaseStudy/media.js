@@ -14,7 +14,7 @@ export const slugify = (name) =>
 export const pad = (n) => String(n).padStart(2, "0");
 
 // Splits a media list into `rows` contiguous chunks, each carrying its
-// starting index into the original list — a multi-row marquee needs that
+// starting index into the original list - a multi-row marquee needs that
 // offset so a tile's lightbox index still points at the right item once the
 // single strip is broken into several. Rows are near-equal by default;
 // `sizes` overrides that with explicit, in-order chunk lengths (e.g. a lone

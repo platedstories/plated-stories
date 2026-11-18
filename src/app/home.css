@@ -66,7 +66,7 @@
   text-align: center;
 }
 
-/* "APPROVED" is a single 8rem word — at 50% of the content column it
+/* "APPROVED" is a single 8rem word - at 50% of the content column it
    overflowed its box and got sliced off by the section's `overflow: hidden`.
    The full column fits it, and the clamp keeps it from re-clipping on
    narrower desktops. */

@@ -13,7 +13,7 @@
 }
 
 /* Display headline shared by every section label. Letter-spacing is set
-   in `em`, not `rem`, so it stays proportional at every size — the fixed
+   in `em`, not `rem`, so it stays proportional at every size - the fixed
    -0.125rem/-0.2rem from globals.css crowds words together the moment the
    font-size drops, which is what jammed "Nini's" into "partnered". */
 .bbn-case .bbn-hero-title,
@@ -163,7 +163,7 @@
   font-size: clamp(2.75rem, 8.5vw, 10rem);
 }
 
-/* The supporting sentence — light, muted and narrow enough to stay
+/* The supporting sentence - light, muted and narrow enough to stay
    readable. This is the half that used to be a wall of 900-weight
    uppercase h3. */
 .bbn-case .bbn-chapter-copy {

@@ -5,7 +5,7 @@ import { isVideo } from "./media";
 import OptimizedVideo from "@/components/OptimizedVideo/OptimizedVideo";
 import { optimizeImageUrl } from "@/lib/media-delivery";
 
-// Full-frame viewer. Reels get real controls and sound here — the tile only
+// Full-frame viewer. Reels get real controls and sound here - the tile only
 // ever loops muted, because nobody asked it to make noise. Arrows and
 // Escape work the way anyone would expect them to.
 const Lightbox = ({ open, items, index, name, onClose, onStep }) => {

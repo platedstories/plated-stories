@@ -34,7 +34,7 @@ const STATS = [
 // Lede beside the still: a short lead in full ink, the rest muted.
 const LEDE = {
   lead: "Story first, start to finish.",
-  rest: "We start with the brand — its identity, its audience, its goals — and build every frame around a story worth telling.",
+  rest: "We start with the brand - its identity, its audience, its goals - and build every frame around a story worth telling.",
 };
 
 const DELIVERY_COPY =

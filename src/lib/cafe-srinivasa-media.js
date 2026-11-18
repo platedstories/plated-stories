@@ -1,18 +1,17 @@
-const EM = "—";
 const RSQUO = "’";
 
 // The shoot is organised as named series, mirroring the folders in the
 // project's Drive. Each entry renders its own chapter: the title and copy
-// first, then the media underneath. `media` takes stills and reels alike —
+// first, then the media underneath. `media` takes stills and reels alike -
 // anything ending .mp4 renders as a muted autoplaying video with its own
 // controls. A series with no media yet is listed in the contents card but
 // has no chapter, so filling one in later is a one-line change here.
 export const cafeSrinivasaSeries = [
   {
     name: "Classics",
-    // The dishes the cafe is known for — stills and reels on a strip.
+    // The dishes the cafe is known for - stills and reels on a strip.
     marquee: true,
-    copy: `The dishes people come back for ${EM} bisi bele bath, benne dosa, idli, dal vada and the full thali, each shot at the moment it leaves the kitchen.`,
+    copy: `The dishes people come back for - bisi bele bath, benne dosa, idli, dal vada and the full thali, each shot at the moment it leaves the kitchen.`,
     media: [
       "https://ik.imagekit.io/platedstories/bissi%20belle.jpeg",
       "https://ik.imagekit.io/platedstories/bissi%20belle%202.jpeg",
@@ -40,7 +39,7 @@ export const cafeSrinivasaSeries = [
     name: "Mulbagal",
     // Runs as an auto-scrolling strip instead of a static grid.
     marquee: true,
-    copy: `The dosa the town gave its name to, treated as the hero it is ${EM} crisp edge, soft centre and the chutney set staged the way it actually arrives at the table.`,
+    copy: `The dosa the town gave its name to, treated as the hero it is - crisp edge, soft centre and the chutney set staged the way it actually arrives at the table.`,
     media: [
       "https://ik.imagekit.io/platedstories/muldosa.jpeg",
       "https://ik.imagekit.io/platedstories/podi.jpeg",
@@ -54,7 +53,7 @@ export const cafeSrinivasaSeries = [
     name: "Pairings",
     // Five stills, running as a strip like Mulbagal.
     marquee: true,
-    copy: `What goes with what ${EM} plate and cup framed together so the menu sells the combination, not just the dish.`,
+    copy: `What goes with what - plate and cup framed together so the menu sells the combination, not just the dish.`,
     media: [
       "https://ik.imagekit.io/platedstories/pair1.jpeg",
       "https://ik.imagekit.io/platedstories/pair3.jpeg",
@@ -67,7 +66,7 @@ export const cafeSrinivasaSeries = [
     name: "Tadgola",
     // Three stills and the reel, all four on one line.
     columns: 4,
-    copy: `The season${RSQUO}s ice apple, shot cold and close ${EM} translucence, water and the short window the fruit is actually on the menu.`,
+    copy: `The season${RSQUO}s ice apple, shot cold and close - translucence, water and the short window the fruit is actually on the menu.`,
     media: [
       "https://ik.imagekit.io/platedstories/tadgola%20(2).jpeg",
       "https://ik.imagekit.io/platedstories/tad.jpeg",
@@ -79,7 +78,7 @@ export const cafeSrinivasaSeries = [
     name: "You & Me",
     // All four on one line.
     columns: 4,
-    copy: `Food as an occasion rather than a product ${EM} two orders, one table, shot the way the cafe is actually used.`,
+    copy: `Food as an occasion rather than a product - two orders, one table, shot the way the cafe is actually used.`,
     media: [
       "https://ik.imagekit.io/platedstories/pair.jpeg",
       "https://ik.imagekit.io/platedstories/pair2_ajLOFr4Rp.jpeg",

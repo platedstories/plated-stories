@@ -22,7 +22,7 @@ export const normalizePath = (value) => {
   try {
     path = decodeURIComponent(path);
   } catch {
-    // Already decoded, or malformed escapes — compare what we were given.
+    // Already decoded, or malformed escapes - compare what we were given.
   }
   return path.replace(/\/+$/, "") || "/";
 };
