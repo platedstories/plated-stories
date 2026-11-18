@@ -95,12 +95,12 @@ const SECTIONS = [
     copy: `Off-menu today, gone tomorrow ${EM} the board shot as fast as it turns over.`,
     marquee: true,
     media: [
-      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
-      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
-      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
-      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
-      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
-      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
+      "https://ik.imagekit.io/platedstories/3.%20Matcha-compressed.mp4?tr=orig-true",
+      "https://ik.imagekit.io/platedstories/8.%20Mushroom%20Waffle-compressed.mp4?tr=orig-true",
+      "https://ik.imagekit.io/platedstories/14.%20Chole%20Kulcha%20Waffle-compressed.mp4?tr=orig-true",
+      "https://ik.imagekit.io/platedstories/9.%20Picantes-compressed.mp4?tr=orig-true",
+      "https://ik.imagekit.io/platedstories/5.%20Monsoon%20Feels%20Like-compressed.mp4?tr=orig-true",
+      "https://ik.imagekit.io/platedstories/11.%20Mango%20Matcha-compressed.mp4?tr=orig-true",
     ],
   },
 ];
