@@ -41,10 +41,10 @@ const SECTIONS = [
     marquee: true,
     copy: `The room and the people who make it ${EM} work on the walls set against the hands that plate, pour and serve.`,
     media: [
-      "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-      "https://ik.imagekit.io/platedstories/34.heic",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
+      "https://ik.imagekit.io/platedstories/svdhbj.jpeg",
+      "https://ik.imagekit.io/platedstories/gyufhkj.jpeg",
+      "https://ik.imagekit.io/platedstories/svagbhk.jpeg",
+      "https://ik.imagekit.io/platedstories/hwef.jpeg",
     ],
   },
   {
@@ -53,11 +53,11 @@ const SECTIONS = [
     marquee: true,
     copy: `The orders regulars don${RSQUO}t need the menu for, shot to earn the second visit.`,
     media: [
-      "https://ik.imagekit.io/platedstories/2.heic",
-      "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-      "https://ik.imagekit.io/platedstories/34.heic",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
+      "https://ik.imagekit.io/platedstories/poghj.jpeg",
+      "https://ik.imagekit.io/platedstories/xcfvbmn.jpeg",
+      "https://ik.imagekit.io/platedstories/rsdgfh.jpeg",
+      "https://ik.imagekit.io/platedstories/fdxgcvg.jpeg",
+      "https://ik.imagekit.io/platedstories/dte.jpeg",
     ],
   },
   {
