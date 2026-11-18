@@ -69,10 +69,10 @@ const SECTIONS = [
     frame: "landscape",
     marquee: true,
     media: [
-      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
-      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
-      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
-      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
+      "https://ik.imagekit.io/platedstories/fvs%20dsd.mp4?tr=orig-true",
+      "https://ik.imagekit.io/platedstories/vvfsdva.mp4?tr=orig-true",
+      "https://ik.imagekit.io/platedstories/dfdvsd.mp4?tr=orig-true",
+      "https://ik.imagekit.io/platedstories/tydfgd.mp4?tr=orig-true",
     ],
   },
   {
