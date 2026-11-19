@@ -1,18 +1,18 @@
 import { cafeSrinivasaSeries } from "@/lib/cafe-srinivasa-media";
-import { isVideo } from "@/components/CaseStudy/media";
-
-const cafeSrinivasaMedia = [
-  ...new Set(cafeSrinivasaSeries.flatMap((series) => series.media)),
-];
+import { cafeTohSections } from "@/lib/cafe-toh-media";
+import { dineAndDiscoverSections } from "@/lib/dine-and-discover-media";
+import { hiveCafeSections } from "@/lib/hive-cafe-media";
+import { homeBakersSections } from "@/lib/home-bakers-media";
+import { mediaFromSections } from "@/components/CaseStudy/media";
 
 // The three niches we shoot for, and the client projects under each.
 // Mirrors the "Plated Stories - Portfolio" Drive structure.
 //
-// NOTE ON IMAGERY: the original project media lived on a previous host
-// that has since been disabled. Until each project's own ImageKit links are
-// in, every project (and the case-study pages) uses stand-ins from the media
-// already on ImageKit: a rotating slice of STUDIO_POOL for `images`. Swap a
-// project's `images` for its own stills as they're uploaded.
+// MEDIA: a project with a case study gets its `images` / `videos` from that
+// case study's chapters via `mediaFromSections` - one source of truth in
+// src/lib/<project>-media.js, shared by the case-study page, the homepage
+// gallery and every other card. Projects without their own media yet fall
+// back to a rotating slice of STUDIO_POOL.
 const STUDIO_POOL = [
   "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
   "https://ik.imagekit.io/platedstories/34.heic",
@@ -52,43 +52,11 @@ const categoriesData = [
         heroVideo:
           "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=orig-true",
       },
-      {
-        name: "Cafe Srinivasa",
-        images: cafeSrinivasaMedia.filter((src) => !isVideo(src)),
-        videos: cafeSrinivasaMedia.filter(isVideo),
-      },
-      {
-        name: "Cafe Toh",
-        images: [
-          "https://ik.imagekit.io/platedstories/34.heic",
-          "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
-          "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
-        ],
-      },
-      {
-        name: "Dine & Discover",
-        images: [
-          "https://ik.imagekit.io/platedstories/2.heic",
-          "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-          "https://ik.imagekit.io/platedstories/34.heic",
-        ],
-      },
-      {
-        name: "Hive Cafe",
-        images: [
-          "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
-          "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
-          "https://ik.imagekit.io/platedstories/2.heic",
-        ],
-      },
-      {
-        name: "Home Bakers",
-        images: [
-          "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-          "https://ik.imagekit.io/platedstories/34.heic",
-          "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
-        ],
-      },
+      { name: "Cafe Srinivasa", ...mediaFromSections(cafeSrinivasaSeries) },
+      { name: "Cafe Toh", ...mediaFromSections(cafeTohSections) },
+      { name: "Dine & Discover", ...mediaFromSections(dineAndDiscoverSections) },
+      { name: "Hive Cafe", ...mediaFromSections(hiveCafeSections) },
+      { name: "Home Bakers", ...mediaFromSections(homeBakersSections) },
       { name: "Love & Flour", images: previews(19) },
       { name: "Maison Faux", images: previews(22) },
     ],
@@ -117,8 +85,14 @@ export const workCategories = categoriesData.map((category) => ({
   ...category,
   projects: category.projects.map((project) => {
     const slug = slugify(project.name);
+    // Every project exposes `videos`, so every box can use the same playback
+    // logic: a case study's reels, else its hero reel, else none (still only).
+    const videos =
+      project.videos ?? (project.heroVideo ? [project.heroVideo] : []);
     return {
       ...project,
+      images: project.images ?? [],
+      videos,
       slug,
       href: `/work/${category.key}/${slug}`,
     };

@@ -30,3 +30,16 @@ export const splitRows = (items, rows, sizes) => {
   }
   return chunks;
 };
+
+// Global rule for turning a project's case-study chapters into card media:
+// every still and reel across its chapters, de-duplicated, in chapter order,
+// split into `images` (posters / fallbacks) and `videos` (what plays). Every
+// project listing and gallery box goes through this, so a card always shows
+// that project's own work and updates when its case-study media changes.
+export const mediaFromSections = (sections) => {
+  const media = [...new Set(sections.flatMap((section) => section.media ?? []))];
+  return {
+    images: media.filter((src) => !isVideo(src)),
+    videos: media.filter(isVideo),
+  };
+};

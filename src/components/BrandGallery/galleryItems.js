@@ -14,14 +14,16 @@ const projects = workCategories.flatMap((category) => category.projects);
 
 export const brandGalleryItems = GALLERY_SLUGS.flatMap((slug, index) => {
   const project = projects.find((item) => item.slug === slug);
-  if (!project || !project.images.length) return [];
+  // Same rule for every box: play the project's reels, with its first still
+  // as the poster (or the only thing shown when it has no reels).
+  if (!project || (!project.images.length && !project.videos.length)) return [];
 
   return [{
     id: slug,
     label: project.name,
     href: project.href,
-    src: project.images[0],
-    videos: project.videos ?? (project.heroVideo ? [project.heroVideo] : []),
+    src: project.images[0] ?? null,
+    videos: project.videos,
     position: index + 1,
   }];
 });

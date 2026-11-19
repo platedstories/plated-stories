@@ -14,6 +14,7 @@ import Lightbox from "@/components/CaseStudy/Lightbox";
 import { isVideo } from "@/components/CaseStudy/media";
 import OptimizedVideo from "@/components/OptimizedVideo/OptimizedVideo";
 import { optimizeImageUrl } from "@/lib/media-delivery";
+import { homeBakersSections } from "@/lib/home-bakers-media";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -33,127 +34,7 @@ const META = [
 // copy, then the media. A label with no media yet is listed in the contents
 // but has no section, so filling one in later is a one-line change here
 // and nothing else.
-const SECTIONS = [
-  {
-    number: "01",
-    name: "Delightful Delicacies",
-    copy: `Small-batch bakes shot the way they're actually sold - one home kitchen, one box at a time.`,
-    marquee: true,
-    // Two strips instead of one, running opposite ways.
-    marqueeRows: 2,
-    media: [
-      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
-      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
-      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
-      "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-      "https://ik.imagekit.io/platedstories/34.heic",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
-      "https://ik.imagekit.io/platedstories/2.heic",
-      "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-      "https://ik.imagekit.io/platedstories/34.heic",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
-      "https://ik.imagekit.io/platedstories/2.heic",
-      "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-      "https://ik.imagekit.io/platedstories/34.heic",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
-      "https://ik.imagekit.io/platedstories/2.heic",
-      "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-      "https://ik.imagekit.io/platedstories/34.heic",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
-      "https://ik.imagekit.io/platedstories/2.heic",
-      "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-      "https://ik.imagekit.io/platedstories/34.heic",
-    ],
-  },
-  {
-    number: "02",
-    name: "Happy Box by Eishika",
-    copy: `A baker's own name on the label, so the story behind the box gets the same frame as the bake.`,
-    marquee: true,
-    // Three strips: seven frames each on the first two lines, six on the
-    // third - `marqueeSplit` keeps rows from being folded evenly into each
-    // other. Odd rows already reverse (see SeriesSection), so the lines
-    // alternate direction top to bottom.
-    marqueeRows: 3,
-    marqueeSplit: [7, 7, 6],
-    media: [
-      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
-      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
-      "https://ik.imagekit.io/platedstories/2.heic",
-      "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-      "https://ik.imagekit.io/platedstories/34.heic",
-      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
-      "https://ik.imagekit.io/platedstories/2.heic",
-      "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-      "https://ik.imagekit.io/platedstories/34.heic",
-      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
-      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
-      "https://ik.imagekit.io/platedstories/2.heic",
-      "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-      "https://ik.imagekit.io/platedstories/34.heic",
-    ],
-  },
-  {
-    number: "03",
-    name: "Juno's",
-    copy: `The bakes a small following already orders on repeat, shot to earn the next one.`,
-    marquee: true,
-    media: [
-      "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
-      "https://ik.imagekit.io/platedstories/2.heic",
-      "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-      "https://ik.imagekit.io/platedstories/34.heic",
-      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
-      "https://ik.imagekit.io/platedstories/2.heic",
-      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
-    ],
-  },
-  {
-    number: "04",
-    name: "Mewa",
-    copy: `Ingredient-forward bakes - the dried fruit and nut doing the work a filter usually would.`,
-    // Seven frames, same weight class as Cafe Srinivasa's marquee chapters
-    // (5-7 items) rather than the grid layout, which is reserved for the
-    // smaller 3-4 item sets.
-    marquee: true,
-    media: [
-      "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-      "https://ik.imagekit.io/platedstories/34.heic",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
-      "https://ik.imagekit.io/platedstories/2.heic",
-      "https://ik.imagekit.io/platedstories/compressed_image.jpeg",
-      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
-    ],
-  },
-  {
-    number: "05",
-    name: "Only Desserts",
-    copy: `Nothing but the finish - the plate cleared down to just what${RSQUO}s worth photographing.`,
-    marquee: true,
-    media: [
-      "https://ik.imagekit.io/platedstories/34.heic",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(1).jpeg",
-      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
-      "https://ik.imagekit.io/platedstories/compressed_image%20(2).jpeg",
-      "https://ik.imagekit.io/platedstories/2.heic",
-      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
-    ],
-  },
-];
+const SECTIONS = homeBakersSections;
 
 // The opening frames, borrowed for the hero strip. One per part first, so
 // the strip previews the whole study rather than just its first chapter.

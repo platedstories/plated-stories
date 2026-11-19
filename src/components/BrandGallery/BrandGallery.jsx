@@ -23,6 +23,7 @@ const ProjectPreview = ({ item }) => {
   const src = videos.length ? videos[index % videos.length] : null;
 
   if (!src) {
+    if (!item.src) return null;
     return (
       <img
         src={optimizeImageUrl(item.src, 960)}
@@ -37,7 +38,7 @@ const ProjectPreview = ({ item }) => {
     <OptimizedVideo
       src={src}
       width={960}
-      poster={optimizeImageUrl(item.src, 960)}
+      poster={item.src ? optimizeImageUrl(item.src, 960) : undefined}
       aria-label={`${item.label} project video`}
       autoPlay
       muted

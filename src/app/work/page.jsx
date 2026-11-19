@@ -61,7 +61,8 @@ const RollText = ({ text }) => (
 );
 
 const preloadProject = (project) => {
-  project.images.forEach((src) => {
+  // Projects now carry their full case-study stills - warm only the first few.
+  project.images.slice(0, 3).forEach((src) => {
     const img = new Image();
     img.src = optimizeImageUrl(src, 960);
   });
