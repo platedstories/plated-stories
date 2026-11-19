@@ -36,6 +36,36 @@
   z-index: 2;
 }
 
+/* -------------------------------------------------------------- gallery */
+
+/* The shared gallery is a CSS-columns masonry, which fills each column top
+   to bottom - list order runs down the left column first. Every tile here
+   is the same 4:5, so a grid looks identical but fills row by row, which
+   lets GALLERY.media be ordered as rows (each of the first four opens with
+   a reel on the left). Column counts follow CaseStudy.css's breakpoints. */
+.dd-case .cs-gallery {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
+  gap: var(--cs-gap);
+  column-count: auto;
+}
+
+.dd-case .cs-gallery > .cs-frame {
+  margin-bottom: 0;
+}
+
+@media (max-width: 1000px) {
+  .dd-case .cs-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .dd-case .cs-gallery {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 /* ---------------------------------------------------------------- brief */
 
 .dd-case .cs-brief {
