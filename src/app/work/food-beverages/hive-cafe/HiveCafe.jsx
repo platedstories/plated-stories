@@ -39,15 +39,10 @@ const SECTIONS = [
     marquee: true,
     copy: `The room in pieces - the seats, the pass and the plates that move between them.`,
     media: [
-      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
-      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
-      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
-      "https://ik.imagekit.io/platedstories/6.%20Cost%20more%20than%20car%20(1).mp4?tr=orig-true",
-    ],
-    // One reel was shot wide rather than vertical - it keeps its own ratio
-    // instead of being cropped to match the rest of the strip.
-    landscapeMedia: [
-      "https://ik.imagekit.io/platedstories/1.%20Monsoon%20Vibe-compress-video-to-size.mp4?tr=w-1280,q-50",
+      "https://ik.imagekit.io/platedstories/1.%20Conners%20of%20hive-compressed.mp4",
+      "https://ik.imagekit.io/platedstories/4.%20Soba%20Noodles-compressed.mp4",
+      "https://ik.imagekit.io/platedstories/3.%20Food%20is%20Art-compressed.mp4",
+      "https://ik.imagekit.io/platedstories/2.%20Serving%20Now-compressed.mp4",
     ],
   },
   {
