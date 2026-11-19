@@ -588,11 +588,10 @@ export default function Hero() {
           <div className="home-hero-statement">
             <p>
               <span className="home-hero-indent" aria-hidden="true" />
-              We craft stories that people can taste.{" "}
+              We don&rsquo;t just create content. We craft stories.{" "}
               <span className="home-hero-muted">
-                Visual content for restaurants, caf&eacute;s and lifestyle
-                brands - strategy, production and storytelling, end to
-                end.
+                A creative content agency built on ideas, storytelling and an
+                uncompromising eye for quality.
               </span>
             </p>
           </div>
