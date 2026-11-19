@@ -100,12 +100,12 @@ export default function StudioStatement() {
             decoding="async"
           />
         </span>{" "}
-        We are Plated Stories, a creative content agency bringing brand visions
-        to life through thoughtful storytelling and high-quality visual
+        We are Plated Stories, a creative content agency bringing brands to
+        life through thoughtful storytelling and high-quality visual
         content.{" "}
         <span className="studio-statement-muted">
-          From the first idea to the final frame, we handle the entire creative
-          process - ideation, production and post-production.
+          From idea to final frame, we handle it all - ideation, production
+          and post-production.
         </span>
       </h2>
     </section>
