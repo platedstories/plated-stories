@@ -1,10 +1,9 @@
 import DineAndDiscover from "./DineAndDiscover";
 import { workCategories } from "@/app/work/workCategories.js";
 
-// Like Cafe Srinivasa, this project has diverged from the shared
-// ProjectPage template and owns its layout (DineAndDiscover.jsx +
-// dine-and-discover.css). It still borrows ProjectPage.css for the header
-// and hero banner, which are deliberately unchanged.
+// Like Cafe Toh, this project has diverged from the shared ProjectPage
+// template and owns its layout (DineAndDiscover.jsx + dine-and-discover.css),
+// which is modelled on Cafe Toh's.
 const category = workCategories.find((c) => c.key === "food-beverages");
 const projectIndex = category.projects.findIndex(
   (p) => p.slug === "dine-and-discover"

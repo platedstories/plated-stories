@@ -1,39 +1,163 @@
-/* Dine & Discover - what is genuinely this project's own.
+/* Dine & Discover - laid out to match Cafe Toh.
 
-   The chapter flow, the frames, the gallery, the viewer and the closing all
-   come from @/components/CaseStudy/CaseStudy.css. This
-   file only carries the showreel stacking and the brief. The header +
-   pinned banner above them still come from ProjectPage.css / Showreel.css
-   (imported by the components) and are untouched. Scoped under .dd-case,
-   which sits alongside .case-study on the page root.
+   The hero, brief and token overrides are Cafe Toh's (cafe-toh.css),
+   re-scoped from .toh-case to .dd-case so the two pages can change
+   independently. The contents card, chapter flow, frames, viewer and
+   closing come from @/components/CaseStudy/CaseStudy.css. Scoped under
+   .dd-case, which sits alongside .case-study on the page root. */
 
-   Unlike Cafe Srinivasa, this shoot isn't split into named series - one
-   gallery carries the whole set, so there's no contents card here. */
 
-/* ------------------------------------------------------------- showreel */
-
-/* The frame itself is Showreel.css. These only stack this page's media
-   inside it: every item is mounted, the active one is faded up. */
-.dd-showreel .dd-showreel-layer {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 200ms ease;
+.dd-case {
+  /* A colder, brighter paper than the shared default. */
+  --cs-ink: var(--base-400);
+  --cs-dim: var(--base-400);
+  --cs-line: var(--base-400);
 }
 
-.dd-showreel .dd-showreel-layer--active {
-  opacity: 1;
+/* ------------------------------------------------------------------ hero */
+
+.dd-case .dd-hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  /* Clears the fixed header - the old collage ran up under the nav. */
+  padding-top: clamp(7rem, 14vh, 11rem);
+  padding-bottom: clamp(2.5rem, 6vh, 5rem);
+  overflow: hidden;
 }
 
-.dd-showreel .dd-showreel-layer img,
-.dd-showreel .dd-showreel-layer video {
+.dd-case .dd-hero-inner {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.75rem, 4vh, 3rem);
+}
+
+.dd-case .dd-hero-lead {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.dd-case .dd-hero-title {
+  font-size: clamp(3rem, 11vw, 12rem);
+}
+
+/* One tile per part, in a row: the same object the chapters below are built
+   from, so the hero opens in the page's own vocabulary instead of a
+   scattered collage. */
+.dd-case .dd-hero-strip {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(0.6rem, 1vw, 1rem);
+  pointer-events: none;
+}
+
+.dd-case .dd-tile {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border: 1px solid var(--cs-line);
+  border-radius: 0.35rem;
+  overflow: hidden;
+  background-color: var(--cs-panel);
+  transform: rotate(-1.4deg);
+  will-change: transform;
+}
+
+/* Every other tile leans the other way and sits a little lower, so the row
+   reads as a hand-laid set rather than a filmstrip. */
+.dd-case .dd-hero-tile--2,
+.dd-case .dd-hero-tile--4 {
+  transform: translateY(1.5rem) rotate(1.6deg);
+}
+
+.dd-case .dd-tile img,
+.dd-case .dd-tile video {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: none;
 }
 
-.dd-showreel .volume-icon {
-  z-index: 2;
+.dd-case .dd-hero-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--cs-line);
+  max-width: 60rem;
+}
+
+.dd-case .dd-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.dd-case .dd-meta-value {
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+
+/* ----------------------------------------------------------------- brief */
+
+/* The brief and the contents card share a line: the argument on the left,
+   the map of the study on the right. */
+.dd-case .dd-brief {
+  padding: clamp(4rem, 11vh, 9rem) 0 clamp(3rem, 7vh, 6rem);
+}
+
+.dd-case .dd-brief-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+
+.dd-case .dd-brief-lead {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.dd-case .dd-brief-title {
+  font-size: clamp(2.5rem, 5.5vw, 5.5rem);
+}
+
+.dd-case .dd-brief-lead .cs-copy {
+  margin-top: 1rem;
+  max-width: 40rem;
+}
+
+/* ------------------------------------------------------------ responsive */
+
+@media (max-width: 1000px) {
+  /* Five tiles are postage stamps on a phone - show three. */
+  .dd-case .dd-hero-strip {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .dd-case .dd-hero-tile--4,
+  .dd-case .dd-hero-tile--5 {
+    display: none;
+  }
+
+  .dd-case .dd-hero-meta {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .dd-case .dd-brief-inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dd-case .dd-tile {
+    transform: none;
+  }
 }
 
 /* -------------------------------------------------------------- gallery */
@@ -63,56 +187,5 @@
 @media (max-width: 600px) {
   .dd-case .cs-gallery {
     grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-/* ---------------------------------------------------------------- brief */
-
-.dd-case .cs-brief {
-  padding: clamp(5rem, 11vh, 9rem) 0 clamp(3rem, 7vh, 6rem);
-}
-
-.dd-case .cs-brief-inner {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  max-width: 46rem;
-}
-
-.dd-case .cs-brief-title {
-  font-size: clamp(2.5rem, 5.5vw, 5.5rem);
-}
-
-.dd-case .cs-brief-inner .cs-copy {
-  margin-top: 1rem;
-}
-
-.dd-case .cs-meta {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.5rem;
-  margin-top: clamp(1.5rem, 3vh, 2.5rem);
-  padding-top: 2rem;
-  border-top: 1px solid var(--cs-line);
-  max-width: 40rem;
-}
-
-.dd-case .cs-meta-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.dd-case .cs-meta-value {
-  font-size: 1.05rem;
-  line-height: 1.35;
-}
-
-/* ----------------------------------------------------------- responsive */
-
-@media (max-width: 1000px) {
-  .dd-case .cs-meta {
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
   }
 }
